@@ -251,6 +251,42 @@ body {
 .metric-value { font-family: var(--font-head); font-size: 26px; font-weight: 700; color: var(--text); }
 .metric-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
 
+.metric-card { cursor: pointer; position: relative; }
+.metric-card:hover .metric-edit-hint { opacity: 1; }
+.metric-edit-hint {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--laranja);
+  background: var(--laranja-light);
+  border: 1px solid var(--laranja-mid);
+  border-radius: var(--radius-xs);
+  padding: 2px 7px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+body.presentation-mode .metric-edit-hint { display: none; }
+
+.metric-edit-form { display: none; }
+.metric-edit-form.open { display: block; }
+.metric-input-label { font-size: 11px; color: var(--text3); margin: 6px 0 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; display: block; }
+.metric-input {
+  width: 100%;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 5px 8px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  color: var(--text);
+  outline: none;
+  margin-bottom: 2px;
+}
+.metric-input:focus { border-color: var(--laranja); }
+.metric-input.big { font-size: 16px; font-family: var(--font-head); font-weight: 700; }
+
 /* ── FRENTES GRID ── */
 .section-header {
   font-size: 11px;
@@ -585,7 +621,192 @@ body {
 
 .edit-toggle:hover { background: var(--laranja-mid); }
 
-/* ── TOAST ── */
+/* ── BOTÃO ADICIONAR CARD ── */
+.btn-add-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--laranja);
+  background: var(--laranja-light);
+  border: 1.5px dashed var(--laranja-mid);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 4px;
+  margin-bottom: 28px;
+  transition: all 0.15s;
+}
+.btn-add-card:hover { background: var(--laranja-mid); color: var(--laranja-dark); border-style: solid; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  width: 420px;
+  max-width: 92vw;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+  transform: translateY(12px);
+  transition: transform 0.2s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+.modal-field { margin-bottom: 14px; }
+.modal-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 5px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.modal-input {
+  width: 100%;
+  font-size: 13px;
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 8px 10px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  outline: none;
+}
+.modal-input:focus { border-color: var(--laranja); }
+.modal-textarea {
+  width: 100%;
+  font-size: 13px;
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 8px 10px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  outline: none;
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.55;
+}
+.modal-textarea:focus { border-color: var(--laranja); }
+.modal-dot-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-dot-opt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text2);
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  transition: all 0.1s;
+  user-select: none;
+}
+.modal-dot-opt:hover { border-color: var(--border2); }
+.modal-dot-opt.selected { border-color: currentColor; font-weight: 600; }
+.modal-dot-swatch { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.modal-actions { display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end; }
+.modal-btn-confirm {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--laranja);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.12s;
+}
+.modal-btn-confirm:hover { background: var(--laranja-dark); }
+.modal-btn-confirm:disabled { background: var(--gray); cursor: not-allowed; }
+.modal-btn-cancel {
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.modal-btn-cancel:hover { background: var(--surface2); }
+
+/* ── MODO APRESENTAÇÃO ── */
+.btn-presentation {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 500;
+}
+.btn-presentation:hover { background: var(--text); color: white; border-color: var(--text); }
+
+body.presentation-mode .sidebar-footer,
+body.presentation-mode .sync-indicator,
+body.presentation-mode .btn-add-card,
+body.presentation-mode .edit-toggle,
+body.presentation-mode .config-banner,
+body.presentation-mode .edit-area { display: none !important; }
+
+body.presentation-mode .sidebar { width: 160px; }
+body.presentation-mode .sidebar-header { padding: 12px 14px; }
+body.presentation-mode .itau-sub { display: none; }
+body.presentation-mode .nav-section-label { font-size: 9px; }
+body.presentation-mode .nav-item { font-size: 12px; padding: 6px 8px; }
+body.presentation-mode .main { padding: 24px 36px; }
+body.presentation-mode .page-title { font-size: 20px; }
+
+body.presentation-mode .status-card { border-left: 3px solid transparent; }
+body.presentation-mode .status-card:has(.sdot-green)  { border-left-color: var(--green); }
+body.presentation-mode .status-card:has(.sdot-amber)  { border-left-color: var(--amber); }
+body.presentation-mode .status-card:has(.sdot-blue)   { border-left-color: var(--azul); }
+body.presentation-mode .status-card:has(.sdot-orange) { border-left-color: var(--laranja); }
+body.presentation-mode .status-card:has(.sdot-red)    { border-left-color: var(--red); }
+body.presentation-mode .status-card:has(.sdot-gray)   { border-left-color: var(--gray); }
+
+body.presentation-mode .btn-presentation { background: var(--laranja); color: white; border-color: var(--laranja-dark); }
+body.presentation-mode .btn-presentation:hover { background: var(--laranja-dark); }
+
 .toast {
   position: fixed;
   bottom: 24px;
@@ -642,6 +863,50 @@ const GITHUB_FILE  = "dados_painel.json";
 <!-- ══════════════════════════════════════════════════════════════ -->
 
 <div class="toast" id="toast"></div>
+
+<button class="btn-presentation" id="btn-presentation" onclick="togglePresentation()">
+  ▶ Modo apresentação
+</button>
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title">Adicionar novo card</div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-titulo">Título do card</label>
+      <input class="modal-input" id="modal-titulo" type="text" placeholder="Ex: Criativos de SMS">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-texto">Status inicial</label>
+      <textarea class="modal-textarea" id="modal-texto" placeholder="Descreva o status atual..."></textarea>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Cor do status</label>
+      <div class="modal-dot-row" id="modal-dot-row">
+        <div class="modal-dot-opt selected" data-dot="green" onclick="selectModalDot('green')" style="color:var(--green)">
+          <div class="modal-dot-swatch" style="background:var(--green)"></div>Verde
+        </div>
+        <div class="modal-dot-opt" data-dot="amber" onclick="selectModalDot('amber')" style="color:var(--amber)">
+          <div class="modal-dot-swatch" style="background:var(--amber)"></div>Âmbar
+        </div>
+        <div class="modal-dot-opt" data-dot="blue" onclick="selectModalDot('blue')" style="color:var(--azul)">
+          <div class="modal-dot-swatch" style="background:var(--azul)"></div>Azul
+        </div>
+        <div class="modal-dot-opt" data-dot="gray" onclick="selectModalDot('gray')" style="color:var(--gray)">
+          <div class="modal-dot-swatch" style="background:var(--gray)"></div>Cinza
+        </div>
+        <div class="modal-dot-opt" data-dot="red" onclick="selectModalDot('red')" style="color:var(--red)">
+          <div class="modal-dot-swatch" style="background:var(--red)"></div>Vermelho
+        </div>
+        <div class="modal-dot-opt" data-dot="orange" onclick="selectModalDot('orange')" style="color:var(--laranja)">
+          <div class="modal-dot-swatch" style="background:var(--laranja)"></div>Laranja
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="modal-btn-confirm" id="modal-confirm-btn" onclick="confirmAddCard()">Adicionar card</button>
+    </div>
+  </div>
+</div>
 
 <div class="layout">
 
@@ -727,28 +992,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em andamento</span>
       </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-label">Frentes ativas</div>
-          <div class="metric-value">5</div>
-          <div class="metric-sub">Reenq. + Upgrades</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Próximo marco</div>
-          <div class="metric-value">09/06</div>
-          <div class="metric-sub">Passagem JIC · IU›IP</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Migração principal</div>
-          <div class="metric-value">23/06</div>
-          <div class="metric-sub">IU › IP</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Dias restantes</div>
-          <div class="metric-value" id="days-remaining">—</div>
-          <div class="metric-sub">até a migração</div>
-        </div>
-      </div>
+      <div class="metrics-grid" id="metrics-grid"></div>
 
       <div class="section-header">Frentes — clique para ver detalhes</div>
       <div class="frentes-grid">
@@ -806,6 +1050,7 @@ const GITHUB_FILE  = "dados_painel.json";
 
       <div class="section-header">Vitrine & outros</div>
       <div class="status-grid" id="sg-geral"></div>
+      <button class="btn-add-card" onclick="openAddCard('geral')">+ Adicionar card</button>
     </div>
 
     <!-- ── IU › IP ── -->
@@ -829,6 +1074,7 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
       <div class="section-header">Atualizações dos criativos</div>
       <div class="status-grid" id="sg-iuip"></div>
+      <button class="btn-add-card" onclick="openAddCard('iuip')">+ Adicionar card</button>
     </div>
 
     <!-- ── IU › IA ── -->
@@ -850,6 +1096,7 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iuia"></div>
+      <button class="btn-add-card" onclick="openAddCard('iuia')">+ Adicionar card</button>
     </div>
 
     <!-- ── IA › IU ── -->
@@ -871,6 +1118,7 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iaiu"></div>
+      <button class="btn-add-card" onclick="openAddCard('iaiu')">+ Adicionar card</button>
     </div>
 
     <!-- ── IU › IPA ── -->
@@ -892,6 +1140,7 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iuipa"></div>
+      <button class="btn-add-card" onclick="openAddCard('iuipa')">+ Adicionar card</button>
     </div>
 
     <!-- ── CP › IA ── -->
@@ -913,6 +1162,7 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-cpia"></div>
+      <button class="btn-add-card" onclick="openAddCard('cpia')">+ Adicionar card</button>
     </div>
 
   </main>
@@ -1059,7 +1309,22 @@ function buildDefaultStore() {
 
 function mergeWithDefaults(loaded) {
   const s = buildDefaultStore();
-  Object.keys(loaded).forEach(k => { if (s[k] !== undefined) s[k] = loaded[k]; });
+  Object.keys(loaded).forEach(k => {
+    if (s[k] !== undefined) {
+      s[k] = loaded[k];
+    } else if (k.startsWith('custom-')) {
+      // restaura cards customizados criados dinamicamente
+      s[k] = loaded[k];
+      if (!CARD_DEFS[k]) {
+        CARD_DEFS[k] = {
+          label: loaded[k].label || 'Card personalizado',
+          group: loaded[k].group || 'geral',
+          dot:   loaded[k].dot   || 'gray',
+          text:  loaded[k].text  || '',
+        };
+      }
+    }
+  });
   return s;
 }
 
@@ -1076,6 +1341,7 @@ function renderAll() {
     if (!el) return;
     el.innerHTML = groups[g].map(id => renderCard(id)).join('');
   });
+  renderMetrics();
 }
 
 function renderCard(id) {
@@ -1267,7 +1533,137 @@ const GANTT_DATA = {
   ]},
 };
 
-/* ── INIT ── */
+/* ── MÉTRICAS EDITÁVEIS ── */
+const METRIC_DEFS = [
+  { id: 'metric-frentes',  label: 'Frentes ativas',    value: '5',     sub: 'Reenq. + Upgrades' },
+  { id: 'metric-marco',    label: 'Próximo marco',      value: '09/06', sub: 'Passagem JIC · IU›IP' },
+  { id: 'metric-migracao', label: 'Migração principal', value: '23/06', sub: 'IU › IP' },
+  { id: 'metric-dias',     label: 'Dias restantes',     value: '—',     sub: 'até a migração' },
+];
+
+function renderMetrics() {
+  const grid = document.getElementById('metrics-grid');
+  if (!grid) return;
+  grid.innerHTML = METRIC_DEFS.map(m => {
+    const s = store[m.id] || { label: m.label, value: m.value, sub: m.sub };
+    return `<div class="metric-card" onclick="openMetricEdit('${m.id}')">
+      <span class="metric-edit-hint">editar</span>
+      <div id="metric-display-${m.id}">
+        <div class="metric-label">${s.label}</div>
+        <div class="metric-value">${s.value}</div>
+        <div class="metric-sub">${s.sub}</div>
+      </div>
+      <div class="metric-edit-form" id="metric-form-${m.id}" onclick="event.stopPropagation()">
+        <label class="metric-input-label">Título</label>
+        <input class="metric-input" id="metric-inp-label-${m.id}" value="${s.label}">
+        <label class="metric-input-label">Valor</label>
+        <input class="metric-input big" id="metric-inp-value-${m.id}" value="${s.value}">
+        <label class="metric-input-label">Subtítulo</label>
+        <input class="metric-input" id="metric-inp-sub-${m.id}" value="${s.sub}">
+        <div class="status-actions" style="margin-top:8px">
+          <button class="btn-save" id="metric-savebtn-${m.id}" onclick="saveMetric('${m.id}')">Salvar</button>
+          <button class="btn-cancel" onclick="cancelMetricEdit('${m.id}')">Cancelar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.openMetricEdit = function(id) {
+  if (document.body.classList.contains('presentation-mode')) return;
+  const form = document.getElementById('metric-form-' + id);
+  const disp = document.getElementById('metric-display-' + id);
+  if (!form || form.classList.contains('open')) return;
+  form.classList.add('open');
+  disp.style.display = 'none';
+  document.getElementById('metric-inp-value-' + id).focus();
+};
+
+window.cancelMetricEdit = function(id) {
+  document.getElementById('metric-form-' + id).classList.remove('open');
+  document.getElementById('metric-display-' + id).style.display = 'block';
+};
+
+window.saveMetric = function(id) {
+  const label = document.getElementById('metric-inp-label-' + id).value.trim();
+  const value = document.getElementById('metric-inp-value-' + id).value.trim();
+  const sub   = document.getElementById('metric-inp-sub-' + id).value.trim();
+  store[id] = { label, value, sub };
+  const btn = document.getElementById('metric-savebtn-' + id);
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  saveToGitHub(true).then(() => {
+    btn.disabled = false; btn.textContent = 'Salvar';
+    renderMetrics();
+    showToast('✓ Métrica salva');
+  });
+};
+
+/* ── MODO APRESENTAÇÃO ── */
+window.togglePresentation = function() {
+  const isOn = document.body.classList.toggle('presentation-mode');
+  const btn = document.getElementById('btn-presentation');
+  btn.textContent = isOn ? '✕ Sair da apresentação' : '▶ Modo apresentação';
+};
+
+/* ── MODAL ADICIONAR CARD ── */
+let _modalGroup = null;
+let _modalDot = 'green';
+
+window.openAddCard = function(group) {
+  _modalGroup = group;
+  _modalDot = 'green';
+  document.getElementById('modal-titulo').value = '';
+  document.getElementById('modal-texto').value = '';
+  document.querySelectorAll('.modal-dot-opt').forEach(el => {
+    el.classList.toggle('selected', el.dataset.dot === 'green');
+  });
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('modal-titulo').focus(), 100);
+};
+
+window.closeModal = function() {
+  document.getElementById('modal-overlay').classList.remove('open');
+};
+
+window.handleOverlayClick = function(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+};
+
+window.selectModalDot = function(dot) {
+  _modalDot = dot;
+  document.querySelectorAll('.modal-dot-opt').forEach(el => {
+    el.classList.toggle('selected', el.dataset.dot === dot);
+  });
+};
+
+window.confirmAddCard = function() {
+  const titulo = document.getElementById('modal-titulo').value.trim();
+  const texto = document.getElementById('modal-texto').value.trim();
+  if (!titulo) {
+    document.getElementById('modal-titulo').focus();
+    document.getElementById('modal-titulo').style.borderColor = 'var(--red)';
+    return;
+  }
+  document.getElementById('modal-titulo').style.borderColor = '';
+
+  const id = 'custom-' + Date.now();
+  CARD_DEFS[id] = { label: titulo, group: _modalGroup, dot: _modalDot, text: texto };
+  store[id] = { text: texto, dot: _modalDot, label: titulo, group: _modalGroup };
+
+  const btn = document.getElementById('modal-confirm-btn');
+  btn.disabled = true;
+  btn.textContent = 'Salvando...';
+
+  saveToGitHub(true).then(() => {
+    btn.disabled = false;
+    btn.textContent = 'Adicionar card';
+    closeModal();
+    renderAll();
+    showToast('✓ Card adicionado e salvo');
+  });
+};
+
+
 function init() {
   const today = new Date();
   const migration = new Date(2026, 5, 23);
