@@ -25,7 +25,7 @@
   },
   "iuip-email": {
     "text": "Cadastrados e disponíveis para priorização no JIC",
-    "dot": "green"
+    "dot": "blue"
   },
   "iuip-wpp": {
     "text": "Validação de textos com agentes IA: quarta. Retorno de template/intention: sexta (previsão)",
