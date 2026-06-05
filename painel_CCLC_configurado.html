@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Frentes — Junho 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── CONFIGURAÇÃO GITHUB ─────────────────────────────────────────
+   Preencha antes de subir para o GitHub:
+   GITHUB_TOKEN  → token gerado nas configurações do GitHub
+   GITHUB_OWNER  → seu usuário do GitHub
+   GITHUB_REPO   → nome do repositório
+   GITHUB_FILE   → não precisa mudar
+──────────────────────────────────────────────────────────────── */
+
+:root {
+  --laranja:       #EC7000;
+  --laranja-dark:  #C45E00;
+  --laranja-light: #FFF0E5;
+  --laranja-mid:   #F8D5B8;
+  --azul:          #003399;
+  --azul-light:    #E8EEFF;
+  --bg:            #F7F5F2;
+  --surface:       #FFFFFF;
+  --surface2:      #F2F0ED;
+  --border:        rgba(0,0,0,0.09);
+  --border2:       rgba(0,0,0,0.16);
+  --text:          #1A1917;
+  --text2:         #5C5A56;
+  --text3:         #9E9B96;
+  --green:         #1A7A4A;
+  --green-light:   #E6F5ED;
+  --amber:         #B56A00;
+  --amber-light:   #FFF3D6;
+  --red:           #C0392B;
+  --red-light:     #FDECEA;
+  --gray:          #888580;
+  --gray-light:    #F0EFED;
+  --radius:        12px;
+  --radius-sm:     8px;
+  --radius-xs:     5px;
+  --font-head:     'Nunito', sans-serif;
+  --font-body:     'Nunito Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── LAYOUT ── */
+.layout { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.itau-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.itau-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--laranja);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.itau-mark svg { width: 20px; height: 20px; }
+
+.itau-title {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.itau-sub {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+
+.sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 8px;
+}
+
+.sync-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gray);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.sync-dot.synced { background: var(--green); }
+.sync-dot.syncing { background: var(--amber); }
+.sync-dot.error { background: var(--red); }
+
+.nav-section { padding: 12px 10px 4px; }
+
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  transition: all 0.12s;
+}
+
+.nav-item:hover { background: var(--bg); color: var(--text); }
+
+.nav-item.active {
+  background: var(--laranja-light);
+  color: var(--laranja-dark);
+  font-weight: 600;
+}
+
+.nav-item.active .nav-dot { border-color: var(--laranja); }
+
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.6;
+}
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  padding: 32px 40px;
+  min-width: 0;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid var(--laranja-light);
+}
+
+.page-header-left {}
+.page-title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.page-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+/* ── METRICS ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  border-top: 3px solid var(--laranja);
+}
+
+.metric-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+.metric-value { font-family: var(--font-head); font-size: 26px; font-weight: 700; color: var(--text); }
+.metric-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+/* ── FRENTES GRID ── */
+.section-header {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+
+.frentes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.frente-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+
+.frente-card:hover {
+  border-color: var(--laranja);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(236,112,0,0.1);
+}
+
+.frente-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.frente-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+
+.tag-reenq { background: var(--laranja-light); color: var(--laranja-dark); }
+.tag-upgrade { background: var(--azul-light); color: var(--azul); }
+
+.frente-go { font-size: 14px; color: var(--text3); }
+.frente-name {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.frente-desc { font-size: 11px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+.frente-milestone { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 5px; margin-bottom: 8px; }
+
+.progress-bar { height: 4px; background: var(--bg); border-radius: 2px; }
+.progress-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+
+/* ── GANTT ── */
+.gantt-section { margin-bottom: 28px; }
+
+.gantt-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.gantt-inner { min-width: 580px; }
+
+.gantt-month-row {
+  display: grid;
+  background: var(--laranja);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.gantt-corner {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  padding: 7px 12px;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.month-block {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  padding: 7px 10px;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.month-block:last-child { border-right: none; }
+
+.gantt-day-row {
+  display: grid;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+
+.day-hdr {
+  font-size: 9px;
+  color: var(--text3);
+  text-align: center;
+  padding: 4px 1px;
+  border-right: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.day-hdr:last-child { border-right: none; }
+.day-hdr.today-hdr { color: var(--laranja-dark); font-weight: 700; background: var(--laranja-light); }
+.day-hdr.wknd { opacity: 0.35; }
+
+.gantt-data-row {
+  display: grid;
+  border-bottom: 1px solid var(--border);
+}
+
+.gantt-data-row:last-child { border-bottom: none; }
+
+.row-lbl {
+  font-size: 11px;
+  color: var(--text2);
+  padding: 5px 12px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  white-space: pre-line;
+  line-height: 1.3;
+  background: var(--surface2);
+  min-height: 32px;
+  font-weight: 500;
+}
+
+.gcell {
+  border-right: 1px solid var(--border);
+  min-height: 32px;
+  position: relative;
+}
+
+.gcell:last-child { border-right: none; }
+.gcell.today-col { background: rgba(236,112,0,0.04); }
+.gcell.wknd-col { background: var(--surface2); opacity: 0.55; }
+
+.today-vline {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 1.5px;
+  background: var(--laranja);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gbar {
+  position: absolute;
+  top: 7px; bottom: 7px;
+  border-radius: 3px;
+}
+
+.gms {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+.leg-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.leg-ms { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── STATUS CARDS ── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.status-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  transition: border-color 0.15s;
+}
+
+.status-card:hover { border-color: var(--border2); }
+
+.status-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.status-card-name {
+  font-size: 11px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.sdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sdot-green  { background: var(--green); }
+.sdot-amber  { background: var(--amber); }
+.sdot-blue   { background: var(--azul); }
+.sdot-gray   { background: var(--gray); }
+.sdot-red    { background: var(--red); }
+.sdot-orange { background: var(--laranja); }
+
+.status-text-display {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 38px;
+}
+
+.status-text-display.empty { color: var(--text3); font-style: italic; }
+
+.edit-area { display: none; margin-top: 6px; }
+
+.dot-selector {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.dot-selector-label { font-size: 10px; color: var(--text3); margin-right: 2px; }
+
+.dot-opt {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.1s, transform 0.1s;
+}
+
+.dot-opt:hover { transform: scale(1.2); }
+.dot-opt.selected { border-color: var(--text2); }
+
+.status-textarea {
+  width: 100%;
+  font-size: 12px;
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 9px;
+  background: var(--bg);
+  resize: vertical;
+  min-height: 64px;
+  font-family: var(--font-body);
+  line-height: 1.6;
+  outline: none;
+}
+
+.status-textarea:focus { border-color: var(--laranja); }
+
+.status-actions { display: flex; gap: 6px; margin-top: 6px; }
+
+.btn-save {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--laranja);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.12s;
+}
+
+.btn-save:hover { background: var(--laranja-dark); }
+.btn-save:disabled { background: var(--gray); cursor: not-allowed; }
+
+.btn-cancel {
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.btn-cancel:hover { background: var(--surface2); }
+
+.edit-toggle {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--laranja);
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--laranja-mid);
+  background: var(--laranja-light);
+  font-family: var(--font-body);
+  transition: background 0.1s;
+}
+
+.edit-toggle:hover { background: var(--laranja-mid); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--text);
+  color: white;
+  padding: 11px 18px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error-toast { background: var(--red); }
+
+/* ── CONFIG BANNER ── */
+.config-banner {
+  background: var(--laranja-light);
+  border: 1px solid var(--laranja-mid);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.config-banner-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.config-banner-text { font-size: 13px; color: var(--laranja-dark); line-height: 1.6; }
+.config-banner-text strong { font-weight: 700; }
+.config-banner.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONFIGURAÇÃO — edite as 4 linhas abaixo antes de usar
+     Veja o guia de configuração no arquivo LEIA-ME.txt
+════════════════════════════════════════════════════════════════ -->
+<script>
+const GITHUB_TOKEN = "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";
+const GITHUB_OWNER = "satturicio";
+const GITHUB_REPO  = "CCLC---Cliente-Certo-no-Lugar-Certo";
+const GITHUB_FILE  = "dados_painel.json";
+</script>
+<!-- ══════════════════════════════════════════════════════════════ -->
+
+<div class="toast" id="toast"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="itau-logo">
+        <div class="itau-mark">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 10.5c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div class="itau-title">Itaú Unibanco</div>
+          <div class="itau-sub">Painel de frentes</div>
+        </div>
+      </div>
+      <div class="sync-indicator">
+        <div class="sync-dot" id="sync-dot"></div>
+        <span id="sync-label">Verificando...</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Geral</div>
+      <button class="nav-item active" onclick="goTo('geral')" id="nav-geral">
+        <div class="nav-dot" style="background:var(--laranja)"></div>
+        Visão geral
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Reenquadramentos</div>
+      <button class="nav-item" onclick="goTo('iu-ip')" id="nav-iu-ip">
+        <div class="nav-dot" style="background:#EC7000"></div>
+        IU › IP
+      </button>
+      <button class="nav-item" onclick="goTo('iu-ia')" id="nav-iu-ia">
+        <div class="nav-dot" style="background:#F8A85C"></div>
+        IU › IA
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Upgrades</div>
+      <button class="nav-item" onclick="goTo('ia-iu')" id="nav-ia-iu">
+        <div class="nav-dot" style="background:#003399"></div>
+        IA › IU
+      </button>
+      <button class="nav-item" onclick="goTo('iu-ipa')" id="nav-iu-ipa">
+        <div class="nav-dot" style="background:#3366CC"></div>
+        IU › IPA
+      </button>
+      <button class="nav-item" onclick="goTo('cp-ia')" id="nav-cp-ia">
+        <div class="nav-dot" style="background:#6699EE"></div>
+        CP › IA
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      Dados salvos no GitHub.<br>Última sync: <span id="last-sync">—</span>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- BANNER DE CONFIGURAÇÃO -->
+    <div class="config-banner" id="config-banner">
+      <div class="config-banner-icon">⚙️</div>
+      <div class="config-banner-text">
+        <strong>Configure o GitHub antes de usar.</strong> Abra o arquivo HTML em um editor de texto e preencha as 4 variáveis no topo do script: GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO. Veja o arquivo <strong>LEIA-ME.txt</strong> para o passo a passo completo.
+      </div>
+    </div>
+
+    <!-- ── PÁGINA GERAL ── -->
+    <div class="page active" id="page-geral">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">Dashboard · Junho 2026</div>
+          <div class="page-sub">5 frentes ativas · Hoje: 04/06 (feriado)</div>
+        </div>
+        <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em andamento</span>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Frentes ativas</div>
+          <div class="metric-value">5</div>
+          <div class="metric-sub">Reenq. + Upgrades</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Próximo marco</div>
+          <div class="metric-value">09/06</div>
+          <div class="metric-sub">Passagem JIC · IU›IP</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Migração principal</div>
+          <div class="metric-value">23/06</div>
+          <div class="metric-sub">IU › IP</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Dias restantes</div>
+          <div class="metric-value" id="days-remaining">—</div>
+          <div class="metric-sub">até a migração</div>
+        </div>
+      </div>
+
+      <div class="section-header">Frentes — clique para ver detalhes</div>
+      <div class="frentes-grid">
+        <div class="frente-card" onclick="goTo('iu-ip')">
+          <div class="frente-card-top">
+            <span class="frente-type-badge tag-reenq">Reenquadramento</span>
+            <span class="frente-go">›</span>
+          </div>
+          <div class="frente-name">IU › IP</div>
+          <div class="frente-desc">Migração de segmento com régua de comunicação</div>
+          <div class="frente-milestone"><div class="sdot sdot-orange"></div>Migração: 23/06</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--laranja)"></div></div>
+        </div>
+        <div class="frente-card" onclick="goTo('iu-ia')">
+          <div class="frente-card-top">
+            <span class="frente-type-badge tag-reenq">Reenquadramento</span>
+            <span class="frente-go">›</span>
+          </div>
+          <div class="frente-name">IU › IA</div>
+          <div class="frente-desc">Reenquadramento de clientes IU para IA</div>
+          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--laranja)"></div></div>
+        </div>
+        <div class="frente-card" onclick="goTo('ia-iu')">
+          <div class="frente-card-top">
+            <span class="frente-type-badge tag-upgrade">Upgrade</span>
+            <span class="frente-go">›</span>
+          </div>
+          <div class="frente-name">IA › IU</div>
+          <div class="frente-desc">Upgrade de clientes IA para IU</div>
+          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--azul)"></div></div>
+        </div>
+        <div class="frente-card" onclick="goTo('iu-ipa')">
+          <div class="frente-card-top">
+            <span class="frente-type-badge tag-upgrade">Upgrade</span>
+            <span class="frente-go">›</span>
+          </div>
+          <div class="frente-name">IU › IPA</div>
+          <div class="frente-desc">Upgrade de clientes IU para IPA</div>
+          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--azul)"></div></div>
+        </div>
+        <div class="frente-card" onclick="goTo('cp-ia')">
+          <div class="frente-card-top">
+            <span class="frente-type-badge tag-upgrade">Upgrade</span>
+            <span class="frente-go">›</span>
+          </div>
+          <div class="frente-name">CP › IA</div>
+          <div class="frente-desc">Upgrade de clientes CP para IA</div>
+          <div class="frente-milestone"><div class="sdot sdot-green"></div>Critérios definidos</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:25%;background:var(--azul)"></div></div>
+        </div>
+      </div>
+
+      <div class="section-header">Vitrine & outros</div>
+      <div class="status-grid" id="sg-geral"></div>
+    </div>
+
+    <!-- ── IU › IP ── -->
+    <div class="page" id="page-iu-ip">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">IU › IP — migração de segmento</div>
+          <div class="page-sub">Reenquadramento · Em andamento desde maio · Migração: 23/06</div>
+        </div>
+        <span class="badge" style="background:var(--laranja-light);color:var(--laranja-dark)">Migração 23/06</span>
+      </div>
+      <div id="gantt-iu-ip"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#C8C6C0"></div>Estratégia (maio)</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#EC7000"></div>Criativos MKT</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Operação da sala</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Régua IU Jornadas</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Construção JIC</div>
+        <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
+        <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo + Migração</span>
+      </div>
+      <div class="section-header">Atualizações dos criativos</div>
+      <div class="status-grid" id="sg-iuip"></div>
+    </div>
+
+    <!-- ── IU › IA ── -->
+    <div class="page" id="page-iu-ia">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">IU › IA — reenquadramento</div>
+          <div class="page-sub">Reenquadramento · Início junho</div>
+        </div>
+        <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em planejamento</span>
+      </div>
+      <div id="gantt-iu-ia"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Estratégia</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#EC7000"></div>Criativos</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Régua Jornadas</div>
+        <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
+        <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
+      </div>
+      <div class="section-header">Atualizações</div>
+      <div class="status-grid" id="sg-iuia"></div>
+    </div>
+
+    <!-- ── IA › IU ── -->
+    <div class="page" id="page-ia-iu">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">IA › IU — upgrade</div>
+          <div class="page-sub">Upgrade de plano · Início junho</div>
+        </div>
+        <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
+      </div>
+      <div id="gantt-ia-iu"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Régua Jornadas</div>
+        <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
+        <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
+      </div>
+      <div class="section-header">Atualizações</div>
+      <div class="status-grid" id="sg-iaiu"></div>
+    </div>
+
+    <!-- ── IU › IPA ── -->
+    <div class="page" id="page-iu-ipa">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">IU › IPA — upgrade</div>
+          <div class="page-sub">Upgrade de plano · Início junho</div>
+        </div>
+        <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
+      </div>
+      <div id="gantt-iu-ipa"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Régua Jornadas</div>
+        <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
+        <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
+      </div>
+      <div class="section-header">Atualizações</div>
+      <div class="status-grid" id="sg-iuipa"></div>
+    </div>
+
+    <!-- ── CP › IA ── -->
+    <div class="page" id="page-cp-ia">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">CP › IA — upgrade</div>
+          <div class="page-sub">Upgrade de plano · Início junho</div>
+        </div>
+        <span class="badge" style="background:var(--green-light);color:var(--green)">Critérios definidos</span>
+      </div>
+      <div id="gantt-cp-ia"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Régua Jornadas</div>
+        <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
+        <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
+      </div>
+      <div class="section-header">Atualizações</div>
+      <div class="status-grid" id="sg-cpia"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ── DADOS PADRÃO ── */
+const CARD_DEFS = {
+  'vitrine-insights':  { label: 'Vitrine · Insights',      group: 'geral',  dot: 'amber',  text: 'Em construção — definir escopo de dados a exibir' },
+  'vitrine-banner':    { label: 'Vitrine · Banner médio',   group: 'geral',  dot: 'amber',  text: 'Layout em revisão com time de design' },
+  'vitrine-parallax':  { label: 'Vitrine · Parallax',       group: 'geral',  dot: 'amber',  text: 'Aguardando aprovação de conceito criativo' },
+  'vitrine-tour':      { label: 'Vitrine · Tour guiado',    group: 'geral',  dot: 'green',  text: 'Roteiro aprovado — em desenvolvimento' },
+  'video-bvinda':      { label: 'Vídeo de boas-vindas',     group: 'geral',  dot: 'blue',   text: 'Briefing enviado ao time de produção' },
+  'iuip-push':         { label: 'Criativos de push',        group: 'iuip',   dot: 'green',  text: 'Cadastrados e disponíveis para priorização no JIC' },
+  'iuip-email':        { label: 'Criativos de e-mail',      group: 'iuip',   dot: 'green',  text: 'Cadastrados e disponíveis para priorização no JIC' },
+  'iuip-wpp':          { label: 'Criativos de WPP',         group: 'iuip',   dot: 'amber',  text: 'Validação de textos com agentes IA: quarta. Retorno de template/intention: sexta (previsão)' },
+  'iuia-estrategia':   { label: 'Estratégia',               group: 'iuia',   dot: 'amber',  text: 'Em construção — definir critérios de reenquadramento' },
+  'iuia-criativos':    { label: 'Criativos',                group: 'iuia',   dot: 'gray',   text: 'Aguardando início — dependente da estratégia' },
+  'iuia-obs':          { label: 'Observações',               group: 'iuia',   dot: 'gray',   text: '' },
+  'iaiu-estrategia':   { label: 'Estratégia',               group: 'iaiu',   dot: 'amber',  text: 'Em planejamento — levantamento de base elegível' },
+  'iaiu-criativos':    { label: 'Criativos',                group: 'iaiu',   dot: 'gray',   text: 'Não iniciado' },
+  'iaiu-obs':          { label: 'Observações',               group: 'iaiu',   dot: 'gray',   text: '' },
+  'iuipa-estrategia':  { label: 'Estratégia',               group: 'iuipa',  dot: 'amber',  text: 'Em planejamento — definir oferta de upgrade' },
+  'iuipa-criativos':   { label: 'Criativos',                group: 'iuipa',  dot: 'gray',   text: 'Não iniciado' },
+  'iuipa-obs':         { label: 'Observações',               group: 'iuipa',  dot: 'gray',   text: '' },
+  'cpia-estrategia':   { label: 'Estratégia',               group: 'cpia',   dot: 'green',  text: 'Critérios de elegibilidade definidos — aguarda aprovação' },
+  'cpia-criativos':    { label: 'Criativos',                group: 'cpia',   dot: 'amber',  text: 'Em produção' },
+  'cpia-obs':          { label: 'Observações',               group: 'cpia',   dot: 'gray',   text: '' },
+};
+
+const GROUP_CONTAINERS = {
+  geral: 'sg-geral', iuip: 'sg-iuip', iuia: 'sg-iuia',
+  iaiu: 'sg-iaiu', iuipa: 'sg-iuipa', cpia: 'sg-cpia',
+};
+
+const DOT_COLORS = {
+  green: '#1A7A4A', amber: '#B56A00', blue: '#003399',
+  gray: '#888580', red: '#C0392B', orange: '#EC7000',
+};
+
+/* ── GITHUB API ── */
+let ghFileSha = null;
+let store = {};
+
+function isConfigured() {
+  return GITHUB_TOKEN !== 'SEU_TOKEN_AQUI' &&
+         GITHUB_OWNER !== 'SEU_USUARIO_AQUI' &&
+         GITHUB_REPO  !== 'SEU_REPOSITORIO_AQUI';
+}
+
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  dot.className = 'sync-dot ' + state;
+  lbl.textContent = label;
+}
+
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error-toast' : '') + ' show';
+  setTimeout(() => t.className = 'toast', 2500);
+}
+
+async function ghFetch(method, body) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+  const opts = {
+    method,
+    headers: {
+      'Authorization': `token ${GITHUB_TOKEN}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json',
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  return fetch(url, opts);
+}
+
+async function loadFromGitHub() {
+  if (!isConfigured()) {
+    document.getElementById('config-banner').classList.remove('hidden');
+    setSyncStatus('error', 'Não configurado');
+    store = buildDefaultStore();
+    renderAll();
+    return;
+  }
+  setSyncStatus('syncing', 'Carregando...');
+  try {
+    const res = await ghFetch('GET');
+    if (res.status === 404) {
+      store = buildDefaultStore();
+      await saveToGitHub(true);
+    } else if (res.ok) {
+      const data = await res.json();
+      ghFileSha = data.sha;
+      const decoded = JSON.parse(atob(data.content.replace(/\n/g,'')));
+      store = mergeWithDefaults(decoded);
+      setSyncStatus('synced', 'Sincronizado');
+      document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+    } else {
+      throw new Error('HTTP ' + res.status);
+    }
+  } catch(e) {
+    setSyncStatus('error', 'Erro de conexão');
+    showToast('Erro ao carregar dados do GitHub', true);
+    store = buildDefaultStore();
+  }
+  renderAll();
+}
+
+async function saveToGitHub(silent) {
+  if (!isConfigured()) return;
+  setSyncStatus('syncing', 'Salvando...');
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(store, null, 2))));
+  const body = {
+    message: 'Atualiza status do painel — ' + new Date().toLocaleString('pt-BR'),
+    content,
+  };
+  if (ghFileSha) body.sha = ghFileSha;
+  try {
+    const res = await ghFetch('PUT', body);
+    if (res.ok) {
+      const data = await res.json();
+      ghFileSha = data.content.sha;
+      setSyncStatus('synced', 'Sincronizado');
+      document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+      if (!silent) showToast('✓ Salvo e sincronizado');
+    } else {
+      throw new Error('HTTP ' + res.status);
+    }
+  } catch(e) {
+    setSyncStatus('error', 'Erro ao salvar');
+    if (!silent) showToast('Erro ao salvar no GitHub', true);
+  }
+}
+
+function buildDefaultStore() {
+  const s = {};
+  Object.keys(CARD_DEFS).forEach(k => {
+    s[k] = { text: CARD_DEFS[k].text, dot: CARD_DEFS[k].dot };
+  });
+  return s;
+}
+
+function mergeWithDefaults(loaded) {
+  const s = buildDefaultStore();
+  Object.keys(loaded).forEach(k => { if (s[k] !== undefined) s[k] = loaded[k]; });
+  return s;
+}
+
+/* ── RENDER STATUS CARDS ── */
+function renderAll() {
+  const groups = {};
+  Object.keys(CARD_DEFS).forEach(id => {
+    const g = CARD_DEFS[id].group;
+    if (!groups[g]) groups[g] = [];
+    groups[g].push(id);
+  });
+  Object.keys(groups).forEach(g => {
+    const el = document.getElementById(GROUP_CONTAINERS[g]);
+    if (!el) return;
+    el.innerHTML = groups[g].map(id => renderCard(id)).join('');
+  });
+}
+
+function renderCard(id) {
+  const def = CARD_DEFS[id];
+  const s = store[id] || { text: def.text, dot: def.dot };
+  const dotOptsHtml = Object.keys(DOT_COLORS).map(d =>
+    `<div class="dot-opt${s.dot===d?' selected':''}" style="background:${DOT_COLORS[d]}"
+      onclick="setDot('${id}','${d}')" title="${d}"></div>`
+  ).join('');
+  const textHtml = s.text
+    ? s.text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
+    : '<span style="font-style:italic;color:var(--text3)">Clique em editar para adicionar...</span>';
+
+  return `<div class="status-card">
+    <div class="status-card-top">
+      <div class="status-card-name">
+        <div class="sdot sdot-${s.dot}" id="maindot-${id}"></div>
+        ${def.label}
+      </div>
+      <button class="edit-toggle" onclick="startEdit('${id}')">editar</button>
+    </div>
+    <div id="display-${id}" class="status-text-display">${textHtml}</div>
+    <div id="edit-${id}" class="edit-area">
+      <div class="dot-selector">
+        <span class="dot-selector-label">Status:</span>
+        <div id="dotsel-${id}">${dotOptsHtml}</div>
+      </div>
+      <textarea class="status-textarea" id="inp-${id}">${s.text}</textarea>
+      <div class="status-actions">
+        <button class="btn-save" id="savebtn-${id}" onclick="saveCard('${id}')">Salvar</button>
+        <button class="btn-cancel" onclick="cancelEdit('${id}')">Cancelar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.startEdit = function(id) {
+  document.getElementById('display-' + id).style.display = 'none';
+  const ea = document.getElementById('edit-' + id);
+  ea.style.display = 'block';
+  document.getElementById('inp-' + id).value = store[id].text;
+  document.getElementById('inp-' + id).focus();
+};
+
+window.cancelEdit = function(id) {
+  document.getElementById('display-' + id).style.display = 'block';
+  document.getElementById('edit-' + id).style.display = 'none';
+};
+
+window.setDot = function(id, dot) {
+  store[id].dot = dot;
+  const sel = document.getElementById('dotsel-' + id);
+  if (!sel) return;
+  sel.querySelectorAll('.dot-opt').forEach(el => {
+    el.classList.toggle('selected', el.getAttribute('title') === dot);
+  });
+  const mainDot = document.getElementById('maindot-' + id);
+  if (mainDot) { mainDot.className = 'sdot sdot-' + dot; }
+};
+
+window.saveCard = function(id) {
+  const btn = document.getElementById('savebtn-' + id);
+  btn.disabled = true;
+  btn.textContent = 'Salvando...';
+  store[id].text = document.getElementById('inp-' + id).value;
+  saveToGitHub(false).then(() => {
+    const textHtml = store[id].text
+      ? store[id].text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
+      : '<span style="font-style:italic;color:var(--text3)">Clique em editar para adicionar...</span>';
+    document.getElementById('display-' + id).innerHTML = textHtml;
+    document.getElementById('display-' + id).style.display = 'block';
+    document.getElementById('edit-' + id).style.display = 'none';
+  });
+};
+
+/* ── NAVEGAÇÃO ── */
+window.goTo = function(id) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const nb = document.getElementById('nav-' + id);
+  if (nb) nb.classList.add('active');
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+};
+
+/* ── GANTT ── */
+const MONTH_DAYS  = { maio: 31, junho: 30 };
+const MONTH_LABEL = { maio: 'MAIO', junho: 'JUNHO' };
+const TODAY_DAY   = 4;
+
+function isWeekend(day, month) {
+  const bases = { maio: new Date(2026,4,1).getDay(), junho: new Date(2026,5,1).getDay() };
+  const dow = (bases[month] + day - 1) % 7;
+  return dow === 0 || dow === 6;
+}
+
+function buildGantt(containerId, rows, months) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const LBL_W = 108;
+  const cols = [];
+  months.forEach(m => {
+    for (let d = 1; d <= MONTH_DAYS[m]; d++) cols.push({ month: m, day: d });
+  });
+  const gc = `${LBL_W}px repeat(${cols.length}, 1fr)`;
+
+  let h = `<div class="gantt-section"><div class="gantt-scroll"><div class="gantt-inner">`;
+
+  h += `<div class="gantt-month-row" style="display:grid;grid-template-columns:${gc}">`;
+  h += `<div class="gantt-corner">Fase</div>`;
+  months.forEach(m => {
+    h += `<div class="month-block" style="grid-column:span ${MONTH_DAYS[m]}">${MONTH_LABEL[m]}</div>`;
+  });
+  h += `</div>`;
+
+  h += `<div class="gantt-day-row" style="display:grid;grid-template-columns:${gc}">`;
+  h += `<div class="day-hdr"></div>`;
+  cols.forEach(c => {
+    const t = c.month==='junho' && c.day===TODAY_DAY;
+    const w = isWeekend(c.day, c.month);
+    h += `<div class="day-hdr${t?' today-hdr':''}${w?' wknd':''}">${c.day}</div>`;
+  });
+  h += `</div>`;
+
+  rows.forEach(row => {
+    h += `<div class="gantt-data-row" style="display:grid;grid-template-columns:${gc}">`;
+    h += `<div class="row-lbl">${row.label}</div>`;
+    cols.forEach(c => {
+      const t = c.month==='junho' && c.day===TODAY_DAY;
+      const w = isWeekend(c.day, c.month);
+      let cc = t ? `<div class="today-vline"></div>` : '';
+      row.bars.forEach(b => {
+        const bm = b.month || 'junho';
+        if (c.month !== bm || c.day < b.start || c.day > b.end) return;
+        if (b.milestone && c.day === b.start) {
+          cc += `<div class="gms" style="background:${b.msColor};color:${b.msText}">${b.msLabel||c.day}</div>`;
+        } else {
+          const f = c.day===b.start, l = c.day===b.end;
+          const br = `border-radius:${f?'3px':'0'} ${l?'3px':'0'} ${l?'3px':'0'} ${f?'3px':'0'}`;
+          cc += `<div class="gbar" style="background:${b.color};left:${f?'4px':'0'};right:${l?'4px':'0'};${br}"></div>`;
+        }
+      });
+      h += `<div class="gcell${t?' today-col':''}${w?' wknd-col':''}">${cc}</div>`;
+    });
+    h += `</div>`;
+  });
+
+  h += `</div></div></div>`;
+  el.innerHTML = h;
+}
+
+const GANTT_DATA = {
+  'iu-ip': { months: ['maio','junho'], rows: [
+    { label:'Estratégia', bars:[{month:'maio',start:1,end:31,color:'#C8C6C0'},{month:'junho',start:1,end:1,color:'#C8C6C0'}]},
+    { label:'Criativos MKT', bars:[{month:'maio',start:15,end:31,color:'#EC7000'},{month:'junho',start:1,end:4,color:'#EC7000'}]},
+    { label:'Operação\nda sala', bars:[{month:'junho',start:1,end:4,color:'#F8A85C'}]},
+    { label:'Régua IU\nJornadas', bars:[{month:'junho',start:1,end:8,color:'#003399'}]},
+    { label:'Construção\nJIC', bars:[{month:'junho',start:9,end:22,color:'#6699EE'}]},
+    { label:'Passagem JIC', bars:[{month:'junho',start:9,end:9,color:'#1A7A4A',milestone:true,msLabel:'09',msColor:'#1A7A4A',msText:'#E6F5ED'}]},
+    { label:'Disparo +\nMigração', bars:[{month:'junho',start:23,end:23,color:'#C0392B',milestone:true,msLabel:'23',msColor:'#C0392B',msText:'#FDECEA'}]},
+  ]},
+  'iu-ia': { months: ['junho'], rows: [
+    { label:'Estratégia', bars:[{start:1,end:15,color:'#F8A85C'}]},
+    { label:'Criativos', bars:[{start:8,end:20,color:'#EC7000'}]},
+    { label:'Régua\nJornadas', bars:[{start:12,end:22,color:'#003399'}]},
+    { label:'Passagem JIC', bars:[{start:16,end:16,color:'#1A7A4A',milestone:true,msLabel:'16',msColor:'#1A7A4A',msText:'#E6F5ED'}]},
+    { label:'Disparo', bars:[{start:28,end:28,color:'#C0392B',milestone:true,msLabel:'28',msColor:'#C0392B',msText:'#FDECEA'}]},
+  ]},
+  'ia-iu': { months: ['junho'], rows: [
+    { label:'Estratégia', bars:[{start:1,end:12,color:'#6699EE'}]},
+    { label:'Criativos', bars:[{start:9,end:20,color:'#003399'}]},
+    { label:'Régua\nJornadas', bars:[{start:14,end:22,color:'#F8A85C'}]},
+    { label:'Passagem JIC', bars:[{start:18,end:18,color:'#1A7A4A',milestone:true,msLabel:'18',msColor:'#1A7A4A',msText:'#E6F5ED'}]},
+    { label:'Disparo', bars:[{start:30,end:30,color:'#C0392B',milestone:true,msLabel:'30',msColor:'#C0392B',msText:'#FDECEA'}]},
+  ]},
+  'iu-ipa': { months: ['junho'], rows: [
+    { label:'Estratégia', bars:[{start:1,end:14,color:'#6699EE'}]},
+    { label:'Criativos', bars:[{start:10,end:22,color:'#003399'}]},
+    { label:'Régua\nJornadas', bars:[{start:15,end:24,color:'#F8A85C'}]},
+    { label:'Passagem JIC', bars:[{start:19,end:19,color:'#1A7A4A',milestone:true,msLabel:'19',msColor:'#1A7A4A',msText:'#E6F5ED'}]},
+    { label:'Disparo', bars:[{start:30,end:30,color:'#C0392B',milestone:true,msLabel:'30',msColor:'#C0392B',msText:'#FDECEA'}]},
+  ]},
+  'cp-ia': { months: ['junho'], rows: [
+    { label:'Estratégia', bars:[{start:1,end:10,color:'#6699EE'}]},
+    { label:'Criativos', bars:[{start:6,end:18,color:'#003399'}]},
+    { label:'Régua\nJornadas', bars:[{start:11,end:20,color:'#F8A85C'}]},
+    { label:'Passagem JIC', bars:[{start:15,end:15,color:'#1A7A4A',milestone:true,msLabel:'15',msColor:'#1A7A4A',msText:'#E6F5ED'}]},
+    { label:'Disparo', bars:[{start:27,end:27,color:'#C0392B',milestone:true,msLabel:'27',msColor:'#C0392B',msText:'#FDECEA'}]},
+  ]},
+};
+
+/* ── INIT ── */
+function init() {
+  const today = new Date();
+  const migration = new Date(2026, 5, 23);
+  const diff = Math.ceil((migration - today) / (1000*60*60*24));
+  const el = document.getElementById('days-remaining');
+  if (el) el.textContent = diff > 0 ? diff : '—';
+
+  Object.keys(GANTT_DATA).forEach(id => {
+    const g = GANTT_DATA[id];
+    buildGantt('gantt-' + id, g.rows, g.months);
+  });
+
+  if (!isConfigured()) {
+    document.getElementById('config-banner').classList.remove('config-banner');
+  }
+
+  loadFromGitHub();
+}
+
+init();
+</script>
+</body>
+</html>
