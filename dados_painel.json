@@ -83,5 +83,10 @@
     "label": "Dias restantes",
     "value": "40",
     "sub": "até a migração"
+  },
+  "metric-frentes": {
+    "label": "Frentes ativas",
+    "value": "5",
+    "sub": "Reenquadramento + Upgrades"
   }
 }
