@@ -1,42 +1,42 @@
 {
   "vitrine-insights": {
-    "text": "Em construÃ§Ã£o â definir escopo de dados a exibir",
+    "text": "Em construÃÂ§ÃÂ£o Ã¢ÂÂ definir escopo de dados a exibir",
     "dot": "amber"
   },
   "vitrine-banner": {
-    "text": "Layout em revisão com time de design",
+    "text": "Layout em revisÃ£o com time de design",
     "dot": "amber"
   },
   "vitrine-parallax": {
-    "text": "Aguardando aprovaÃ§Ã£o de conceito criativo",
+    "text": "Aguardando aprovaÃÂ§ÃÂ£o de conceito criativo",
     "dot": "amber"
   },
   "vitrine-tour": {
-    "text": "Roteiro aprovado â em desenvolvimento",
+    "text": "Roteiro aprovado Ã¢ÂÂ em desenvolvimento",
     "dot": "green"
   },
   "video-bvinda": {
-    "text": "Briefing enviado ao time de produÃ§Ã£o",
+    "text": "Briefing enviado ao time de produÃÂ§ÃÂ£o",
     "dot": "blue"
   },
   "iuip-push": {
-    "text": "Cadastrados e disponÃ­veis para priorizaÃ§Ã£o no JIC",
+    "text": "Cadastrados e disponÃÂ­veis para priorizaÃÂ§ÃÂ£o no JIC",
     "dot": "green"
   },
   "iuip-email": {
-    "text": "Cadastrados e disponÃ­veis para priorizaÃ§Ã£o no JIC",
+    "text": "Cadastrados e disponÃÂ­veis para priorizaÃÂ§ÃÂ£o no JIC",
     "dot": "blue"
   },
   "iuip-wpp": {
-    "text": "ValidaÃ§Ã£o de textos com agentes IA: quarta. Retorno de template/intention: sexta (previsÃ£o)",
+    "text": "ValidaÃÂ§ÃÂ£o de textos com agentes IA: quarta. Retorno de template/intention: sexta (previsÃÂ£o)",
     "dot": "amber"
   },
   "iuia-estrategia": {
-    "text": "Em construÃ§Ã£o â definir critÃ©rios de reenquadramento",
+    "text": "Em construÃÂ§ÃÂ£o Ã¢ÂÂ definir critÃÂ©rios de reenquadramento",
     "dot": "amber"
   },
   "iuia-criativos": {
-    "text": "Aguardando inÃ­cio â dependente da estratÃ©gia",
+    "text": "Aguardando inÃÂ­cio Ã¢ÂÂ dependente da estratÃÂ©gia",
     "dot": "gray"
   },
   "iuia-obs": {
@@ -44,11 +44,11 @@
     "dot": "gray"
   },
   "iaiu-estrategia": {
-    "text": "Em planejamento â levantamento de base elegÃ­vel",
+    "text": "Em planejamento Ã¢ÂÂ levantamento de base elegÃÂ­vel",
     "dot": "amber"
   },
   "iaiu-criativos": {
-    "text": "NÃ£o iniciado",
+    "text": "NÃÂ£o iniciado",
     "dot": "gray"
   },
   "iaiu-obs": {
@@ -56,11 +56,11 @@
     "dot": "gray"
   },
   "iuipa-estrategia": {
-    "text": "Em planejamento â definir oferta de upgrade",
+    "text": "Em planejamento Ã¢ÂÂ definir oferta de upgrade",
     "dot": "amber"
   },
   "iuipa-criativos": {
-    "text": "NÃ£o iniciado",
+    "text": "NÃÂ£o iniciado",
     "dot": "gray"
   },
   "iuipa-obs": {
@@ -68,25 +68,20 @@
     "dot": "gray"
   },
   "cpia-estrategia": {
-    "text": "CritÃ©rios de elegibilidade definidos â aguarda aprovaÃ§Ã£o",
+    "text": "CritÃÂ©rios de elegibilidade definidos Ã¢ÂÂ aguarda aprovaÃÂ§ÃÂ£o",
     "dot": "green"
   },
   "cpia-criativos": {
-    "text": "Em produÃ§Ã£o",
+    "text": "Em produÃÂ§ÃÂ£o",
     "dot": "amber"
   },
   "cpia-obs": {
     "text": "",
     "dot": "gray"
   },
-  "metric-dias": {
-    "label": "Dias restantes",
-    "value": "40",
-    "sub": "até a migração"
-  },
-  "metric-frentes": {
-    "label": "Frentes ativas",
-    "value": "5",
-    "sub": "Reenquadramento + Upgrades"
+  "metric-migracao": {
+    "label": "Migração principal",
+    "value": "05/06",
+    "sub": "IU › IP"
   }
 }
