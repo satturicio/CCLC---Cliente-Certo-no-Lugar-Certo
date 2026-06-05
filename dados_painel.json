@@ -1,0 +1,82 @@
+{
+  "vitrine-insights": {
+    "text": "Em construção — definir escopo de dados a exibir",
+    "dot": "amber"
+  },
+  "vitrine-banner": {
+    "text": "Layout em revisão com time de design",
+    "dot": "amber"
+  },
+  "vitrine-parallax": {
+    "text": "Aguardando aprovação de conceito criativo",
+    "dot": "amber"
+  },
+  "vitrine-tour": {
+    "text": "Roteiro aprovado — em desenvolvimento",
+    "dot": "green"
+  },
+  "video-bvinda": {
+    "text": "Briefing enviado ao time de produção",
+    "dot": "blue"
+  },
+  "iuip-push": {
+    "text": "Cadastrados e disponíveis para priorização no JIC",
+    "dot": "green"
+  },
+  "iuip-email": {
+    "text": "Cadastrados e disponíveis para priorização no JIC",
+    "dot": "green"
+  },
+  "iuip-wpp": {
+    "text": "Validação de textos com agentes IA: quarta. Retorno de template/intention: sexta (previsão)",
+    "dot": "amber"
+  },
+  "iuia-estrategia": {
+    "text": "Em construção — definir critérios de reenquadramento",
+    "dot": "amber"
+  },
+  "iuia-criativos": {
+    "text": "Aguardando início — dependente da estratégia",
+    "dot": "gray"
+  },
+  "iuia-obs": {
+    "text": "",
+    "dot": "gray"
+  },
+  "iaiu-estrategia": {
+    "text": "Em planejamento — levantamento de base elegível",
+    "dot": "amber"
+  },
+  "iaiu-criativos": {
+    "text": "Não iniciado",
+    "dot": "gray"
+  },
+  "iaiu-obs": {
+    "text": "",
+    "dot": "gray"
+  },
+  "iuipa-estrategia": {
+    "text": "Em planejamento — definir oferta de upgrade",
+    "dot": "amber"
+  },
+  "iuipa-criativos": {
+    "text": "Não iniciado",
+    "dot": "gray"
+  },
+  "iuipa-obs": {
+    "text": "",
+    "dot": "gray"
+  },
+  "cpia-estrategia": {
+    "text": "Critérios de elegibilidade definidos — aguarda aprovação",
+    "dot": "green"
+  },
+  "cpia-criativos": {
+    "text": "Em produção",
+    "dot": "amber"
+  },
+  "cpia-obs": {
+    "text": "",
+    "dot": "gray"
+  }
+}
