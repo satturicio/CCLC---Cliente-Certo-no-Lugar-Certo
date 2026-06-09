@@ -840,6 +840,210 @@ select.task-status-sel {
   outline: none;
 }
 
+
+
+
+/* ── MODO VIEWER (forçado pela senha de visualização) ── */
+body.viewer-mode .btn-add-card,
+body.viewer-mode .edit-toggle,
+body.viewer-mode .delete-card-btn,
+body.viewer-mode .gantt-edit-btn,
+body.viewer-mode .alerta-add-btn,
+body.viewer-mode .alerta-del-btn,
+body.viewer-mode .add-onda-btn,
+body.viewer-mode .task-actions-cell,
+body.viewer-mode .task-edit-inline,
+body.viewer-mode .nav-item-edit-btn,
+body.viewer-mode .nav-add-item-btn,
+body.viewer-mode .metric-edit-hint,
+body.viewer-mode .password-settings-btn,
+body.viewer-mode .share-btn-side,
+body.viewer-mode .config-banner { display: none !important; }
+body.viewer-mode .editable-title,
+body.viewer-mode .pmo-edit-cell,
+body.viewer-mode .metric-card { cursor: default !important; }
+body.viewer-mode .editable-title { border-bottom: none !important; }
+
+/* ── TELA DE BLOQUEIO ── */
+.lock-screen {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, #1A1917 0%, #2a2825 100%);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+}
+.lock-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 32px 36px 28px;
+  width: 380px; max-width: 92vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  text-align: center;
+}
+.lock-logo {
+  width: 56px; height: 56px;
+  background: var(--laranja);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 26px;
+}
+.lock-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.lock-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+.lock-input {
+  width: 100%;
+  font-size: 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  color: var(--text);
+  outline: none;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.lock-input:focus { border-color: var(--laranja); }
+.lock-input.error { border-color: var(--red); animation: shake 0.4s; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.lock-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--laranja);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.12s;
+}
+.lock-btn:hover { background: var(--laranja-dark); }
+.lock-error {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 8px;
+  min-height: 14px;
+}
+.lock-hint {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* ── BOTÃO MUDAR SENHAS ── */
+.password-settings-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 10px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 6px;
+  width: 100%;
+  text-align: left;
+  transition: all 0.12s;
+}
+.password-settings-btn:hover { background: var(--bg); color: var(--text); }
+body.presentation-mode .password-settings-btn { display: none; }
+body.viewer-mode .password-settings-btn { display: none; }
+
+/* ── SIDEBAR EDITÁVEL ── */
+.sidebar-action-btn {
+  display: block;
+  width: 100%;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 6px;
+  text-align: left;
+  transition: all 0.12s;
+}
+.sidebar-action-btn:hover { background: var(--bg); color: var(--text); }
+.sidebar-action-btn.present-btn { background: var(--text); color: white; border-color: var(--text); }
+.sidebar-action-btn.present-btn:hover { background: #2a2825; }
+.sidebar-action-btn.share-btn-side { background: var(--azul-light); color: var(--azul); border-color: #b3c6f0; }
+.sidebar-action-btn.share-btn-side:hover { background: var(--azul); color: white; }
+body.presentation-mode .sidebar-action-btn.share-btn-side { display: none; }
+
+.sync-info { font-size: 10px; color: var(--text3); margin-bottom: 6px; }
+
+.nav-item-edit-btn {
+  font-size: 9px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 4px;
+  border: none;
+  background: none;
+  border-radius: 3px;
+  opacity: 0;
+  margin-left: auto;
+}
+.nav-item:hover .nav-item-edit-btn { opacity: 0.7; }
+.nav-item-edit-btn:hover { opacity: 1; color: var(--laranja); background: var(--laranja-light); }
+body.presentation-mode .nav-item-edit-btn { display: none; }
+
+.nav-section-edit-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+.nav-section-edit-label .nav-section-label { padding: 0; }
+.nav-add-item-btn {
+  font-size: 9px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 5px;
+  border: none;
+  background: none;
+  border-radius: 3px;
+}
+.nav-add-item-btn:hover { color: var(--laranja); background: var(--laranja-light); }
+body.presentation-mode .nav-add-item-btn { display: none; }
+
+/* ── TÍTULO EDITÁVEL ── */
+.editable-title {
+  cursor: text;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.15s;
+  padding-bottom: 1px;
+}
+.editable-title:hover { border-bottom-color: var(--laranja-mid); }
+body.presentation-mode .editable-title { cursor: default; border-bottom: none; }
+
+/* ── PMO EDITÁVEL ── */
+.pmo-edit-cell { cursor: text; }
+.pmo-edit-cell:hover { background: var(--laranja-light) !important; }
+body.presentation-mode .pmo-edit-cell { cursor: default; }
+body.presentation-mode .pmo-edit-cell:hover { background: inherit !important; }
+
 /* ── PMO TABLE ── */
 .pmo-table {
   width: 100%;
@@ -1361,6 +1565,19 @@ body.presentation-mode .progress-pct { display: none; }
 </head>
 <body>
 
+<!-- TELA DE BLOQUEIO -->
+<div class="lock-screen" id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-logo">🔒</div>
+    <div class="lock-title">Painel de Frentes</div>
+    <div class="lock-sub">Digite a senha de acesso</div>
+    <input type="password" class="lock-input" id="lock-input" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')tryUnlock()">
+    <button class="lock-btn" onclick="tryUnlock()">Acessar</button>
+    <div class="lock-error" id="lock-error"></div>
+    <div class="lock-hint">Senha de visualização: ver o painel<br>Senha de editor: ver e editar</div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════════════════════════════
      CONFIGURAÇÃO — edite as 4 linhas abaixo antes de usar
      Veja o guia de configuração no arquivo LEIA-ME.txt
@@ -1375,13 +1592,6 @@ const GITHUB_FILE  = "dados_painel.json";
 
 <div class="toast" id="toast"></div>
 
-<button class="btn-presentation" id="btn-presentation" onclick="togglePresentation()">
-  ▶ Modo apresentação
-</button>
-
-<button class="share-btn" id="share-btn" onclick="openSharePanel()">
-  🔗 Compartilhar
-</button>
 
 <!-- PAINEL DE COMPARTILHAMENTO -->
 <div class="share-overlay" id="share-overlay" onclick="handleShareOverlay(event)">
@@ -1521,54 +1731,15 @@ const GITHUB_FILE  = "dados_painel.json";
           <div class="itau-sub">Painel de frentes</div>
         </div>
       </div>
-      <div class="sync-indicator">
-        <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-label">Verificando...</span>
-      </div>
     </div>
 
-    <div class="nav-section">
-      <div class="nav-section-label">Geral</div>
-      <button class="nav-item active" onclick="goTo('geral')" id="nav-geral">
-        <div class="nav-dot" style="background:var(--laranja)"></div>
-        Visão geral
-      </button>
-      <button class="nav-item" onclick="goTo('pmo')" id="nav-pmo">
-        <div class="nav-dot" style="background:var(--azul)"></div>
-        PMO
-      </button>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-section-label">Reenquadramentos</div>
-      <button class="nav-item" onclick="goTo('iu-ip')" id="nav-iu-ip">
-        <div class="nav-dot" style="background:#EC7000"></div>
-        IU › IP
-      </button>
-      <button class="nav-item" onclick="goTo('iu-ia')" id="nav-iu-ia">
-        <div class="nav-dot" style="background:#F8A85C"></div>
-        IU › IA
-      </button>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-section-label">Upgrades</div>
-      <button class="nav-item" onclick="goTo('ia-iu')" id="nav-ia-iu">
-        <div class="nav-dot" style="background:#003399"></div>
-        IA › IU
-      </button>
-      <button class="nav-item" onclick="goTo('iu-ipa')" id="nav-iu-ipa">
-        <div class="nav-dot" style="background:#3366CC"></div>
-        IU › IPA
-      </button>
-      <button class="nav-item" onclick="goTo('cp-ia')" id="nav-cp-ia">
-        <div class="nav-dot" style="background:#6699EE"></div>
-        CP › IA
-      </button>
-    </div>
+    <div id="sidebar-nav-content"></div>
 
     <div class="sidebar-footer">
-      Dados salvos no GitHub.<br>Última sync: <span id="last-sync">—</span>
+      <div class="sync-info">Última sync: <span id="last-sync">—</span></div>
+      <button class="sidebar-action-btn present-btn" id="btn-presentation" onclick="togglePresentation()">▶ Apresentação</button>
+      <button class="sidebar-action-btn share-btn-side" onclick="openSharePanel()">🔗 Compartilhar</button>
+      <button class="password-settings-btn" onclick="openPasswordSettings()">🔑 Alterar senhas</button>
     </div>
   </aside>
 
@@ -1587,18 +1758,16 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page active" id="page-geral">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">Dashboard · Junho 2026</div>
-          <div class="page-sub">5 frentes ativas · Hoje: 04/06 (feriado)</div>
+          <div class="page-title editable-title" data-key="title-geral" onclick="editTitle(this)">Dashboard · Junho 2026</div>
+          <div class="page-sub editable-title" data-key="sub-geral" onclick="editTitle(this)">5 frentes ativas · Junho 2026</div>
         </div>
-        <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em andamento</span>
+        <span class="badge" style="background:var(--amber-light);color:var(--amber)" id="badge-geral">Em andamento</span>
       </div>
 
-      <!-- ALERTAS -->
       <div class="alertas-grid" id="alertas-grid"></div>
-
       <div class="metrics-grid" id="metrics-grid"></div>
 
-      <div class="section-header">Frentes — clique para ver detalhes</div>
+      <div class="section-header">Frentes</div>
       <div class="frentes-grid" id="frentes-grid"></div>
 
       <div class="section-header">Vitrine & outros</div>
@@ -1610,8 +1779,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-pmo">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">PMO — Acompanhamento Ondas CCLC</div>
-          <div class="page-sub">Visão consolidada de todas as frentes · Junho 2026</div>
+          <div class="page-title editable-title" data-key="title-pmo" onclick="editTitle(this)">PMO — Acompanhamento Ondas CCLC</div>
+          <div class="page-sub editable-title" data-key="sub-pmo" onclick="editTitle(this)">Visão consolidada de todas as frentes · Junho 2026</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1A7A4A;display:inline-block"></span>Concluído</span>
@@ -1632,8 +1801,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-iu-ip">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">IU › IP — migração de segmento</div>
-          <div class="page-sub">Reenquadramento · Em andamento desde maio · Migração: 23/06</div>
+          <div class="page-title editable-title" data-key="title-iu-ip" onclick="editTitle(this)">IU › IP — migração de segmento</div>
+          <div class="page-sub editable-title" data-key="sub-iu-ip" onclick="editTitle(this)">Reenquadramento · Em andamento desde maio · Migração: 23/06</div>
         </div>
         <span class="badge" style="background:var(--laranja-light);color:var(--laranja-dark)">Migração 23/06</span>
       </div>
@@ -1658,8 +1827,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-iu-ia">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">IU › IA — reenquadramento</div>
-          <div class="page-sub">Reenquadramento · Início junho</div>
+          <div class="page-title editable-title" data-key="title-iu-ia" onclick="editTitle(this)">IU › IA — reenquadramento</div>
+          <div class="page-sub editable-title" data-key="sub-iu-ia" onclick="editTitle(this)">Reenquadramento · Início junho</div>
         </div>
         <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em planejamento</span>
       </div>
@@ -1683,8 +1852,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-ia-iu">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">IA › IU — upgrade</div>
-          <div class="page-sub">Upgrade de plano · Início junho</div>
+          <div class="page-title editable-title" data-key="title-ia-iu" onclick="editTitle(this)">IA › IU — upgrade</div>
+          <div class="page-sub editable-title" data-key="sub-ia-iu" onclick="editTitle(this)">Upgrade de plano · Início junho</div>
         </div>
         <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
       </div>
@@ -1708,8 +1877,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-iu-ipa">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">IU › IPA — upgrade</div>
-          <div class="page-sub">Upgrade de plano · Início junho</div>
+          <div class="page-title editable-title" data-key="title-iu-ipa" onclick="editTitle(this)">IU › IPA — upgrade</div>
+          <div class="page-sub editable-title" data-key="sub-iu-ipa" onclick="editTitle(this)">Upgrade de plano · Início junho</div>
         </div>
         <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
       </div>
@@ -1733,8 +1902,8 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="page" id="page-cp-ia">
       <div class="page-header">
         <div class="page-header-left">
-          <div class="page-title">CP › IA — upgrade</div>
-          <div class="page-sub">Upgrade de plano · Início junho</div>
+          <div class="page-title editable-title" data-key="title-cp-ia" onclick="editTitle(this)">CP › IA — upgrade</div>
+          <div class="page-sub editable-title" data-key="sub-cp-ia" onclick="editTitle(this)">Upgrade de plano · Início junho</div>
         </div>
         <span class="badge" style="background:var(--green-light);color:var(--green)">Critérios definidos</span>
       </div>
@@ -1758,6 +1927,116 @@ const GITHUB_FILE  = "dados_painel.json";
 </div>
 
 <script>
+
+/* ══════════════════════════════════════════════════════════════
+   SISTEMA DE SENHAS
+   ⚠️ ATENÇÃO: Estas senhas ficam visíveis no código-fonte do HTML.
+   Adequado para uso interno do time, NÃO para informações sigilosas
+   (dados pessoais de cliente, valores financeiros, etc).
+   ⚠️ As senhas são guardadas em duas camadas:
+   1) Defaults aqui no código (fallback)
+   2) Sobrescritas pelo store no GitHub (alteráveis pelo painel)
+══════════════════════════════════════════════════════════════ */
+const DEFAULT_PASSWORDS = {
+  viewer: "cclc2026",
+  editor: "cclc-admin"
+};
+
+function getPasswords() {
+  if (window.store && window.store['passwords']) return window.store['passwords'];
+  return DEFAULT_PASSWORDS;
+}
+
+let _accessMode = null; // null | 'viewer' | 'editor'
+window._accessMode = null;
+
+window.tryUnlock = async function() {
+  const input = document.getElementById('lock-input');
+  const errEl = document.getElementById('lock-error');
+  const pwd = input.value.trim();
+
+  // Antes do store carregar, usa defaults
+  // Após carregar, usa as senhas do store
+  let pwds = DEFAULT_PASSWORDS;
+  if (window.store && window.store['passwords']) pwds = window.store['passwords'];
+
+  if (pwd === pwds.editor) {
+    _accessMode = 'editor';
+    window._accessMode = 'editor';
+    document.getElementById('lock-screen').style.display = 'none';
+    sessionStorage.setItem('cclc_access', 'editor');
+    startApp();
+  } else if (pwd === pwds.viewer) {
+    _accessMode = 'viewer';
+    window._accessMode = 'viewer';
+    document.body.classList.add('viewer-mode');
+    document.body.classList.add('presentation-mode'); // viewer = modo apresentação forçado
+    document.getElementById('lock-screen').style.display = 'none';
+    sessionStorage.setItem('cclc_access', 'viewer');
+    startApp();
+  } else {
+    errEl.textContent = 'Senha incorreta';
+    input.classList.add('error');
+    setTimeout(() => input.classList.remove('error'), 500);
+    input.select();
+  }
+};
+
+function checkUrlAccess() {
+  // ?modo=visualizacao força tela bloqueada em modo viewer mesmo com senha de editor
+  // Mas ainda exige a senha
+  const urlParams = new URLSearchParams(window.location.search);
+  const modo = urlParams.get('modo');
+  if (modo === 'visualizacao') {
+    window._forceViewer = true;
+  }
+}
+
+function checkSessionAccess() {
+  const saved = sessionStorage.getItem('cclc_access');
+  if (saved === 'editor' && !window._forceViewer) {
+    _accessMode = 'editor';
+    window._accessMode = 'editor';
+    document.getElementById('lock-screen').style.display = 'none';
+    return true;
+  } else if (saved === 'viewer' || (saved === 'editor' && window._forceViewer)) {
+    _accessMode = 'viewer';
+    window._accessMode = 'viewer';
+    document.body.classList.add('viewer-mode');
+    document.body.classList.add('presentation-mode');
+    document.getElementById('lock-screen').style.display = 'none';
+    return true;
+  }
+  return false;
+}
+
+window.openPasswordSettings = function() {
+  if (_accessMode !== 'editor') {
+    alert('Apenas editores podem alterar senhas.');
+    return;
+  }
+  const pwds = getPasswords();
+  const newViewer = prompt('Nova senha de VISUALIZAÇÃO (deixe em branco para não alterar):', pwds.viewer);
+  if (newViewer === null) return;
+  const newEditor = prompt('Nova senha de EDITOR (deixe em branco para não alterar):', pwds.editor);
+  if (newEditor === null) return;
+  if (!window.store) window.store = {};
+  window.store['passwords'] = {
+    viewer: newViewer.trim() || pwds.viewer,
+    editor: newEditor.trim() || pwds.editor,
+  };
+  saveToGitHub(true).then(() => {
+    showToast('✓ Senhas atualizadas. Compartilhe as novas com o time.');
+  });
+};
+
+function startApp() {
+  // Inicializa o painel (chamado após desbloqueio bem-sucedido)
+  if (window._appStarted) return;
+  window._appStarted = true;
+  init();
+}
+
 /* ── DADOS PADRÃO ── */
 const CARD_DEFS = {
   'vitrine-insights':  { label: 'Vitrine · Insights',      group: 'geral',  dot: 'amber',  text: 'Em construção — definir escopo de dados a exibir' },
@@ -1795,6 +2074,7 @@ const DOT_COLORS = {
 /* ── GITHUB API ── */
 let ghFileSha = null;
 let store = {};
+window.store = store;
 
 function isConfigured() {
   return GITHUB_TOKEN !== 'SEU_TOKEN_AQUI' &&
@@ -1935,6 +2215,8 @@ function renderAll() {
   renderAlertas();
   renderAllOndas();
   renderPMO();
+  renderSidebar();
+  applyStoredTitles();
 }
 
 function renderCard(id) {
@@ -2005,12 +2287,11 @@ window.setDot = function(id, dot) {
 
 /* ── NAVEGAÇÃO ── */
 window.goTo = function(id) {
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const nb = document.getElementById('nav-' + id);
-  if (nb) nb.classList.add('active');
   const pg = document.getElementById('page-' + id);
   if (pg) pg.classList.add('active');
+  renderSidebar();
+  applyStoredTitles();
 };
 
 /* ── GANTT ── */
@@ -2186,37 +2467,60 @@ window.saveMetric = function(id) {
 
 /* ── MODO APRESENTAÇÃO ── */
 /* ── FRENTES DATA (com progresso editável) ── */
-const FRENTES_DATA = [
-  { id:'iu-ip',  name:'IU › IP',  type:'reenq', desc:'Migração de segmento com régua de comunicação', milestone:'Migração: 23/06', dotCls:'sdot-orange', color:'var(--laranja)', prog:60, page:'iu-ip' },
-  { id:'iu-ia',  name:'IU › IA',  type:'reenq', desc:'Reenquadramento de clientes IU para IA',        milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--laranja)', prog:20, page:'iu-ia' },
-  { id:'ia-iu',  name:'IA › IU',  type:'upgrade',desc:'Upgrade de clientes IA para IU',               milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--azul)',    prog:15, page:'ia-iu' },
-  { id:'iu-ipa', name:'IU › IPA', type:'upgrade',desc:'Upgrade de clientes IU para IPA',              milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--azul)',    prog:15, page:'iu-ipa' },
-  { id:'cp-ia',  name:'CP › IA',  type:'upgrade',desc:'Upgrade de clientes CP para IA',               milestone:'Critérios definidos',dotCls:'sdot-green', color:'var(--azul)',   prog:25, page:'cp-ia' },
+const FRENTES_META = [
+  { id:'iu-ip',  name:'IU › IP',  type:'reenq',   desc:'Migração de segmento com régua de comunicação', color:'var(--laranja)', page:'iu-ip' },
+  { id:'iu-ia',  name:'IU › IA',  type:'reenq',   desc:'Reenquadramento de clientes IU para IA',        color:'var(--laranja)', page:'iu-ia' },
+  { id:'ia-iu',  name:'IA › IU',  type:'upgrade', desc:'Upgrade de clientes IA para IU',                color:'var(--azul)',    page:'ia-iu' },
+  { id:'iu-ipa', name:'IU › IPA', type:'upgrade', desc:'Upgrade de clientes IU para IPA',               color:'var(--azul)',    page:'iu-ipa' },
+  { id:'cp-ia',  name:'CP › IA',  type:'upgrade', desc:'Upgrade de clientes CP para IA',                color:'var(--azul)',    page:'cp-ia' },
 ];
+
+function frenteAggregate(frenteId) {
+  // Pega dados das ondas para alimentar visão geral
+  const ondas = store['ondas-' + frenteId] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[frenteId] || []));
+  const todasTarefas = ondas.flatMap(o => o.tarefas || []);
+  const total = todasTarefas.length;
+  const concluidas = todasTarefas.filter(t => t.status === 'concluido').length;
+  const atencao = todasTarefas.filter(t => t.status === 'atencao').length;
+  const andamento = todasTarefas.filter(t => t.status === 'andamento').length;
+  const prog = total > 0 ? Math.round((concluidas / total) * 100) : 0;
+  
+  let statusLabel, statusCls, dotCls;
+  if (total === 0) { statusLabel = 'Aguardando'; statusCls = 'ts-pausado'; dotCls = 'sdot-gray'; }
+  else if (concluidas === total) { statusLabel = 'Concluído'; statusCls = 'ts-concluido'; dotCls = 'sdot-green'; }
+  else if (atencao > 0) { statusLabel = `${atencao} ponto${atencao>1?'s':''} de atenção`; statusCls = 'ts-atencao'; dotCls = 'sdot-amber'; }
+  else if (andamento > 0) { statusLabel = 'Em andamento'; statusCls = 'ts-andamento'; dotCls = 'sdot-blue'; }
+  else { statusLabel = 'Pausado'; statusCls = 'ts-pausado'; dotCls = 'sdot-gray'; }
+  
+  return { ondas, total, concluidas, atencao, andamento, prog, statusLabel, statusCls, dotCls };
+}
 
 function renderFrentes() {
   const grid = document.getElementById('frentes-grid');
   if (!grid) return;
-  grid.innerHTML = FRENTES_DATA.map(f => {
-    const prog = (store['prog-' + f.id] !== undefined) ? store['prog-' + f.id] : f.prog;
+  grid.innerHTML = FRENTES_META.map(f => {
+    const agg = frenteAggregate(f.id);
     const tagClass = f.type === 'reenq' ? 'tag-reenq' : 'tag-upgrade';
     const tagLabel = f.type === 'reenq' ? 'Reenquadramento' : 'Upgrade';
-    return `<div class="frente-card">
-      <div class="frente-card-top" onclick="goTo('${f.page}')">
+    const sidebarCfg = getSidebar();
+    let displayName = f.name;
+    sidebarCfg.forEach(s => s.items.forEach(it => { if (it.id === f.id) displayName = it.name; }));
+    
+    return `<div class="frente-card" onclick="goTo('${f.page}')">
+      <div class="frente-card-top">
         <span class="frente-type-badge ${tagClass}">${tagLabel}</span>
         <span class="frente-go">›</span>
       </div>
-      <div class="frente-name" onclick="goTo('${f.page}')">${f.name}</div>
-      <div class="frente-desc" onclick="goTo('${f.page}')">${f.desc}</div>
-      <div class="frente-milestone" onclick="goTo('${f.page}')"><div class="sdot ${f.dotCls}"></div>${f.milestone}</div>
-      <div class="progress-edit-row">
-        <div class="progress-bar" style="flex:1"><div class="progress-fill" id="prog-fill-${f.id}" style="width:${prog}%;background:${f.color}"></div></div>
-        <span class="progress-pct" id="prog-pct-${f.id}">${prog}%</span>
-        <input type="range" min="0" max="100" value="${prog}" class="progress-slider" 
-          oninput="updateProg('${f.id}',this.value)" 
-          onchange="saveProg('${f.id}',this.value)"
-          onclick="event.stopPropagation()">
+      <div class="frente-name">${displayName}</div>
+      <div class="frente-desc">${f.desc}</div>
+      <div class="frente-milestone">
+        <div class="sdot ${agg.dotCls}"></div>
+        ${agg.statusLabel}
       </div>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px">
+        ${agg.total > 0 ? `${agg.concluidas}/${agg.total} tarefas concluídas` : 'Sem tarefas cadastradas'}
+      </div>
+      <div class="progress-bar" style="margin-top:6px"><div class="progress-fill" style="width:${agg.prog}%;background:${f.color}"></div></div>
     </div>`;
   }).join('');
 }
@@ -2263,16 +2567,21 @@ window.saveCard = function(id) {
 
 /* ── MODO APRESENTAÇÃO ── */
 window.togglePresentation = function() {
+  if (document.body.classList.contains('viewer-mode')) return; // Viewers ficam travados em modo apresentação
   const isOn = document.body.classList.toggle('presentation-mode');
   const btn = document.getElementById('btn-presentation');
-  btn.textContent = isOn ? '✕ Sair da apresentação' : '▶ Modo apresentação';
+  if (btn) btn.textContent = isOn ? '✕ Sair apresentação' : '▶ Apresentação';
+  renderAll();
 };
 
 /* ── PAINEL DE COMPARTILHAMENTO ── */
 window.openSharePanel = function() {
-  const base = window.location.href.split('?')[0];
-  document.getElementById('share-link-view').value = base + '?modo=visualizacao';
-  document.getElementById('share-link-edit').value = base + '?modo=editor';
+  // Gera link do GitHub Pages — funciona para qualquer pessoa sem precisar de conta
+  const pagesUrl = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}/`;
+  const fileName = 'painel_CCLC_configurado.html';
+  const baseUrl = pagesUrl + fileName;
+  document.getElementById('share-link-view').value = baseUrl + '?modo=visualizacao';
+  document.getElementById('share-link-edit').value = baseUrl;
   document.getElementById('share-overlay').classList.add('open');
 };
 
@@ -2603,6 +2912,240 @@ function renderAllOndas() {
   ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => renderOndas(f));
 }
 
+
+
+
+/* ── MODO VIEWER (forçado pela senha de visualização) ── */
+body.viewer-mode .btn-add-card,
+body.viewer-mode .edit-toggle,
+body.viewer-mode .delete-card-btn,
+body.viewer-mode .gantt-edit-btn,
+body.viewer-mode .alerta-add-btn,
+body.viewer-mode .alerta-del-btn,
+body.viewer-mode .add-onda-btn,
+body.viewer-mode .task-actions-cell,
+body.viewer-mode .task-edit-inline,
+body.viewer-mode .nav-item-edit-btn,
+body.viewer-mode .nav-add-item-btn,
+body.viewer-mode .metric-edit-hint,
+body.viewer-mode .password-settings-btn,
+body.viewer-mode .share-btn-side,
+body.viewer-mode .config-banner { display: none !important; }
+body.viewer-mode .editable-title,
+body.viewer-mode .pmo-edit-cell,
+body.viewer-mode .metric-card { cursor: default !important; }
+body.viewer-mode .editable-title { border-bottom: none !important; }
+
+/* ── TELA DE BLOQUEIO ── */
+.lock-screen {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, #1A1917 0%, #2a2825 100%);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+}
+.lock-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 32px 36px 28px;
+  width: 380px; max-width: 92vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  text-align: center;
+}
+.lock-logo {
+  width: 56px; height: 56px;
+  background: var(--laranja);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 26px;
+}
+.lock-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.lock-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+.lock-input {
+  width: 100%;
+  font-size: 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  color: var(--text);
+  outline: none;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.lock-input:focus { border-color: var(--laranja); }
+.lock-input.error { border-color: var(--red); animation: shake 0.4s; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.lock-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--laranja);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.12s;
+}
+.lock-btn:hover { background: var(--laranja-dark); }
+.lock-error {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 8px;
+  min-height: 14px;
+}
+.lock-hint {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* ── BOTÃO MUDAR SENHAS ── */
+.password-settings-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 10px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 6px;
+  width: 100%;
+  text-align: left;
+  transition: all 0.12s;
+}
+.password-settings-btn:hover { background: var(--bg); color: var(--text); }
+body.presentation-mode .password-settings-btn { display: none; }
+body.viewer-mode .password-settings-btn { display: none; }
+
+/* ── SIDEBAR EDITÁVEL ── */
+const SIDEBAR_DEFAULT = [
+  { label: 'Geral', items: [
+    { id: 'geral', name: 'Visão geral', color: 'var(--laranja)' },
+    { id: 'pmo',   name: 'PMO',         color: 'var(--azul)' },
+  ]},
+  { label: 'Reenquadramentos', items: [
+    { id: 'iu-ip', name: 'IU › IP', color: '#EC7000' },
+    { id: 'iu-ia', name: 'IU › IA', color: '#F8A85C' },
+  ]},
+  { label: 'Upgrades', items: [
+    { id: 'ia-iu',  name: 'IA › IU',  color: '#003399' },
+    { id: 'iu-ipa', name: 'IU › IPA', color: '#3366CC' },
+    { id: 'cp-ia',  name: 'CP › IA',  color: '#6699EE' },
+  ]},
+];
+
+function getSidebar() {
+  return store['sidebar-config']
+    ? JSON.parse(JSON.stringify(store['sidebar-config']))
+    : JSON.parse(JSON.stringify(SIDEBAR_DEFAULT));
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar-nav-content');
+  if (!el) return;
+  const cfg = getSidebar();
+  const isPresent = document.body.classList.contains('presentation-mode');
+  const activePage = document.querySelector('.page.active')?.id?.replace('page-','') || 'geral';
+
+  let h = '';
+  cfg.forEach((section, si) => {
+    h += `<div class="nav-section">
+      <div class="nav-section-edit-label">
+        <div class="nav-section-label">${section.label}</div>
+        ${!isPresent ? `<button class="nav-add-item-btn" onclick="editSidebarSection(${si})" title="Editar seção">✎</button>` : ''}
+      </div>`;
+    section.items.forEach((item, ii) => {
+      const active = item.id === activePage ? ' active' : '';
+      h += `<button class="nav-item${active}" onclick="goTo('${item.id}')" id="nav-${item.id}">
+        <div class="nav-dot" style="background:${item.color}"></div>
+        <span style="flex:1;text-align:left">${item.name}</span>
+        ${!isPresent ? `<span class="nav-item-edit-btn" onclick="event.stopPropagation();editSidebarItem(${si},${ii})">✎</span>` : ''}
+      </button>`;
+    });
+    h += `</div>`;
+  });
+  el.innerHTML = h;
+}
+
+window.editSidebarItem = function(si, ii) {
+  if (window._accessMode === 'viewer' || document.body.classList.contains('viewer-mode')) return;
+  const cfg = getSidebar();
+  const item = cfg[si].items[ii];
+  const newName = prompt('Novo nome do item:', item.name);
+  if (newName === null) return;
+  cfg[si].items[ii].name = newName.trim() || item.name;
+  store['sidebar-config'] = cfg;
+  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Item renomeado'); });
+};
+
+window.editSidebarSection = function(si) {
+  if (window._accessMode === 'viewer' || document.body.classList.contains('viewer-mode')) return;
+  const cfg = getSidebar();
+  const newLabel = prompt('Novo nome da seção:', cfg[si].label);
+  if (newLabel === null) return;
+  cfg[si].label = newLabel.trim() || cfg[si].label;
+  store['sidebar-config'] = cfg;
+  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Seção renomeada'); });
+};
+
+/* ── TÍTULOS EDITÁVEIS ── */
+window.editTitle = function(el) {
+  if (document.body.classList.contains('presentation-mode')) return;
+  const key = el.dataset.key;
+  const currentText = store['titles'] && store['titles'][key] ? store['titles'][key] : el.textContent;
+  const newText = prompt('Editar:', currentText);
+  if (newText === null) return;
+  if (!store['titles']) store['titles'] = {};
+  store['titles'][key] = newText.trim() || currentText;
+  el.textContent = store['titles'][key];
+  saveToGitHub(true).then(() => showToast('✓ Salvo'));
+};
+
+function applyStoredTitles() {
+  if (!store['titles']) return;
+  Object.keys(store['titles']).forEach(key => {
+    const el = document.querySelector(`[data-key="${key}"]`);
+    if (el) el.textContent = store['titles'][key];
+  });
+}
+
+/* ── PMO EDITÁVEL ── */
+window.editPMOCell = function(frenteId, field, currentVal) {
+  if (document.body.classList.contains('presentation-mode')) return;
+  const newVal = prompt(`Editar ${field}:`, currentVal || '');
+  if (newVal === null) return;
+  if (!store['pmo-overrides']) store['pmo-overrides'] = {};
+  if (!store['pmo-overrides'][frenteId]) store['pmo-overrides'][frenteId] = {};
+  store['pmo-overrides'][frenteId][field] = newVal.trim();
+  saveToGitHub(true).then(() => { renderPMO(); showToast('✓ PMO atualizado'); });
+};
+
+function getPMOValue(frenteId, field, defaultVal) {
+  return (store['pmo-overrides']?.[frenteId]?.[field]) ?? defaultVal;
+}
+
 /* ── PMO ── */
 const ALL_MONTH_DAYS = {
   janeiro:31,fevereiro:28,março:31,abril:30,maio:31,junho:30,
@@ -2709,13 +3252,14 @@ function renderPMOGantt() {
 function renderPMOTable() {
   const el = document.getElementById('pmo-table-container');
   if (!el) return;
-  const FRENTE_META = [
-    { id:'ia-iu',  nome:'IA › IU',  tipo:'upgrade',        tipoClasse:'tag-upgrade' },
-    { id:'iu-ipa', nome:'IU › IPA', tipo:'upgrade',        tipoClasse:'tag-upgrade' },
-    { id:'cp-ia',  nome:'CP › IA',  tipo:'upgrade',        tipoClasse:'tag-upgrade' },
-    { id:'iu-ip',  nome:'IU › IP',  tipo:'reenquadramento',tipoClasse:'tag-reenq' },
-    { id:'iu-ia',  nome:'IU › IA',  tipo:'reenquadramento',tipoClasse:'tag-reenq' },
-  ];
+  const isPresent = document.body.classList.contains('presentation-mode');
+  const sidebarCfg = getSidebar();
+  
+  function getDisplayName(fid) {
+    let n = fid.toUpperCase();
+    sidebarCfg.forEach(s => s.items.forEach(it => { if (it.id === fid) n = it.name; }));
+    return n;
+  }
 
   let h = `<table class="pmo-table"><thead><tr>
     <th style="width:18%">Frente / Ondas</th>
@@ -2723,46 +3267,41 @@ function renderPMOTable() {
     <th style="width:10%">Início</th>
     <th style="width:10%">Fim</th>
     <th style="width:12%">Volume</th>
-    <th style="width:15%">Evolução</th>
+    <th style="width:16%">Evolução</th>
     <th style="width:10%">Status</th>
-    <th style="width:15%">Responsável</th>
+    <th style="width:14%">Responsável</th>
   </tr></thead><tbody>`;
 
-  FRENTE_META.forEach(fm => {
+  FRENTES_META.forEach(fm => {
     const ondas = store['ondas-'+fm.id] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[fm.id]||[]));
-    const g = getGanttData(fm.id);
-    const disparo = (g.rows||[]).find(r => r.label.toLowerCase().includes('disparo'));
-    const disDate = disparo ? (disparo.bars||[]).find(b=>b.milestone) : null;
-
+    const agg = frenteAggregate(fm.id);
+    const tipoLabel = fm.type === 'reenq' ? 'reenquadramento' : 'upgrade';
+    const tipoClasse = fm.type === 'reenq' ? 'tag-reenq' : 'tag-upgrade';
+    
+    const inicio = getPMOValue(fm.id, 'inicio', ondas[0]?.dataInicio || '—');
+    const fim = getPMOValue(fm.id, 'fim', ondas[ondas.length-1]?.dataFim || '—');
+    const volume = getPMOValue(fm.id, 'volume', ondas.map(o=>o.volume).filter(Boolean).join(', ') || '—');
+    const evolucao = getPMOValue(fm.id, 'evolucao', ondas[0]?.evolucao || '—');
+    const resp = getPMOValue(fm.id, 'responsavel', getResponsaveis(ondas));
+    
+    const editAttr = (field, val) => isPresent ? '' : `class="pmo-edit-cell" onclick="editPMOCell('${fm.id}','${field}','${(val+'').replace(/'/g,"&apos;")}')"`;
+    
     h += `<tr>
-      <td><div class="pmo-frente-label">${fm.nome}</div></td>
-      <td><span class="pmo-tipo-badge ${fm.tipoClasse}">${fm.tipo}</span></td>
-      <td style="color:var(--text2);font-size:11px">${ondas[0]?.dataInicio||'—'}</td>
-      <td style="color:var(--text2);font-size:11px">${disDate ? disDate.start+'/'+disDate.month?.slice(0,3) : '—'}</td>
-      <td style="color:var(--text2);font-size:11px">${ondas.map(o=>o.volume).filter(Boolean).join(', ')||'—'}</td>
-      <td style="color:var(--text2);font-size:11px">${ondas[0]?.evolucao||'—'}</td>
-      <td>${renderStatusBadge(ondas)}</td>
-      <td style="font-size:11px;color:var(--text2)">${getResponsaveis(ondas)}</td>
+      <td><div class="pmo-frente-label">${getDisplayName(fm.id)}</div></td>
+      <td><span class="pmo-tipo-badge ${tipoClasse}">${tipoLabel}</span></td>
+      <td ${editAttr('inicio', inicio)} style="color:var(--text2);font-size:11px">${inicio}</td>
+      <td ${editAttr('fim', fim)} style="color:var(--text2);font-size:11px">${fim}</td>
+      <td ${editAttr('volume', volume)} style="color:var(--text2);font-size:11px">${volume}</td>
+      <td ${editAttr('evolucao', evolucao)} style="color:var(--text2);font-size:11px">${evolucao}</td>
+      <td><span class="task-status ${agg.statusCls}">${agg.statusLabel}</span></td>
+      <td ${editAttr('responsavel', resp)} style="font-size:11px;color:var(--text2)">${resp}</td>
     </tr>`;
-
-    ondas.forEach(o => {
-      if (!o.onda) return;
-      const tarefasConcluidas = (o.tarefas||[]).filter(t=>t.status==='concluido').length;
-      const totalTarefas = (o.tarefas||[]).length;
-      h += `<tr class="pmo-onda-row">
-        <td>${o.onda}${o.volume ? ` <span style="color:var(--text3);font-size:10px">(${o.volume})</span>` : ''}</td>
-        <td></td>
-        <td style="font-size:11px;color:var(--text3)">${o.dataInicio||'—'}</td>
-        <td style="font-size:11px;color:var(--text3)">${o.dataFim||'—'}</td>
-        <td style="font-size:11px;color:var(--text3)">${o.volume||'—'}</td>
-        <td style="font-size:11px;color:var(--text2)">${o.evolucao||'—'}</td>
-        <td style="font-size:11px;color:var(--text3)">${totalTarefas>0?`${tarefasConcluidas}/${totalTarefas} tarefas`:'—'}</td>
-        <td></td>
-      </tr>`;
-    });
   });
 
   h += `</tbody></table>`;
+  if (!isPresent) {
+    h += `<p style="font-size:11px;color:var(--text3);margin-top:8px;font-style:italic">💡 Clique em qualquer célula para editar. Status é calculado automaticamente pelas tarefas das ondas.</p>`;
+  }
   el.innerHTML = h;
 }
 
@@ -2908,7 +3447,17 @@ function init() {
   loadFromGitHub();
 }
 
-init();
+// Inicialização: checar acesso da URL/sessão antes de chamar init
+checkUrlAccess();
+if (!checkSessionAccess()) {
+  // Tela de bloqueio fica visível, foca o input
+  setTimeout(() => {
+    const inp = document.getElementById('lock-input');
+    if (inp) inp.focus();
+  }, 100);
+} else {
+  startApp();
+}
 </script>
 </body>
 </html>
