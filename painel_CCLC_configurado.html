@@ -2115,6 +2115,7 @@ async function loadFromGitHub() {
     document.getElementById('config-banner').classList.remove('hidden');
     setSyncStatus('error', 'Não configurado');
     store = buildDefaultStore();
+    window.store = store;
     renderAll();
     return;
   }
@@ -2123,12 +2124,14 @@ async function loadFromGitHub() {
     const res = await ghFetch('GET');
     if (res.status === 404) {
       store = buildDefaultStore();
+      window.store = store;
       await saveToGitHub(true);
     } else if (res.ok) {
       const data = await res.json();
       ghFileSha = data.sha;
       const decoded = JSON.parse(atob(data.content.replace(/\n/g,'')));
       store = mergeWithDefaults(decoded);
+      window.store = store;
       setSyncStatus('synced', 'Sincronizado');
       document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
     } else {
@@ -2138,6 +2141,7 @@ async function loadFromGitHub() {
     setSyncStatus('error', 'Erro de conexão');
     showToast('Erro ao carregar dados do GitHub', true);
     store = buildDefaultStore();
+    window.store = store;
   }
   renderAll();
 }
@@ -2915,130 +2919,6 @@ function renderAllOndas() {
 
 
 
-/* ── MODO VIEWER (forçado pela senha de visualização) ── */
-body.viewer-mode .btn-add-card,
-body.viewer-mode .edit-toggle,
-body.viewer-mode .delete-card-btn,
-body.viewer-mode .gantt-edit-btn,
-body.viewer-mode .alerta-add-btn,
-body.viewer-mode .alerta-del-btn,
-body.viewer-mode .add-onda-btn,
-body.viewer-mode .task-actions-cell,
-body.viewer-mode .task-edit-inline,
-body.viewer-mode .nav-item-edit-btn,
-body.viewer-mode .nav-add-item-btn,
-body.viewer-mode .metric-edit-hint,
-body.viewer-mode .password-settings-btn,
-body.viewer-mode .share-btn-side,
-body.viewer-mode .config-banner { display: none !important; }
-body.viewer-mode .editable-title,
-body.viewer-mode .pmo-edit-cell,
-body.viewer-mode .metric-card { cursor: default !important; }
-body.viewer-mode .editable-title { border-bottom: none !important; }
-
-/* ── TELA DE BLOQUEIO ── */
-.lock-screen {
-  position: fixed; inset: 0;
-  background: linear-gradient(135deg, #1A1917 0%, #2a2825 100%);
-  z-index: 9999;
-  display: flex; align-items: center; justify-content: center;
-}
-.lock-box {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 32px 36px 28px;
-  width: 380px; max-width: 92vw;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  text-align: center;
-}
-.lock-logo {
-  width: 56px; height: 56px;
-  background: var(--laranja);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 18px;
-  font-size: 26px;
-}
-.lock-title {
-  font-family: var(--font-head);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-.lock-sub {
-  font-size: 12px;
-  color: var(--text2);
-  margin-bottom: 20px;
-}
-.lock-input {
-  width: 100%;
-  font-size: 14px;
-  border: 1.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  background: var(--bg);
-  font-family: var(--font-body);
-  color: var(--text);
-  outline: none;
-  margin-bottom: 10px;
-  text-align: center;
-  letter-spacing: 0.05em;
-}
-.lock-input:focus { border-color: var(--laranja); }
-.lock-input.error { border-color: var(--red); animation: shake 0.4s; }
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-.lock-btn {
-  width: 100%;
-  padding: 11px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: var(--laranja);
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: background 0.12s;
-}
-.lock-btn:hover { background: var(--laranja-dark); }
-.lock-error {
-  font-size: 11px;
-  color: var(--red);
-  margin-top: 8px;
-  min-height: 14px;
-}
-.lock-hint {
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 16px;
-  line-height: 1.5;
-}
-
-/* ── BOTÃO MUDAR SENHAS ── */
-.password-settings-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text2);
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-xs);
-  padding: 7px 10px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  margin-top: 6px;
-  width: 100%;
-  text-align: left;
-  transition: all 0.12s;
-}
-.password-settings-btn:hover { background: var(--bg); color: var(--text); }
-body.presentation-mode .password-settings-btn { display: none; }
-body.viewer-mode .password-settings-btn { display: none; }
-
 /* ── SIDEBAR EDITÁVEL ── */
 const SIDEBAR_DEFAULT = [
   { label: 'Geral', items: [
@@ -3427,24 +3307,35 @@ window.saveGedit = function() {
 
 /* ── INIT ── */
 function init() {
-  // Detecta modo pela URL (?modo=visualizacao ou ?modo=editor)
-  const urlParams = new URLSearchParams(window.location.search);
-  const modo = urlParams.get('modo');
-  if (modo === 'visualizacao') {
-    document.body.classList.add('presentation-mode');
-    document.getElementById('btn-presentation').textContent = '✕ Sair da apresentação';
+  try {
+    // Detecta modo pela URL (?modo=visualizacao ou ?modo=editor)
+    const urlParams = new URLSearchParams(window.location.search);
+    const modo = urlParams.get('modo');
+    if (modo === 'visualizacao') {
+      document.body.classList.add('presentation-mode');
+      const btn = document.getElementById('btn-presentation');
+      if (btn) btn.textContent = '✕ Sair apresentação';
+    }
+
+    // Aplica os ganttts armazenados ou os defaults
+    Object.keys(GANTT_DATA).forEach(id => {
+      const stored = store && store['gantt-' + id];
+      const g = stored || GANTT_DATA[id];
+      buildGantt('gantt-' + id, g.rows, g.months);
+    });
+
+    // Banner só aparece se não estiver configurado
+    const banner = document.getElementById('config-banner');
+    if (banner) banner.style.display = isConfigured() ? 'none' : 'flex';
+
+    // Render inicial enquanto carrega do GitHub
+    try { renderSidebar(); } catch(e) { console.error('renderSidebar erro:', e); }
+
+    loadFromGitHub();
+  } catch(e) {
+    console.error('init erro:', e);
+    alert('Erro ao iniciar o painel: ' + e.message);
   }
-
-  Object.keys(GANTT_DATA).forEach(id => {
-    const g = GANTT_DATA[id];
-    buildGantt('gantt-' + id, g.rows, g.months);
-  });
-
-  // Banner só aparece se não estiver configurado
-  const banner = document.getElementById('config-banner');
-  if (banner) banner.style.display = isConfigured() ? 'none' : 'flex';
-
-  loadFromGitHub();
 }
 
 // Inicialização: checar acesso da URL/sessão antes de chamar init
