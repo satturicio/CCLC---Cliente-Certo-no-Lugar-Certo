@@ -621,7 +621,222 @@ body.presentation-mode .metric-edit-hint { display: none; }
 
 .edit-toggle:hover { background: var(--laranja-mid); }
 
-/* ── BOTÃO ADICIONAR CARD ── */
+/* ── ALERTAS ── */
+.alertas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.alerta-card {
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.alerta-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.alerta-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.alerta-items { list-style: none; padding: 0; margin: 0; }
+.alerta-item {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+  padding: 5px 0;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.alerta-item:last-child { border-bottom: none; padding-bottom: 0; }
+.alerta-num {
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.alerta-add-btn {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px dashed currentColor;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  opacity: 0.6;
+  transition: opacity 0.12s;
+}
+.alerta-add-btn:hover { opacity: 1; }
+.alerta-del-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 4px;
+  border: none;
+  background: none;
+  border-radius: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.alerta-del-btn:hover { color: var(--red); background: var(--red-light); }
+body.presentation-mode .alerta-add-btn,
+body.presentation-mode .alerta-del-btn { display: none; }
+
+/* ── ONDAS ── */
+.ondas-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+  font-size: 12px;
+}
+.ondas-table th {
+  background: var(--laranja);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  text-align: left;
+}
+.ondas-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  color: var(--text);
+}
+.ondas-table tr:last-child td { border-bottom: none; }
+.ondas-table tr:hover td { background: var(--bg); }
+
+.task-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.ts-concluido { background: var(--green-light); color: var(--green); }
+.ts-andamento { background: var(--azul-light); color: var(--azul); }
+.ts-pausado   { background: var(--gray-light); color: var(--gray); }
+.ts-atencao   { background: var(--amber-light); color: var(--amber); }
+.ts-cancelado { background: var(--red-light); color: var(--red); }
+
+.responsavel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  background: var(--laranja-light);
+  color: var(--laranja-dark);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+.onda-label {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 11px;
+}
+.onda-volume {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+.onda-data {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: 'Courier New', monospace;
+}
+
+.task-edit-inline {
+  display: none;
+  gap: 6px;
+  align-items: center;
+  margin-top: 4px;
+}
+.task-edit-inline.open { display: flex; }
+.task-input-sm {
+  font-size: 11px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 3px 7px;
+  font-family: var(--font-body);
+  background: var(--bg);
+  outline: none;
+  color: var(--text);
+}
+.task-input-sm:focus { border-color: var(--laranja); }
+
+.add-onda-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--laranja);
+  background: var(--laranja-light);
+  border: 1.5px dashed var(--laranja-mid);
+  border-radius: var(--radius-xs);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-bottom: 28px;
+  transition: all 0.12s;
+}
+.add-onda-btn:hover { background: var(--laranja-mid); border-style: solid; }
+body.presentation-mode .add-onda-btn { display: none; }
+body.presentation-mode .task-actions-cell { display: none; }
+
+.task-actions-cell { white-space: nowrap; }
+.task-action-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 2px 5px;
+  border: none;
+  background: none;
+  border-radius: 3px;
+  font-family: var(--font-body);
+}
+.task-action-btn:hover { color: var(--laranja); background: var(--laranja-light); }
+.task-action-del:hover { color: var(--red); background: var(--red-light); }
+
+select.task-status-sel {
+  font-size: 11px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 3px 6px;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+
 .btn-add-card {
   display: inline-flex;
   align-items: center;
@@ -806,6 +1021,206 @@ body.presentation-mode .status-card:has(.sdot-gray)   { border-left-color: var(-
 
 body.presentation-mode .btn-presentation { background: var(--laranja); color: white; border-color: var(--laranja-dark); }
 body.presentation-mode .btn-presentation:hover { background: var(--laranja-dark); }
+body.presentation-mode .share-btn { display: none; }
+
+/* ── PAINEL DE COMPARTILHAMENTO ── */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--azul);
+  background: var(--azul-light);
+  border: 1px solid #b3c6f0;
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+  position: fixed;
+  top: 16px;
+  right: 190px;
+  z-index: 500;
+}
+.share-btn:hover { background: var(--azul); color: white; }
+
+.share-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.share-overlay.open { opacity: 1; pointer-events: all; }
+
+.share-panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  width: 460px;
+  max-width: 94vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  transform: translateY(14px);
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+.share-overlay.open .share-panel { transform: translateY(0); }
+
+.share-header {
+  background: var(--azul);
+  padding: 20px 24px 16px;
+  color: white;
+}
+.share-header-title { font-family: var(--font-head); font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+.share-header-sub { font-size: 12px; opacity: 0.75; }
+
+.share-body { padding: 20px 24px 24px; }
+
+.share-option {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.share-option:last-child { margin-bottom: 0; }
+
+.share-option-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.share-option-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.share-option-info {}
+.share-option-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.share-option-desc { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+.share-link-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.share-link-input {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 10px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.share-copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--radius-xs);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.share-copy-btn.view  { background: var(--azul-light); color: var(--azul); }
+.share-copy-btn.view:hover  { background: var(--azul); color: white; }
+.share-copy-btn.edit  { background: var(--laranja-light); color: var(--laranja-dark); }
+.share-copy-btn.edit:hover  { background: var(--laranja); color: white; }
+.share-copy-btn.copied { background: var(--green-light); color: var(--green); }
+
+.share-close-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 9px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--text2);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.1s;
+}
+.share-close-btn:hover { background: var(--surface2); }
+
+/* ── DELETAR CARD ── */
+.delete-card-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  transition: all 0.1s;
+  margin-left: 2px;
+}
+.delete-card-btn:hover { color: var(--red); background: var(--red-light); }
+body.presentation-mode .delete-card-btn { display: none; }
+
+/* ── ÚLTIMO EDITADO ── */
+.last-edited {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+body.presentation-mode .last-edited { display: none; }
+
+/* ── PROGRESSO EDITÁVEL ── */
+.progress-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.progress-pct {
+  font-size: 10px;
+  color: var(--text3);
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: right;
+}
+.progress-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+  display: none;
+}
+.progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--laranja);
+  cursor: pointer;
+}
+.frente-card:hover .progress-slider { display: block; }
+body.presentation-mode .frente-card:hover .progress-slider { display: none; }
+body.presentation-mode .progress-pct { display: none; }
+
 
 .toast {
   position: fixed;
@@ -867,6 +1282,55 @@ const GITHUB_FILE  = "dados_painel.json";
 <button class="btn-presentation" id="btn-presentation" onclick="togglePresentation()">
   ▶ Modo apresentação
 </button>
+
+<button class="share-btn" id="share-btn" onclick="openSharePanel()">
+  🔗 Compartilhar
+</button>
+
+<!-- PAINEL DE COMPARTILHAMENTO -->
+<div class="share-overlay" id="share-overlay" onclick="handleShareOverlay(event)">
+  <div class="share-panel">
+    <div class="share-header">
+      <div class="share-header-title">Compartilhar painel</div>
+      <div class="share-header-sub">Escolha o tipo de acesso para cada pessoa</div>
+    </div>
+    <div class="share-body">
+      <div class="share-option">
+        <div class="share-option-top">
+          <div class="share-option-icon" style="background:var(--azul-light)">👁️</div>
+          <div class="share-option-info">
+            <div class="share-option-name">Link de visualização</div>
+            <div class="share-option-desc">Abre em modo apresentação — sem botões de edição. Ideal para liderança e reuniões.</div>
+          </div>
+        </div>
+        <div class="share-link-row">
+          <input class="share-link-input" id="share-link-view" readonly>
+          <button class="share-copy-btn view" id="copy-view-btn" onclick="copyLink('view')">Copiar link</button>
+        </div>
+      </div>
+
+      <div class="share-option">
+        <div class="share-option-top">
+          <div class="share-option-icon" style="background:var(--laranja-light)">✏️</div>
+          <div class="share-option-info">
+            <div class="share-option-name">Link de edição</div>
+            <div class="share-option-desc">Acesso completo — pode editar status e adicionar cards. Para o time de trabalho.</div>
+          </div>
+        </div>
+        <div class="share-link-row">
+          <input class="share-link-input" id="share-link-edit" readonly>
+          <button class="share-copy-btn edit" id="copy-edit-btn" onclick="copyLink('edit')">Copiar link</button>
+        </div>
+      </div>
+
+      <div style="background:var(--amber-light);border-radius:var(--radius-xs);padding:10px 12px;margin-top:12px;font-size:11px;color:var(--amber);line-height:1.6">
+        ⚠️ <strong>Atenção:</strong> qualquer pessoa com o link de edição consegue alterar os dados. Compartilhe somente com quem deve editar.
+      </div>
+
+      <button class="share-close-btn" onclick="closeSharePanel()">Fechar</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-title">Adicionar novo card</div>
@@ -992,61 +1456,13 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em andamento</span>
       </div>
 
+      <!-- ALERTAS -->
+      <div class="alertas-grid" id="alertas-grid"></div>
+
       <div class="metrics-grid" id="metrics-grid"></div>
 
       <div class="section-header">Frentes — clique para ver detalhes</div>
-      <div class="frentes-grid">
-        <div class="frente-card" onclick="goTo('iu-ip')">
-          <div class="frente-card-top">
-            <span class="frente-type-badge tag-reenq">Reenquadramento</span>
-            <span class="frente-go">›</span>
-          </div>
-          <div class="frente-name">IU › IP</div>
-          <div class="frente-desc">Migração de segmento com régua de comunicação</div>
-          <div class="frente-milestone"><div class="sdot sdot-orange"></div>Migração: 23/06</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--laranja)"></div></div>
-        </div>
-        <div class="frente-card" onclick="goTo('iu-ia')">
-          <div class="frente-card-top">
-            <span class="frente-type-badge tag-reenq">Reenquadramento</span>
-            <span class="frente-go">›</span>
-          </div>
-          <div class="frente-name">IU › IA</div>
-          <div class="frente-desc">Reenquadramento de clientes IU para IA</div>
-          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--laranja)"></div></div>
-        </div>
-        <div class="frente-card" onclick="goTo('ia-iu')">
-          <div class="frente-card-top">
-            <span class="frente-type-badge tag-upgrade">Upgrade</span>
-            <span class="frente-go">›</span>
-          </div>
-          <div class="frente-name">IA › IU</div>
-          <div class="frente-desc">Upgrade de clientes IA para IU</div>
-          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--azul)"></div></div>
-        </div>
-        <div class="frente-card" onclick="goTo('iu-ipa')">
-          <div class="frente-card-top">
-            <span class="frente-type-badge tag-upgrade">Upgrade</span>
-            <span class="frente-go">›</span>
-          </div>
-          <div class="frente-name">IU › IPA</div>
-          <div class="frente-desc">Upgrade de clientes IU para IPA</div>
-          <div class="frente-milestone"><div class="sdot sdot-amber"></div>Em planejamento</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--azul)"></div></div>
-        </div>
-        <div class="frente-card" onclick="goTo('cp-ia')">
-          <div class="frente-card-top">
-            <span class="frente-type-badge tag-upgrade">Upgrade</span>
-            <span class="frente-go">›</span>
-          </div>
-          <div class="frente-name">CP › IA</div>
-          <div class="frente-desc">Upgrade de clientes CP para IA</div>
-          <div class="frente-milestone"><div class="sdot sdot-green"></div>Critérios definidos</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:25%;background:var(--azul)"></div></div>
-        </div>
-      </div>
+      <div class="frentes-grid" id="frentes-grid"></div>
 
       <div class="section-header">Vitrine & outros</div>
       <div class="status-grid" id="sg-geral"></div>
@@ -1072,6 +1488,8 @@ const GITHUB_FILE  = "dados_painel.json";
         <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
         <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo + Migração</span>
       </div>
+      <div class="section-header">Ondas</div>
+      <div id="ondas-iu-ip"></div>
       <div class="section-header">Atualizações dos criativos</div>
       <div class="status-grid" id="sg-iuip"></div>
       <button class="btn-add-card" onclick="openAddCard('iuip')">+ Adicionar card</button>
@@ -1094,6 +1512,8 @@ const GITHUB_FILE  = "dados_painel.json";
         <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
         <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
       </div>
+      <div class="section-header">Ondas</div>
+      <div id="ondas-iu-ia"></div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iuia"></div>
       <button class="btn-add-card" onclick="openAddCard('iuia')">+ Adicionar card</button>
@@ -1116,6 +1536,8 @@ const GITHUB_FILE  = "dados_painel.json";
         <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
         <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
       </div>
+      <div class="section-header">Ondas</div>
+      <div id="ondas-ia-iu"></div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iaiu"></div>
       <button class="btn-add-card" onclick="openAddCard('iaiu')">+ Adicionar card</button>
@@ -1138,6 +1560,8 @@ const GITHUB_FILE  = "dados_painel.json";
         <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
         <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
       </div>
+      <div class="section-header">Ondas</div>
+      <div id="ondas-iu-ipa"></div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-iuipa"></div>
       <button class="btn-add-card" onclick="openAddCard('iuipa')">+ Adicionar card</button>
@@ -1160,6 +1584,8 @@ const GITHUB_FILE  = "dados_painel.json";
         <div class="leg-ms" style="background:#1A7A4A;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Passagem JIC</span>
         <div class="leg-ms" style="background:#C0392B;width:10px;height:10px;border-radius:50%;flex-shrink:0"></div><span style="font-size:11px;color:var(--text2)">Disparo</span>
       </div>
+      <div class="section-header">Ondas</div>
+      <div id="ondas-cp-ia"></div>
       <div class="section-header">Atualizações</div>
       <div class="status-grid" id="sg-cpia"></div>
       <button class="btn-add-card" onclick="openAddCard('cpia')">+ Adicionar card</button>
@@ -1342,6 +1768,9 @@ function renderAll() {
     el.innerHTML = groups[g].map(id => renderCard(id)).join('');
   });
   renderMetrics();
+  renderFrentes();
+  renderAlertas();
+  renderAllOndas();
 }
 
 function renderCard(id) {
@@ -1354,6 +1783,10 @@ function renderCard(id) {
   const textHtml = s.text
     ? s.text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
     : '<span style="font-style:italic;color:var(--text3)">Clique em editar para adicionar...</span>';
+  const isCustom = id.startsWith('custom-');
+  const lastEdited = s.editedAt
+    ? `<div class="last-edited">🕐 Editado ${s.editedAt}${s.editedBy ? ' por ' + s.editedBy : ''}</div>`
+    : '';
 
   return `<div class="status-card">
     <div class="status-card-top">
@@ -1361,9 +1794,13 @@ function renderCard(id) {
         <div class="sdot sdot-${s.dot}" id="maindot-${id}"></div>
         ${def.label}
       </div>
-      <button class="edit-toggle" onclick="startEdit('${id}')">editar</button>
+      <div style="display:flex;gap:2px;align-items:center">
+        <button class="edit-toggle" onclick="startEdit('${id}')">editar</button>
+        ${isCustom ? `<button class="delete-card-btn" onclick="deleteCard('${id}')" title="Excluir card">✕</button>` : ''}
+      </div>
     </div>
     <div id="display-${id}" class="status-text-display">${textHtml}</div>
+    ${lastEdited}
     <div id="edit-${id}" class="edit-area">
       <div class="dot-selector">
         <span class="dot-selector-label">Status:</span>
@@ -1400,21 +1837,6 @@ window.setDot = function(id, dot) {
   });
   const mainDot = document.getElementById('maindot-' + id);
   if (mainDot) { mainDot.className = 'sdot sdot-' + dot; }
-};
-
-window.saveCard = function(id) {
-  const btn = document.getElementById('savebtn-' + id);
-  btn.disabled = true;
-  btn.textContent = 'Salvando...';
-  store[id].text = document.getElementById('inp-' + id).value;
-  saveToGitHub(false).then(() => {
-    const textHtml = store[id].text
-      ? store[id].text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
-      : '<span style="font-style:italic;color:var(--text3)">Clique em editar para adicionar...</span>';
-    document.getElementById('display-' + id).innerHTML = textHtml;
-    document.getElementById('display-' + id).style.display = 'block';
-    document.getElementById('edit-' + id).style.display = 'none';
-  });
 };
 
 /* ── NAVEGAÇÃO ── */
@@ -1599,10 +2021,114 @@ window.saveMetric = function(id) {
 };
 
 /* ── MODO APRESENTAÇÃO ── */
+/* ── FRENTES DATA (com progresso editável) ── */
+const FRENTES_DATA = [
+  { id:'iu-ip',  name:'IU › IP',  type:'reenq', desc:'Migração de segmento com régua de comunicação', milestone:'Migração: 23/06', dotCls:'sdot-orange', color:'var(--laranja)', prog:60, page:'iu-ip' },
+  { id:'iu-ia',  name:'IU › IA',  type:'reenq', desc:'Reenquadramento de clientes IU para IA',        milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--laranja)', prog:20, page:'iu-ia' },
+  { id:'ia-iu',  name:'IA › IU',  type:'upgrade',desc:'Upgrade de clientes IA para IU',               milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--azul)',    prog:15, page:'ia-iu' },
+  { id:'iu-ipa', name:'IU › IPA', type:'upgrade',desc:'Upgrade de clientes IU para IPA',              milestone:'Em planejamento',  dotCls:'sdot-amber',  color:'var(--azul)',    prog:15, page:'iu-ipa' },
+  { id:'cp-ia',  name:'CP › IA',  type:'upgrade',desc:'Upgrade de clientes CP para IA',               milestone:'Critérios definidos',dotCls:'sdot-green', color:'var(--azul)',   prog:25, page:'cp-ia' },
+];
+
+function renderFrentes() {
+  const grid = document.getElementById('frentes-grid');
+  if (!grid) return;
+  grid.innerHTML = FRENTES_DATA.map(f => {
+    const prog = (store['prog-' + f.id] !== undefined) ? store['prog-' + f.id] : f.prog;
+    const tagClass = f.type === 'reenq' ? 'tag-reenq' : 'tag-upgrade';
+    const tagLabel = f.type === 'reenq' ? 'Reenquadramento' : 'Upgrade';
+    return `<div class="frente-card">
+      <div class="frente-card-top" onclick="goTo('${f.page}')">
+        <span class="frente-type-badge ${tagClass}">${tagLabel}</span>
+        <span class="frente-go">›</span>
+      </div>
+      <div class="frente-name" onclick="goTo('${f.page}')">${f.name}</div>
+      <div class="frente-desc" onclick="goTo('${f.page}')">${f.desc}</div>
+      <div class="frente-milestone" onclick="goTo('${f.page}')"><div class="sdot ${f.dotCls}"></div>${f.milestone}</div>
+      <div class="progress-edit-row">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" id="prog-fill-${f.id}" style="width:${prog}%;background:${f.color}"></div></div>
+        <span class="progress-pct" id="prog-pct-${f.id}">${prog}%</span>
+        <input type="range" min="0" max="100" value="${prog}" class="progress-slider" 
+          oninput="updateProg('${f.id}',this.value)" 
+          onchange="saveProg('${f.id}',this.value)"
+          onclick="event.stopPropagation()">
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.updateProg = function(id, val) {
+  document.getElementById('prog-fill-' + id).style.width = val + '%';
+  document.getElementById('prog-pct-' + id).textContent = val + '%';
+};
+
+window.saveProg = function(id, val) {
+  store['prog-' + id] = parseInt(val);
+  saveToGitHub(true).then(() => showToast('✓ Progresso salvo'));
+};
+
+/* ── DELETAR CARD ── */
+window.deleteCard = function(id) {
+  if (!confirm('Excluir este card? Esta ação não pode ser desfeita.')) return;
+  delete store[id];
+  delete CARD_DEFS[id];
+  saveToGitHub(true).then(() => {
+    renderAll();
+    showToast('Card excluído');
+  });
+};
+
+/* ── SALVAR COM TIMESTAMP ── */
+window.saveCard = function(id) {
+  const btn = document.getElementById('savebtn-' + id);
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  store[id].text = document.getElementById('inp-' + id).value;
+  const now = new Date();
+  store[id].editedAt = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  saveToGitHub(false).then(() => {
+    btn.disabled = false; btn.textContent = 'Salvar';
+    const textHtml = store[id].text
+      ? store[id].text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
+      : '<span style="font-style:italic;color:var(--text3)">Clique em editar para adicionar...</span>';
+    document.getElementById('display-' + id).innerHTML = textHtml;
+    document.getElementById('display-' + id).style.display = 'block';
+    document.getElementById('edit-' + id).style.display = 'none';
+    renderAll();
+  });
+};
+
+/* ── MODO APRESENTAÇÃO ── */
 window.togglePresentation = function() {
   const isOn = document.body.classList.toggle('presentation-mode');
   const btn = document.getElementById('btn-presentation');
   btn.textContent = isOn ? '✕ Sair da apresentação' : '▶ Modo apresentação';
+};
+
+/* ── PAINEL DE COMPARTILHAMENTO ── */
+window.openSharePanel = function() {
+  const base = window.location.href.split('?')[0];
+  document.getElementById('share-link-view').value = base + '?modo=visualizacao';
+  document.getElementById('share-link-edit').value = base + '?modo=editor';
+  document.getElementById('share-overlay').classList.add('open');
+};
+
+window.closeSharePanel = function() {
+  document.getElementById('share-overlay').classList.remove('open');
+};
+
+window.handleShareOverlay = function(e) {
+  if (e.target === document.getElementById('share-overlay')) closeSharePanel();
+};
+
+window.copyLink = function(type) {
+  const input = document.getElementById('share-link-' + type);
+  const btn = document.getElementById('copy-' + type + '-btn');
+  navigator.clipboard.writeText(input.value).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
 };
 
 /* ── MODAL ADICIONAR CARD ── */
@@ -1664,21 +2190,272 @@ window.confirmAddCard = function() {
 };
 
 
-function init() {
-  const today = new Date();
-  const migration = new Date(2026, 5, 23);
-  const diff = Math.ceil((migration - today) / (1000*60*60*24));
-  const el = document.getElementById('days-remaining');
-  if (el) el.textContent = diff > 0 ? diff : '—';
+/* ── ALERTAS EDITÁVEIS ── */
+const ALERTAS_DEFAULT = {
+  decisao: [
+    'IU › IA: Podemos partir de uma régua simplificada pensando em renúncia? Em qual nível de granularidade queremos seguir para a régua?',
+    'CP › IA: Para quando queremos, de fato, trabalhar a recepção do cliente no segmento?'
+  ],
+  atencao: [
+    'IU › IP: Vídeo de recepção previsto para entrar para a leva do dia 30/06',
+    'IU › IA: Pelo cronograma reverso, temos 2 pontos de atenção: MC aprovada até sexta (05/06) e peças até 09/06'
+  ]
+};
+
+function getAlertas() {
+  return store['alertas'] || JSON.parse(JSON.stringify(ALERTAS_DEFAULT));
+}
+
+function renderAlertas() {
+  const grid = document.getElementById('alertas-grid');
+  if (!grid) return;
+  const data = getAlertas();
+  const isPresent = document.body.classList.contains('presentation-mode');
+
+  const makeBlock = (type, title, icon, bgColor, textColor, numBg, numColor) => {
+    const items = (data[type] || []).map((txt, i) => `
+      <li class="alerta-item">
+        <span class="alerta-num" style="background:${numBg};color:${numColor}">${i+1}</span>
+        <span style="flex:1">${txt}</span>
+        ${!isPresent ? `<button class="alerta-del-btn" onclick="deleteAlerta('${type}',${i})">✕</button>` : ''}
+      </li>`).join('');
+    return `<div class="alerta-card" style="background:${bgColor};border-color:${numBg}40">
+      <div class="alerta-header">
+        <div class="alerta-title" style="color:${textColor}">${icon} ${title}</div>
+        ${!isPresent ? `<button class="alerta-add-btn" style="color:${textColor}" onclick="addAlerta('${type}')">+ Adicionar</button>` : ''}
+      </div>
+      <ul class="alerta-items">${items}</ul>
+    </div>`;
+  };
+
+  grid.innerHTML =
+    makeBlock('decisao','Pontos de Decisão','🎯','#FFF8E8','#8A5A00','#F5C842','#5A3A00') +
+    makeBlock('atencao','Pontos de Atenção','⚠️','#FFF2F0','#8A1A0A','#E05040','#FFFFFF');
+}
+
+window.deleteAlerta = function(type, idx) {
+  const data = getAlertas();
+  data[type].splice(idx, 1);
+  store['alertas'] = data;
+  saveToGitHub(true).then(() => renderAlertas());
+};
+
+window.addAlerta = function(type) {
+  const txt = prompt(type === 'decisao' ? 'Novo ponto de decisão:' : 'Novo ponto de atenção:');
+  if (!txt || !txt.trim()) return;
+  const data = getAlertas();
+  data[type].push(txt.trim());
+  store['alertas'] = data;
+  saveToGitHub(true).then(() => { renderAlertas(); showToast('✓ Alerta adicionado'); });
+};
+
+/* ── ONDAS & TAREFAS ── */
+const STATUS_OPTS = [
+  { val:'concluido', label:'✅ Concluído', cls:'ts-concluido' },
+  { val:'andamento', label:'🟦 Em andamento', cls:'ts-andamento' },
+  { val:'pausado',   label:'⏸ Pausado',      cls:'ts-pausado' },
+  { val:'atencao',   label:'⚠️ Atenção',      cls:'ts-atencao' },
+  { val:'cancelado', label:'🚫 Cancelado',    cls:'ts-cancelado' },
+];
+
+const ONDAS_DEFAULT = {
+  'iu-ip': [
+    { onda:'Piloto', volume:'2,5k', dataInicio:'27/04', dataFim:'27/06', evolucao:'Evoluções & Run', tarefas:[
+      { desc:'Envio, cadastramento e geração dos deeplinks (whats) das peças', status:'andamento', resp:'Marcus', data:'03/06' },
+      { desc:'Construção Régua (MC, segmentações, etc)', status:'andamento', resp:'', data:'09/05' },
+      { desc:'Novo vídeo', status:'atencao', resp:'Danilo Borges', data:'DO: 29/06' },
+      { desc:'Ajuste Novas Jornadas (vídeo e tours)', status:'atencao', resp:'Paula', data:'10/05' },
+    ]},
+    { onda:'1ª Onda', volume:'TBD', dataInicio:'', dataFim:'30/07', evolucao:'Nova Régua', tarefas:[] },
+  ],
+  'iu-ia': [
+    { onda:'1ª Onda', volume:'54k', dataInicio:'23/06', dataFim:'23/07', evolucao:'Criação Régua', tarefas:[
+      { desc:'Desenho e Validação da estratégia (renúncia e aposentado)', status:'andamento', resp:'Paula', data:'03/06' },
+      { desc:'Melhor Conversa – Guarda Chuva', status:'andamento', resp:'Paula + Elisa', data:'11/06' },
+      { desc:'Criação das peças e construção da campanha', status:'cancelado', resp:'Marcus + Elisa', data:'DO: 05/06' },
+      { desc:'Adaptações para público aposentado', status:'cancelado', resp:'Paula + Marcus + Elisa', data:'TBD' },
+    ]},
+    { onda:'2ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
+  ],
+  'ia-iu': [
+    { onda:'1ª, 2ª, 3ª onda', volume:'', dataInicio:'14/04', dataFim:'21/05', evolucao:'Aumento da cobertura oferta e grade Black', tarefas:[
+      { desc:'Ajuste de DNs', status:'concluido', resp:'Elisa + Kipper', data:'15/05' },
+      { desc:'Inclusão de push', status:'concluido', resp:'Paula + Elisa', data:'15/05' },
+      { desc:'Inclusão de vitrine', status:'concluido', resp:'Paula + Elisa', data:'18/05' },
+    ]},
+    { onda:'4ª, 5ª, 6ª onda', volume:'', dataInicio:'13/05', dataFim:'19/05', evolucao:'Cobertura demais variantes crédito', tarefas:[
+      { desc:'Aumento da freq. do bypass', status:'concluido', resp:'Elisa', data:'28/05' },
+      { desc:'Criação e inclusão de push', status:'andamento', resp:'Marcus + Elisa', data:'03/06' },
+      { desc:'Criação e inclusão de vitrine', status:'andamento', resp:'', data:'03/06' },
+    ]},
+  ],
+  'iu-ipa': [
+    { onda:'1ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
+  ],
+  'cp-ia': [
+    { onda:'1ª Onda', volume:'5k', dataInicio:'27/05', dataFim:'27/06', evolucao:'Criação Régua', tarefas:[
+      { desc:'Desenho e validação da estratégia', status:'atencao', resp:'Paula', data:'15/06' },
+      { desc:'Melhor Conversa – Guarda Chuva', status:'atencao', resp:'Paula + Elisa', data:'11/06' },
+      { desc:'Criação das peças e construção da campanha', status:'cancelado', resp:'Marcus + Elisa', data:'TBD' },
+    ]},
+    { onda:'2ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
+  ],
+};
+
+function getOndas(frente) {
+  const key = 'ondas-' + frente;
+  return store[key] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[frente] || []));
+}
+
+function statusInfo(val) {
+  return STATUS_OPTS.find(s => s.val === val) || STATUS_OPTS[1];
+}
+
+function renderOndas(frente) {
+  const el = document.getElementById('ondas-' + frente);
+  if (!el) return;
+  const ondas = getOndas(frente);
+  const isPresent = document.body.classList.contains('presentation-mode');
+
+  if (!ondas.length) {
+    el.innerHTML = `<p style="color:var(--text3);font-size:12px;margin-bottom:16px">Nenhuma onda cadastrada ainda.</p>`;
+  } else {
+    el.innerHTML = ondas.map((o, oi) => {
+      const tarefasHtml = (o.tarefas || []).map((t, ti) => {
+        const si = statusInfo(t.status);
+        const statusOpts = STATUS_OPTS.map(s => `<option value="${s.val}"${s.val===t.status?' selected':''}>${s.label}</option>`).join('');
+        return `<tr>
+          <td style="padding-left:28px">
+            <div>${t.desc}</div>
+            ${!isPresent ? `<div class="task-edit-inline" id="tedit-${frente}-${oi}-${ti}">
+              <input class="task-input-sm" style="flex:1" id="tdesc-${frente}-${oi}-${ti}" value="${t.desc}" placeholder="Descrição">
+              <input class="task-input-sm" style="width:90px" id="tresp-${frente}-${oi}-${ti}" value="${t.resp}" placeholder="Responsável">
+              <input class="task-input-sm" style="width:70px" id="tdata-${frente}-${oi}-${ti}" value="${t.data}" placeholder="Data">
+              <button class="btn-save" style="font-size:10px;padding:3px 8px" onclick="saveTask('${frente}',${oi},${ti})">OK</button>
+              <button class="btn-cancel" style="font-size:10px;padding:3px 8px" onclick="cancelTaskEdit('${frente}',${oi},${ti})">✕</button>
+            </div>` : ''}
+          </td>
+          <td><span class="task-status ${si.cls}">${si.label}</span></td>
+          <td>${t.resp ? `<span class="responsavel-chip">👤 ${t.resp}</span>` : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
+          <td class="onda-data">${t.data || '—'}</td>
+          ${!isPresent ? `<td class="task-actions-cell">
+            <button class="task-action-btn" onclick="editTask('${frente}',${oi},${ti})">editar</button>
+            <select class="task-status-sel" onchange="changeTaskStatus('${frente}',${oi},${ti},this.value)">${statusOpts}</select>
+            <button class="task-action-btn task-action-del" onclick="deleteTask('${frente}',${oi},${ti})">✕</button>
+          </td>` : ''}
+        </tr>`;
+      }).join('');
+
+      const tarefasBtnRow = !isPresent ? `<tr>
+        <td colspan="5" style="padding:6px 12px 10px 28px">
+          <button class="task-action-btn" style="color:var(--laranja);border:1px dashed var(--laranja-mid);padding:4px 10px;border-radius:var(--radius-xs)" onclick="addTask('${frente}',${oi})">+ Tarefa</button>
+        </td>
+      </tr>` : '';
+
+      return `<table class="ondas-table" style="margin-bottom:12px">
+        <thead><tr>
+          <th style="width:40%">
+            <div class="onda-label">${o.onda}${o.evolucao ? ' — ' + o.evolucao : ''}</div>
+            ${o.volume ? `<div class="onda-volume">Volume: ${o.volume}</div>` : ''}
+          </th>
+          <th style="width:16%">Status</th>
+          <th style="width:16%">Responsável</th>
+          <th style="width:12%">Data</th>
+          ${!isPresent ? `<th style="width:16%" class="task-actions-cell">
+            <button class="task-action-btn task-action-del" style="color:white;margin-left:auto;display:block" onclick="deleteOnda('${frente}',${oi})">✕ onda</button>
+          </th>` : ''}
+        </tr></thead>
+        <tbody>${tarefasHtml}${tarefasBtnRow}</tbody>
+      </table>`;
+    }).join('');
+  }
+
+  if (!isPresent) {
+    el.innerHTML += `<button class="add-onda-btn" onclick="addOnda('${frente}')">+ Adicionar onda</button>`;
+  }
+}
+
+window.editTask = function(f, oi, ti) {
+  document.getElementById(`tedit-${f}-${oi}-${ti}`).classList.add('open');
+};
+window.cancelTaskEdit = function(f, oi, ti) {
+  document.getElementById(`tedit-${f}-${oi}-${ti}`).classList.remove('open');
+};
+
+window.saveTask = function(f, oi, ti) {
+  const ondas = getOndas(f);
+  ondas[oi].tarefas[ti].desc = document.getElementById(`tdesc-${f}-${oi}-${ti}`).value;
+  ondas[oi].tarefas[ti].resp = document.getElementById(`tresp-${f}-${oi}-${ti}`).value;
+  ondas[oi].tarefas[ti].data = document.getElementById(`tdata-${f}-${oi}-${ti}`).value;
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa salva'); });
+};
+
+window.changeTaskStatus = function(f, oi, ti, val) {
+  const ondas = getOndas(f);
+  ondas[oi].tarefas[ti].status = val;
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Status atualizado'); });
+};
+
+window.deleteTask = function(f, oi, ti) {
+  if (!confirm('Excluir esta tarefa?')) return;
+  const ondas = getOndas(f);
+  ondas[oi].tarefas.splice(ti, 1);
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('Tarefa excluída'); });
+};
+
+window.deleteOnda = function(f, oi) {
+  if (!confirm('Excluir esta onda e todas as suas tarefas?')) return;
+  const ondas = getOndas(f);
+  ondas.splice(oi, 1);
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('Onda excluída'); });
+};
+
+window.addTask = function(f, oi) {
+  const desc = prompt('Descrição da tarefa:');
+  if (!desc || !desc.trim()) return;
+  const resp = prompt('Responsável (pode deixar em branco):') || '';
+  const data = prompt('Data (ex: 15/06 ou TBD):') || 'TBD';
+  const ondas = getOndas(f);
+  ondas[oi].tarefas.push({ desc: desc.trim(), status: 'andamento', resp: resp.trim(), data: data.trim() });
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa adicionada'); });
+};
+
+window.addOnda = function(f) {
+  const nome = prompt('Nome da onda (ex: 1ª Onda):');
+  if (!nome || !nome.trim()) return;
+  const volume = prompt('Volume de clientes (ex: 5k ou TBD):') || 'TBD';
+  const ondas = getOndas(f);
+  ondas.push({ onda: nome.trim(), volume: volume.trim(), dataInicio:'', dataFim:'', evolucao:'', tarefas:[] });
+  store['ondas-' + f] = ondas;
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Onda adicionada'); });
+};
+
+function renderAllOndas() {
+  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => renderOndas(f));
+}
+
+/* ── INIT ── */
+  // Detecta modo pela URL (?modo=visualizacao ou ?modo=editor)
+  const urlParams = new URLSearchParams(window.location.search);
+  const modo = urlParams.get('modo');
+  if (modo === 'visualizacao') {
+    document.body.classList.add('presentation-mode');
+    document.getElementById('btn-presentation').textContent = '✕ Sair da apresentação';
+  }
 
   Object.keys(GANTT_DATA).forEach(id => {
     const g = GANTT_DATA[id];
     buildGantt('gantt-' + id, g.rows, g.months);
   });
 
-  if (!isConfigured()) {
-    document.getElementById('config-banner').classList.remove('config-banner');
-  }
+  // Banner só aparece se não estiver configurado
+  const banner = document.getElementById('config-banner');
+  if (banner) banner.style.display = isConfigured() ? 'none' : 'flex';
 
   loadFromGitHub();
 }
