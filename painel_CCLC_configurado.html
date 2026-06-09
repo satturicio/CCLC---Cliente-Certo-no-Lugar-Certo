@@ -837,6 +837,102 @@ select.task-status-sel {
   outline: none;
 }
 
+  outline: none;
+}
+
+/* ── PMO TABLE ── */
+.pmo-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.pmo-table th {
+  background: var(--azul);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+.pmo-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.pmo-table tr:last-child td { border-bottom: none; }
+.pmo-table tr:hover td { background: var(--bg); }
+.pmo-frente-label { font-weight: 700; font-size: 13px; }
+.pmo-tipo-badge { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 99px; display: inline-block; margin-top: 2px; }
+.pmo-onda-row td { background: var(--bg); }
+.pmo-onda-row td:first-child { padding-left: 28px; color: var(--text2); }
+
+/* ── GANTT EDITOR ── */
+.gedit-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 4000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.gedit-overlay.open { opacity: 1; pointer-events: all; }
+.gedit-panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  width: 700px; max-width: 96vw; max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+  transform: translateY(14px); transition: transform 0.2s;
+}
+.gedit-overlay.open .gedit-panel { transform: translateY(0); }
+.gedit-header {
+  background: var(--azul); color: white;
+  padding: 18px 24px 14px;
+  position: sticky; top: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.gedit-header-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; }
+.gedit-close {
+  background: rgba(255,255,255,0.2); border: none; color: white;
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  font-size: 14px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body);
+}
+.gedit-close:hover { background: rgba(255,255,255,0.35); }
+.gedit-body { padding: 20px 24px 24px; }
+.gedit-section { margin-bottom: 20px; }
+.gedit-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 10px; }
+.month-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 99px;
+  background: var(--azul-light); color: var(--azul); border: 1px solid #b3c6f0;
+}
+.month-chip-del { background: none; border: none; color: var(--azul); cursor: pointer; font-size: 12px; opacity: 0.6; }
+.month-chip-del:hover { opacity: 1; color: var(--red); }
+.gedit-months-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.add-month-row { display: flex; gap: 6px; }
+.month-select { font-size: 12px; border: 1px solid var(--border2); border-radius: var(--radius-xs); padding: 6px 10px; font-family: var(--font-body); background: var(--bg); color: var(--text); outline: none; }
+.gedit-rows-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 8px; }
+.gedit-rows-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text3); padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+.gedit-rows-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.gedit-rows-table tr:last-child td { border-bottom: none; }
+.gedit-input { font-size: 12px; border: 1px solid var(--border2); border-radius: var(--radius-xs); padding: 4px 7px; font-family: var(--font-body); background: var(--bg); color: var(--text); outline: none; width: 100%; }
+.gedit-input:focus { border-color: var(--laranja); }
+.gedit-input.sm { width: 50px; }
+.gedit-color-sel { width: 32px; height: 24px; border: 1px solid var(--border2); border-radius: var(--radius-xs); padding: 1px; cursor: pointer; }
+.gedit-del-row { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 2px 5px; border-radius: 3px; }
+.gedit-del-row:hover { color: var(--red); background: var(--red-light); }
+.gedit-add-row-btn { font-size: 11px; font-weight: 600; color: var(--laranja); background: var(--laranja-light); border: 1.5px dashed var(--laranja-mid); border-radius: var(--radius-xs); padding: 5px 12px; cursor: pointer; font-family: var(--font-body); }
+.gedit-add-row-btn:hover { background: var(--laranja-mid); border-style: solid; }
+.gedit-save-btn { width: 100%; margin-top: 16px; padding: 10px; border-radius: var(--radius-sm); border: none; background: var(--laranja); color: white; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font-body); }
+.gedit-save-btn:hover { background: var(--laranja-dark); }
+.gedit-save-btn:disabled { background: var(--gray); cursor: not-allowed; }
+.gantt-edit-btn { font-size: 11px; font-weight: 600; color: var(--azul); background: var(--azul-light); border: 1px solid #b3c6f0; border-radius: var(--radius-xs); padding: 5px 12px; cursor: pointer; font-family: var(--font-body); margin-bottom: 16px; }
+.gantt-edit-btn:hover { background: var(--azul); color: white; }
+body.presentation-mode .gantt-edit-btn { display: none; }
+
 .btn-add-card {
   display: inline-flex;
   align-items: center;
@@ -1331,6 +1427,43 @@ const GITHUB_FILE  = "dados_painel.json";
     </div>
   </div>
 </div>
+
+<!-- GANTT EDITOR MODAL -->
+<div class="gedit-overlay" id="gedit-overlay" onclick="handleGeditOverlay(event)">
+  <div class="gedit-panel">
+    <div class="gedit-header">
+      <div class="gedit-header-title" id="gedit-title">Editar Gantt</div>
+      <button class="gedit-close" onclick="closeGedit()">✕</button>
+    </div>
+    <div class="gedit-body">
+      <div class="gedit-section">
+        <div class="gedit-section-title">Meses exibidos</div>
+        <div class="gedit-months-row" id="gedit-months-row"></div>
+        <div class="add-month-row">
+          <select class="month-select" id="gedit-month-select">
+            <option value="janeiro">Janeiro</option><option value="fevereiro">Fevereiro</option>
+            <option value="março">Março</option><option value="abril">Abril</option>
+            <option value="maio">Maio</option><option value="junho" selected>Junho</option>
+            <option value="julho">Julho</option><option value="agosto">Agosto</option>
+            <option value="setembro">Setembro</option><option value="outubro">Outubro</option>
+            <option value="novembro">Novembro</option><option value="dezembro">Dezembro</option>
+          </select>
+          <button class="gedit-add-row-btn" onclick="addGeditMonth()">+ Mês</button>
+        </div>
+      </div>
+      <div class="gedit-section">
+        <div class="gedit-section-title">Fases e barras</div>
+        <table class="gedit-rows-table">
+          <thead><tr><th>Fase</th><th>Mês</th><th>Início</th><th>Fim</th><th>Cor</th><th>Marco?</th><th></th></tr></thead>
+          <tbody id="gedit-rows-body"></tbody>
+        </table>
+        <button class="gedit-add-row-btn" onclick="addGeditRow()">+ Fase / Barra</button>
+      </div>
+      <button class="gedit-save-btn" id="gedit-save-btn" onclick="saveGedit()">Salvar Gantt</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-title">Adicionar novo card</div>
@@ -1399,6 +1532,10 @@ const GITHUB_FILE  = "dados_painel.json";
       <button class="nav-item active" onclick="goTo('geral')" id="nav-geral">
         <div class="nav-dot" style="background:var(--laranja)"></div>
         Visão geral
+      </button>
+      <button class="nav-item" onclick="goTo('pmo')" id="nav-pmo">
+        <div class="nav-dot" style="background:var(--azul)"></div>
+        PMO
       </button>
     </div>
 
@@ -1469,6 +1606,28 @@ const GITHUB_FILE  = "dados_painel.json";
       <button class="btn-add-card" onclick="openAddCard('geral')">+ Adicionar card</button>
     </div>
 
+    <!-- ── PMO ── -->
+    <div class="page" id="page-pmo">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title">PMO — Acompanhamento Ondas CCLC</div>
+          <div class="page-sub">Visão consolidada de todas as frentes · Junho 2026</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1A7A4A;display:inline-block"></span>Concluído</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#003399;display:inline-block"></span>Em andamento</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#888580;display:inline-block"></span>Pausado</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#B56A00;display:inline-block"></span>Atenção</span>
+        </div>
+      </div>
+
+      <div class="section-header">Gantt consolidado</div>
+      <div id="gantt-pmo-container" style="margin-bottom:28px"></div>
+
+      <div class="section-header">Tabela de frentes</div>
+      <div id="pmo-table-container" style="margin-bottom:28px"></div>
+    </div>
+
     <!-- ── IU › IP ── -->
     <div class="page" id="page-iu-ip">
       <div class="page-header">
@@ -1479,7 +1638,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--laranja-light);color:var(--laranja-dark)">Migração 23/06</span>
       </div>
       <div id="gantt-iu-ip"></div>
-      <div class="legend">
+      <button class="gantt-edit-btn" onclick="openGedit('iu-ip')">✏️ Editar Gantt</button>
         <div class="leg-item"><div class="leg-swatch" style="background:#C8C6C0"></div>Estratégia (maio)</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#EC7000"></div>Criativos MKT</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Operação da sala</div>
@@ -1505,6 +1664,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--amber-light);color:var(--amber)">Em planejamento</span>
       </div>
       <div id="gantt-iu-ia"></div>
+      <button class="gantt-edit-btn" onclick="openGedit('iu-ia')">✏️ Editar Gantt</button>
       <div class="legend">
         <div class="leg-item"><div class="leg-swatch" style="background:#F8A85C"></div>Estratégia</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#EC7000"></div>Criativos</div>
@@ -1529,6 +1689,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
       </div>
       <div id="gantt-ia-iu"></div>
+      <button class="gantt-edit-btn" onclick="openGedit('ia-iu')">✏️ Editar Gantt</button>
       <div class="legend">
         <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
@@ -1553,6 +1714,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--azul-light);color:var(--azul)">Em planejamento</span>
       </div>
       <div id="gantt-iu-ipa"></div>
+      <button class="gantt-edit-btn" onclick="openGedit('iu-ipa')">✏️ Editar Gantt</button>
       <div class="legend">
         <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
@@ -1577,6 +1739,7 @@ const GITHUB_FILE  = "dados_painel.json";
         <span class="badge" style="background:var(--green-light);color:var(--green)">Critérios definidos</span>
       </div>
       <div id="gantt-cp-ia"></div>
+      <button class="gantt-edit-btn" onclick="openGedit('cp-ia')">✏️ Editar Gantt</button>
       <div class="legend">
         <div class="leg-item"><div class="leg-swatch" style="background:#6699EE"></div>Estratégia</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#003399"></div>Criativos</div>
@@ -1771,6 +1934,7 @@ function renderAll() {
   renderFrentes();
   renderAlertas();
   renderAllOndas();
+  renderPMO();
 }
 
 function renderCard(id) {
@@ -2439,7 +2603,291 @@ function renderAllOndas() {
   ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => renderOndas(f));
 }
 
+/* ── PMO ── */
+const ALL_MONTH_DAYS = {
+  janeiro:31,fevereiro:28,março:31,abril:30,maio:31,junho:30,
+  julho:31,agosto:31,setembro:30,outubro:31,novembro:30,dezembro:31
+};
+const ALL_MONTH_LABELS = {
+  janeiro:'JAN',fevereiro:'FEV',março:'MAR',abril:'ABR',maio:'MAI',junho:'JUN',
+  julho:'JUL',agosto:'AGO',setembro:'SET',outubro:'OUT',novembro:'NOV',dezembro:'DEZ'
+};
+
+function getGanttData(frente) {
+  return store['gantt-' + frente]
+    ? JSON.parse(JSON.stringify(store['gantt-' + frente]))
+    : JSON.parse(JSON.stringify(GANTT_DATA[frente]));
+}
+
+function renderPMO() {
+  renderPMOGantt();
+  renderPMOTable();
+}
+
+function renderPMOGantt() {
+  const el = document.getElementById('gantt-pmo-container');
+  if (!el) return;
+  // Build a combined gantt with all frentes as row groups
+  const FRENTE_COLORS = {
+    'iu-ip':'#EC7000','iu-ia':'#F8A85C','ia-iu':'#003399','iu-ipa':'#3366CC','cp-ia':'#6699EE'
+  };
+  const FRENTE_NAMES = {
+    'iu-ip':'IU › IP','iu-ia':'IU › IA','ia-iu':'IA › IU','iu-ipa':'IU › IPA','cp-ia':'CP › IA'
+  };
+  // Collect all months across all frentes
+  const allMonths = new Set();
+  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => {
+    const g = getGanttData(f);
+    (g.months || []).forEach(m => allMonths.add(m));
+  });
+  // Order months
+  const monthOrder = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const months = monthOrder.filter(m => allMonths.has(m));
+
+  const rows = [];
+  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => {
+    const g = getGanttData(f);
+    (g.rows || []).forEach(r => {
+      rows.push({ label: `${FRENTE_NAMES[f]} · ${r.label.replace('\n',' ')}`, bars: r.bars, frente: f });
+    });
+  });
+
+  el.innerHTML = '';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gantt-scroll';
+  const inner = document.createElement('div');
+  inner.className = 'gantt-inner';
+
+  const cols = [];
+  months.forEach(m => { for (let d=1;d<=ALL_MONTH_DAYS[m];d++) cols.push({month:m,day:d}); });
+  const LBL_W = 160;
+  const gc = `${LBL_W}px repeat(${cols.length},1fr)`;
+
+  // Month header
+  let h = `<div class="gantt-month-row" style="display:grid;grid-template-columns:${gc}"><div class="gantt-corner">Frente · Fase</div>`;
+  months.forEach(m => { h += `<div class="month-block" style="grid-column:span ${ALL_MONTH_DAYS[m]}">${ALL_MONTH_LABELS[m]}</div>`; });
+  h += `</div>`;
+
+  // Day header
+  h += `<div class="gantt-day-row" style="display:grid;grid-template-columns:${gc}"><div class="day-hdr"></div>`;
+  cols.forEach(c => {
+    const t = c.month==='junho'&&c.day===TODAY_DAY;
+    const w = isWeekend(c.day,c.month);
+    h += `<div class="day-hdr${t?' today-hdr':''}${w?' wknd':''}">${c.day}</div>`;
+  });
+  h += `</div>`;
+
+  // Data rows
+  rows.forEach(row => {
+    h += `<div class="gantt-data-row" style="display:grid;grid-template-columns:${gc}">`;
+    h += `<div class="row-lbl" style="font-size:10px">${row.label}</div>`;
+    cols.forEach(c => {
+      const t = c.month==='junho'&&c.day===TODAY_DAY;
+      const w = isWeekend(c.day,c.month);
+      let cc = t ? `<div class="today-vline"></div>` : '';
+      (row.bars||[]).forEach(b => {
+        const bm = b.month||'junho';
+        if (c.month!==bm||c.day<b.start||c.day>b.end) return;
+        if (b.milestone&&c.day===b.start) {
+          cc += `<div class="gms" style="background:${b.msColor||'#888'};color:${b.msText||'#fff'}">${b.msLabel||c.day}</div>`;
+        } else {
+          const f=c.day===b.start, l=c.day===b.end;
+          const br=`border-radius:${f?'3px':'0'} ${l?'3px':'0'} ${l?'3px':'0'} ${f?'3px':'0'}`;
+          cc += `<div class="gbar" style="background:${b.color};left:${f?'4px':'0'};right:${l?'4px':'0'};${br}"></div>`;
+        }
+      });
+      h += `<div class="gcell${t?' today-col':''}${w?' wknd-col':''}">${cc}</div>`;
+    });
+    h += `</div>`;
+  });
+
+  inner.innerHTML = h;
+  wrapper.appendChild(inner);
+  el.appendChild(wrapper);
+}
+
+function renderPMOTable() {
+  const el = document.getElementById('pmo-table-container');
+  if (!el) return;
+  const FRENTE_META = [
+    { id:'ia-iu',  nome:'IA › IU',  tipo:'upgrade',        tipoClasse:'tag-upgrade' },
+    { id:'iu-ipa', nome:'IU › IPA', tipo:'upgrade',        tipoClasse:'tag-upgrade' },
+    { id:'cp-ia',  nome:'CP › IA',  tipo:'upgrade',        tipoClasse:'tag-upgrade' },
+    { id:'iu-ip',  nome:'IU › IP',  tipo:'reenquadramento',tipoClasse:'tag-reenq' },
+    { id:'iu-ia',  nome:'IU › IA',  tipo:'reenquadramento',tipoClasse:'tag-reenq' },
+  ];
+
+  let h = `<table class="pmo-table"><thead><tr>
+    <th style="width:18%">Frente / Ondas</th>
+    <th style="width:10%">Tipo</th>
+    <th style="width:10%">Início</th>
+    <th style="width:10%">Fim</th>
+    <th style="width:12%">Volume</th>
+    <th style="width:15%">Evolução</th>
+    <th style="width:10%">Status</th>
+    <th style="width:15%">Responsável</th>
+  </tr></thead><tbody>`;
+
+  FRENTE_META.forEach(fm => {
+    const ondas = store['ondas-'+fm.id] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[fm.id]||[]));
+    const g = getGanttData(fm.id);
+    const disparo = (g.rows||[]).find(r => r.label.toLowerCase().includes('disparo'));
+    const disDate = disparo ? (disparo.bars||[]).find(b=>b.milestone) : null;
+
+    h += `<tr>
+      <td><div class="pmo-frente-label">${fm.nome}</div></td>
+      <td><span class="pmo-tipo-badge ${fm.tipoClasse}">${fm.tipo}</span></td>
+      <td style="color:var(--text2);font-size:11px">${ondas[0]?.dataInicio||'—'}</td>
+      <td style="color:var(--text2);font-size:11px">${disDate ? disDate.start+'/'+disDate.month?.slice(0,3) : '—'}</td>
+      <td style="color:var(--text2);font-size:11px">${ondas.map(o=>o.volume).filter(Boolean).join(', ')||'—'}</td>
+      <td style="color:var(--text2);font-size:11px">${ondas[0]?.evolucao||'—'}</td>
+      <td>${renderStatusBadge(ondas)}</td>
+      <td style="font-size:11px;color:var(--text2)">${getResponsaveis(ondas)}</td>
+    </tr>`;
+
+    ondas.forEach(o => {
+      if (!o.onda) return;
+      const tarefasConcluidas = (o.tarefas||[]).filter(t=>t.status==='concluido').length;
+      const totalTarefas = (o.tarefas||[]).length;
+      h += `<tr class="pmo-onda-row">
+        <td>${o.onda}${o.volume ? ` <span style="color:var(--text3);font-size:10px">(${o.volume})</span>` : ''}</td>
+        <td></td>
+        <td style="font-size:11px;color:var(--text3)">${o.dataInicio||'—'}</td>
+        <td style="font-size:11px;color:var(--text3)">${o.dataFim||'—'}</td>
+        <td style="font-size:11px;color:var(--text3)">${o.volume||'—'}</td>
+        <td style="font-size:11px;color:var(--text2)">${o.evolucao||'—'}</td>
+        <td style="font-size:11px;color:var(--text3)">${totalTarefas>0?`${tarefasConcluidas}/${totalTarefas} tarefas`:'—'}</td>
+        <td></td>
+      </tr>`;
+    });
+  });
+
+  h += `</tbody></table>`;
+  el.innerHTML = h;
+}
+
+function renderStatusBadge(ondas) {
+  const tarefas = ondas.flatMap(o=>o.tarefas||[]);
+  if (!tarefas.length) return `<span class="task-status ts-pausado">⏸ Aguardando</span>`;
+  if (tarefas.every(t=>t.status==='concluido')) return `<span class="task-status ts-concluido">✅ Concluído</span>`;
+  if (tarefas.some(t=>t.status==='atencao')) return `<span class="task-status ts-atencao">⚠️ Atenção</span>`;
+  if (tarefas.some(t=>t.status==='andamento')) return `<span class="task-status ts-andamento">🟦 Em andamento</span>`;
+  return `<span class="task-status ts-pausado">⏸ Pausado</span>`;
+}
+
+function getResponsaveis(ondas) {
+  const resps = new Set();
+  ondas.forEach(o=>(o.tarefas||[]).forEach(t=>{ if(t.resp) t.resp.split('+').forEach(r=>resps.add(r.trim())); }));
+  return [...resps].slice(0,3).join(', ') || '—';
+}
+
+/* ── GANTT EDITOR ── */
+let _geditFrente = null;
+let _geditData = null;
+
+window.openGedit = function(frente) {
+  _geditFrente = frente;
+  _geditData = getGanttData(frente);
+  document.getElementById('gedit-title').textContent = 'Editar Gantt — ' + frente.replace('-','›').toUpperCase();
+  renderGeditMonths();
+  renderGeditRows();
+  document.getElementById('gedit-overlay').classList.add('open');
+};
+
+window.closeGedit = function() {
+  document.getElementById('gedit-overlay').classList.remove('open');
+};
+
+window.handleGeditOverlay = function(e) {
+  if (e.target===document.getElementById('gedit-overlay')) closeGedit();
+};
+
+function renderGeditMonths() {
+  const row = document.getElementById('gedit-months-row');
+  if (!row) return;
+  const months = _geditData.months || [];
+  row.innerHTML = months.map((m,i) =>
+    `<span class="month-chip">${ALL_MONTH_LABELS[m]||m}
+      <button class="month-chip-del" onclick="removeGeditMonth(${i})">✕</button>
+    </span>`
+  ).join('');
+}
+
+window.addGeditMonth = function() {
+  const sel = document.getElementById('gedit-month-select');
+  const m = sel.value;
+  if (!_geditData.months.includes(m)) {
+    const order = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    _geditData.months.push(m);
+    _geditData.months.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+  }
+  renderGeditMonths();
+};
+
+window.removeGeditMonth = function(i) {
+  _geditData.months.splice(i,1);
+  renderGeditMonths();
+};
+
+function renderGeditRows() {
+  const body = document.getElementById('gedit-rows-body');
+  if (!body) return;
+  const months = _geditData.months || ['junho'];
+  const rows = _geditData.rows || [];
+  let h = '';
+  rows.forEach((row, ri) => {
+    (row.bars||[]).forEach((bar, bi) => {
+      const monthOpts = months.map(m=>`<option value="${m}"${(bar.month||months[0])===m?' selected':''}>${ALL_MONTH_LABELS[m]||m}</option>`).join('');
+      h += `<tr>
+        <td><input class="gedit-input" value="${row.label.replace('\n',' ')}" onchange="updateGeditRow(${ri},${bi},'label',this.value)"></td>
+        <td><select class="gedit-input" style="width:60px" onchange="updateGeditRow(${ri},${bi},'month',this.value)">${monthOpts}</select></td>
+        <td><input class="gedit-input sm" type="number" min="1" max="31" value="${bar.start}" onchange="updateGeditRow(${ri},${bi},'start',+this.value)"></td>
+        <td><input class="gedit-input sm" type="number" min="1" max="31" value="${bar.end}" onchange="updateGeditRow(${ri},${bi},'end',+this.value)"></td>
+        <td><input type="color" class="gedit-color-sel" value="${bar.color||'#EC7000'}" onchange="updateGeditRow(${ri},${bi},'color',this.value)"></td>
+        <td><input type="checkbox" ${bar.milestone?'checked':''} onchange="updateGeditRow(${ri},${bi},'milestone',this.checked)" style="width:16px;height:16px;cursor:pointer"></td>
+        <td><button class="gedit-del-row" onclick="deleteGeditRow(${ri},${bi})">✕</button></td>
+      </tr>`;
+    });
+  });
+  body.innerHTML = h;
+}
+
+window.updateGeditRow = function(ri, bi, field, val) {
+  if (field === 'label') {
+    _geditData.rows[ri].label = val;
+  } else {
+    _geditData.rows[ri].bars[bi][field] = val;
+    if (field === 'month') _geditData.rows[ri].bars[bi].month = val;
+  }
+};
+
+window.deleteGeditRow = function(ri, bi) {
+  _geditData.rows[ri].bars.splice(bi,1);
+  if (!_geditData.rows[ri].bars.length) _geditData.rows.splice(ri,1);
+  renderGeditRows();
+};
+
+window.addGeditRow = function() {
+  const month = (_geditData.months||['junho'])[0];
+  _geditData.rows.push({ label:'Nova fase', bars:[{month,start:1,end:10,color:'#EC7000'}] });
+  renderGeditRows();
+};
+
+window.saveGedit = function() {
+  const btn = document.getElementById('gedit-save-btn');
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  store['gantt-'+_geditFrente] = JSON.parse(JSON.stringify(_geditData));
+  saveToGitHub(true).then(() => {
+    btn.disabled = false; btn.textContent = 'Salvar Gantt';
+    buildGantt('gantt-'+_geditFrente, _geditData.rows, _geditData.months);
+    renderPMO();
+    closeGedit();
+    showToast('✓ Gantt salvo');
+  });
+};
+
 /* ── INIT ── */
+function init() {
   // Detecta modo pela URL (?modo=visualizacao ou ?modo=editor)
   const urlParams = new URLSearchParams(window.location.search);
   const modo = urlParams.get('modo');
