@@ -55,6 +55,7 @@ body {
   min-height: 100vh;
   font-size: 14px;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 /* ── LAYOUT ── */
@@ -701,13 +702,15 @@ body.presentation-mode .alerta-add-btn,
 body.presentation-mode .alerta-del-btn { display: none; }
 
 /* ── ONDAS ── */
+.ondas-table-wrap { overflow-x: auto; margin-bottom: 12px; }
 .ondas-table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
-  margin-bottom: 28px;
+  margin-bottom: 0;
   font-size: 12px;
 }
 .ondas-table th {
@@ -1028,6 +1031,96 @@ body.presentation-mode .nav-item-edit-btn { display: none; }
 .nav-add-item-btn:hover { color: var(--laranja); background: var(--laranja-light); }
 body.presentation-mode .nav-add-item-btn { display: none; }
 
+
+.logout-btn {
+  display: block;
+  width: 100%;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--red-light);
+  background: var(--surface);
+  color: var(--red);
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 8px;
+  text-align: left;
+  transition: all 0.12s;
+}
+.logout-btn:hover { background: var(--red-light); }
+body.presentation-mode:not(.viewer-mode) .logout-btn { display: block; }
+
+
+.unlock-editor-btn {
+  display: none;
+  width: 100%;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 8px;
+  text-align: left;
+  transition: all 0.12s;
+  opacity: 0.7;
+}
+.unlock-editor-btn:hover { background: var(--laranja); color: white; border-color: var(--laranja); opacity: 1; }
+body.viewer-mode .unlock-editor-btn { display: block; }
+body.presentation-mode:not(.viewer-mode) .unlock-editor-btn { display: block; }
+
+/* Mini modal de senha do editor */
+.unlock-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.unlock-overlay.open { opacity: 1; pointer-events: all; }
+.unlock-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24px 26px 22px;
+  width: 340px; max-width: 92vw;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  transform: translateY(10px); transition: transform 0.2s;
+}
+.unlock-overlay.open .unlock-box { transform: translateY(0); }
+.unlock-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.unlock-sub { font-size: 12px; color: var(--text2); margin-bottom: 16px; }
+.unlock-input-mini {
+  width: 100%; font-size: 14px;
+  border: 1.5px solid var(--border2); border-radius: var(--radius-sm);
+  padding: 10px 12px; background: var(--bg);
+  font-family: var(--font-body); color: var(--text);
+  outline: none; margin-bottom: 10px;
+}
+.unlock-input-mini:focus { border-color: var(--laranja); }
+.unlock-input-mini.error { border-color: var(--red); animation: shake 0.4s; }
+.unlock-actions-mini { display: flex; gap: 8px; }
+.unlock-btn-confirm {
+  flex: 1; padding: 9px;
+  border-radius: var(--radius-sm); border: none;
+  background: var(--laranja); color: white;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: var(--font-body);
+}
+.unlock-btn-confirm:hover { background: var(--laranja-dark); }
+.unlock-btn-cancel-mini {
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: none; color: var(--text2);
+  font-size: 13px; cursor: pointer; font-family: var(--font-body);
+}
+.unlock-btn-cancel-mini:hover { background: var(--surface2); }
+.unlock-error-mini { font-size: 11px; color: var(--red); min-height: 14px; margin-bottom: 4px; }
+
 /* ── TÍTULO EDITÁVEL ── */
 .editable-title {
   cursor: text;
@@ -1045,14 +1138,16 @@ body.presentation-mode .pmo-edit-cell { cursor: default; }
 body.presentation-mode .pmo-edit-cell:hover { background: inherit !important; }
 
 /* ── PMO TABLE ── */
+.pmo-table-wrap { overflow-x: auto; margin-bottom: 8px; }
 .pmo-table {
   width: 100%;
+  min-width: 720px;
   border-collapse: collapse;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 .pmo-table th {
   background: var(--azul);
@@ -1638,6 +1733,21 @@ const GITHUB_FILE  = "dados_painel.json";
   </div>
 </div>
 
+
+<!-- MODAL MINI: DESBLOQUEAR MODO EDITOR -->
+<div class="unlock-overlay" id="unlock-overlay" onclick="if(event.target===this)closeUnlockEditor()">
+  <div class="unlock-box">
+    <div class="unlock-title">🔓 Entrar como editor</div>
+    <div class="unlock-sub">Digite a senha de editor para liberar a edição.</div>
+    <input type="password" class="unlock-input-mini" id="unlock-input-mini" placeholder="Senha de editor" autocomplete="off" onkeydown="if(event.key==='Enter')confirmUnlockEditor()">
+    <div class="unlock-error-mini" id="unlock-error-mini"></div>
+    <div class="unlock-actions-mini">
+      <button class="unlock-btn-cancel-mini" onclick="closeUnlockEditor()">Cancelar</button>
+      <button class="unlock-btn-confirm" onclick="confirmUnlockEditor()">Liberar edição</button>
+    </div>
+  </div>
+</div>
+
 <!-- GANTT EDITOR MODAL -->
 <div class="gedit-overlay" id="gedit-overlay" onclick="handleGeditOverlay(event)">
   <div class="gedit-panel">
@@ -1740,6 +1850,8 @@ const GITHUB_FILE  = "dados_painel.json";
       <button class="sidebar-action-btn present-btn" id="btn-presentation" onclick="togglePresentation()">▶ Apresentação</button>
       <button class="sidebar-action-btn share-btn-side" onclick="openSharePanel()">🔗 Compartilhar</button>
       <button class="password-settings-btn" onclick="openPasswordSettings()">🔑 Alterar senhas</button>
+      <button class="unlock-editor-btn" onclick="openUnlockEditor()">🔓 Modo editor</button>
+      <button class="logout-btn" onclick="logoutPanel()">🚪 Sair</button>
     </div>
   </aside>
 
@@ -1983,12 +2095,19 @@ window.tryUnlock = async function() {
 };
 
 function checkUrlAccess() {
-  // ?modo=visualizacao força tela bloqueada em modo viewer mesmo com senha de editor
-  // Mas ainda exige a senha
   const urlParams = new URLSearchParams(window.location.search);
   const modo = urlParams.get('modo');
   if (modo === 'visualizacao') {
     window._forceViewer = true;
+    // Se o link força visualização, limpa sessão de editor para não vazar
+    if (sessionStorage.getItem('cclc_access') === 'editor') {
+      sessionStorage.removeItem('cclc_access');
+    }
+  } else if (modo === 'editor') {
+    // Se o link força editor, limpa sessão de viewer
+    if (sessionStorage.getItem('cclc_access') === 'viewer') {
+      sessionStorage.removeItem('cclc_access');
+    }
   }
 }
 
@@ -2028,6 +2147,43 @@ window.openPasswordSettings = function() {
   saveToGitHub(true).then(() => {
     showToast('✓ Senhas atualizadas. Compartilhe as novas com o time.');
   });
+};
+
+
+/* ── DESBLOQUEAR EDITOR (mini-modal) ── */
+window.openUnlockEditor = function() {
+  document.getElementById('unlock-input-mini').value = '';
+  document.getElementById('unlock-error-mini').textContent = '';
+  document.getElementById('unlock-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('unlock-input-mini').focus(), 100);
+};
+
+window.closeUnlockEditor = function() {
+  document.getElementById('unlock-overlay').classList.remove('open');
+};
+
+window.confirmUnlockEditor = function() {
+  const input = document.getElementById('unlock-input-mini');
+  const errEl = document.getElementById('unlock-error-mini');
+  const pwd = input.value.trim();
+  const pwds = getPasswords();
+  if (pwd === pwds.editor) {
+    sessionStorage.setItem('cclc_access', 'editor');
+    // Limpa parâmetro de URL se houver (?modo=visualizacao)
+    const url = window.location.pathname;
+    window.location.href = url;
+  } else {
+    errEl.textContent = 'Senha incorreta';
+    input.classList.add('error');
+    setTimeout(() => input.classList.remove('error'), 500);
+    input.select();
+  }
+};
+
+window.logoutPanel = function() {
+  if (!confirm('Sair do painel? Você precisará digitar a senha de novo para acessar.')) return;
+  sessionStorage.removeItem('cclc_access');
+  window.location.href = window.location.pathname; // limpa parâmetros da URL e recarrega
 };
 
 function startApp() {
@@ -2676,679 +2832,3 @@ const ALERTAS_DEFAULT = {
   atencao: [
     'IU › IP: Vídeo de recepção previsto para entrar para a leva do dia 30/06',
     'IU › IA: Pelo cronograma reverso, temos 2 pontos de atenção: MC aprovada até sexta (05/06) e peças até 09/06'
-  ]
-};
-
-function getAlertas() {
-  return store['alertas'] || JSON.parse(JSON.stringify(ALERTAS_DEFAULT));
-}
-
-function renderAlertas() {
-  const grid = document.getElementById('alertas-grid');
-  if (!grid) return;
-  const data = getAlertas();
-  const isPresent = document.body.classList.contains('presentation-mode');
-
-  const makeBlock = (type, title, icon, bgColor, textColor, numBg, numColor) => {
-    const items = (data[type] || []).map((txt, i) => `
-      <li class="alerta-item">
-        <span class="alerta-num" style="background:${numBg};color:${numColor}">${i+1}</span>
-        <span style="flex:1">${txt}</span>
-        ${!isPresent ? `<button class="alerta-del-btn" onclick="deleteAlerta('${type}',${i})">✕</button>` : ''}
-      </li>`).join('');
-    return `<div class="alerta-card" style="background:${bgColor};border-color:${numBg}40">
-      <div class="alerta-header">
-        <div class="alerta-title" style="color:${textColor}">${icon} ${title}</div>
-        ${!isPresent ? `<button class="alerta-add-btn" style="color:${textColor}" onclick="addAlerta('${type}')">+ Adicionar</button>` : ''}
-      </div>
-      <ul class="alerta-items">${items}</ul>
-    </div>`;
-  };
-
-  grid.innerHTML =
-    makeBlock('decisao','Pontos de Decisão','🎯','#FFF8E8','#8A5A00','#F5C842','#5A3A00') +
-    makeBlock('atencao','Pontos de Atenção','⚠️','#FFF2F0','#8A1A0A','#E05040','#FFFFFF');
-}
-
-window.deleteAlerta = function(type, idx) {
-  const data = getAlertas();
-  data[type].splice(idx, 1);
-  store['alertas'] = data;
-  saveToGitHub(true).then(() => renderAlertas());
-};
-
-window.addAlerta = function(type) {
-  const txt = prompt(type === 'decisao' ? 'Novo ponto de decisão:' : 'Novo ponto de atenção:');
-  if (!txt || !txt.trim()) return;
-  const data = getAlertas();
-  data[type].push(txt.trim());
-  store['alertas'] = data;
-  saveToGitHub(true).then(() => { renderAlertas(); showToast('✓ Alerta adicionado'); });
-};
-
-/* ── ONDAS & TAREFAS ── */
-const STATUS_OPTS = [
-  { val:'concluido', label:'✅ Concluído', cls:'ts-concluido' },
-  { val:'andamento', label:'🟦 Em andamento', cls:'ts-andamento' },
-  { val:'pausado',   label:'⏸ Pausado',      cls:'ts-pausado' },
-  { val:'atencao',   label:'⚠️ Atenção',      cls:'ts-atencao' },
-  { val:'cancelado', label:'🚫 Cancelado',    cls:'ts-cancelado' },
-];
-
-const ONDAS_DEFAULT = {
-  'iu-ip': [
-    { onda:'Piloto', volume:'2,5k', dataInicio:'27/04', dataFim:'27/06', evolucao:'Evoluções & Run', tarefas:[
-      { desc:'Envio, cadastramento e geração dos deeplinks (whats) das peças', status:'andamento', resp:'Marcus', data:'03/06' },
-      { desc:'Construção Régua (MC, segmentações, etc)', status:'andamento', resp:'', data:'09/05' },
-      { desc:'Novo vídeo', status:'atencao', resp:'Danilo Borges', data:'DO: 29/06' },
-      { desc:'Ajuste Novas Jornadas (vídeo e tours)', status:'atencao', resp:'Paula', data:'10/05' },
-    ]},
-    { onda:'1ª Onda', volume:'TBD', dataInicio:'', dataFim:'30/07', evolucao:'Nova Régua', tarefas:[] },
-  ],
-  'iu-ia': [
-    { onda:'1ª Onda', volume:'54k', dataInicio:'23/06', dataFim:'23/07', evolucao:'Criação Régua', tarefas:[
-      { desc:'Desenho e Validação da estratégia (renúncia e aposentado)', status:'andamento', resp:'Paula', data:'03/06' },
-      { desc:'Melhor Conversa – Guarda Chuva', status:'andamento', resp:'Paula + Elisa', data:'11/06' },
-      { desc:'Criação das peças e construção da campanha', status:'cancelado', resp:'Marcus + Elisa', data:'DO: 05/06' },
-      { desc:'Adaptações para público aposentado', status:'cancelado', resp:'Paula + Marcus + Elisa', data:'TBD' },
-    ]},
-    { onda:'2ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
-  ],
-  'ia-iu': [
-    { onda:'1ª, 2ª, 3ª onda', volume:'', dataInicio:'14/04', dataFim:'21/05', evolucao:'Aumento da cobertura oferta e grade Black', tarefas:[
-      { desc:'Ajuste de DNs', status:'concluido', resp:'Elisa + Kipper', data:'15/05' },
-      { desc:'Inclusão de push', status:'concluido', resp:'Paula + Elisa', data:'15/05' },
-      { desc:'Inclusão de vitrine', status:'concluido', resp:'Paula + Elisa', data:'18/05' },
-    ]},
-    { onda:'4ª, 5ª, 6ª onda', volume:'', dataInicio:'13/05', dataFim:'19/05', evolucao:'Cobertura demais variantes crédito', tarefas:[
-      { desc:'Aumento da freq. do bypass', status:'concluido', resp:'Elisa', data:'28/05' },
-      { desc:'Criação e inclusão de push', status:'andamento', resp:'Marcus + Elisa', data:'03/06' },
-      { desc:'Criação e inclusão de vitrine', status:'andamento', resp:'', data:'03/06' },
-    ]},
-  ],
-  'iu-ipa': [
-    { onda:'1ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
-  ],
-  'cp-ia': [
-    { onda:'1ª Onda', volume:'5k', dataInicio:'27/05', dataFim:'27/06', evolucao:'Criação Régua', tarefas:[
-      { desc:'Desenho e validação da estratégia', status:'atencao', resp:'Paula', data:'15/06' },
-      { desc:'Melhor Conversa – Guarda Chuva', status:'atencao', resp:'Paula + Elisa', data:'11/06' },
-      { desc:'Criação das peças e construção da campanha', status:'cancelado', resp:'Marcus + Elisa', data:'TBD' },
-    ]},
-    { onda:'2ª Onda', volume:'TBD', dataInicio:'', dataFim:'', evolucao:'', tarefas:[] },
-  ],
-};
-
-function getOndas(frente) {
-  const key = 'ondas-' + frente;
-  return store[key] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[frente] || []));
-}
-
-function statusInfo(val) {
-  return STATUS_OPTS.find(s => s.val === val) || STATUS_OPTS[1];
-}
-
-function renderOndas(frente) {
-  const el = document.getElementById('ondas-' + frente);
-  if (!el) return;
-  const ondas = getOndas(frente);
-  const isPresent = document.body.classList.contains('presentation-mode');
-
-  if (!ondas.length) {
-    el.innerHTML = `<p style="color:var(--text3);font-size:12px;margin-bottom:16px">Nenhuma onda cadastrada ainda.</p>`;
-  } else {
-    el.innerHTML = ondas.map((o, oi) => {
-      const tarefasHtml = (o.tarefas || []).map((t, ti) => {
-        const si = statusInfo(t.status);
-        const statusOpts = STATUS_OPTS.map(s => `<option value="${s.val}"${s.val===t.status?' selected':''}>${s.label}</option>`).join('');
-        return `<tr>
-          <td style="padding-left:28px">
-            <div>${t.desc}</div>
-            ${!isPresent ? `<div class="task-edit-inline" id="tedit-${frente}-${oi}-${ti}">
-              <input class="task-input-sm" style="flex:1" id="tdesc-${frente}-${oi}-${ti}" value="${t.desc}" placeholder="Descrição">
-              <input class="task-input-sm" style="width:90px" id="tresp-${frente}-${oi}-${ti}" value="${t.resp}" placeholder="Responsável">
-              <input class="task-input-sm" style="width:70px" id="tdata-${frente}-${oi}-${ti}" value="${t.data}" placeholder="Data">
-              <button class="btn-save" style="font-size:10px;padding:3px 8px" onclick="saveTask('${frente}',${oi},${ti})">OK</button>
-              <button class="btn-cancel" style="font-size:10px;padding:3px 8px" onclick="cancelTaskEdit('${frente}',${oi},${ti})">✕</button>
-            </div>` : ''}
-          </td>
-          <td><span class="task-status ${si.cls}">${si.label}</span></td>
-          <td>${t.resp ? `<span class="responsavel-chip">👤 ${t.resp}</span>` : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
-          <td class="onda-data">${t.data || '—'}</td>
-          ${!isPresent ? `<td class="task-actions-cell">
-            <button class="task-action-btn" onclick="editTask('${frente}',${oi},${ti})">editar</button>
-            <select class="task-status-sel" onchange="changeTaskStatus('${frente}',${oi},${ti},this.value)">${statusOpts}</select>
-            <button class="task-action-btn task-action-del" onclick="deleteTask('${frente}',${oi},${ti})">✕</button>
-          </td>` : ''}
-        </tr>`;
-      }).join('');
-
-      const tarefasBtnRow = !isPresent ? `<tr>
-        <td colspan="5" style="padding:6px 12px 10px 28px">
-          <button class="task-action-btn" style="color:var(--laranja);border:1px dashed var(--laranja-mid);padding:4px 10px;border-radius:var(--radius-xs)" onclick="addTask('${frente}',${oi})">+ Tarefa</button>
-        </td>
-      </tr>` : '';
-
-      return `<table class="ondas-table" style="margin-bottom:12px">
-        <thead><tr>
-          <th style="width:40%">
-            <div class="onda-label">${o.onda}${o.evolucao ? ' — ' + o.evolucao : ''}</div>
-            ${o.volume ? `<div class="onda-volume">Volume: ${o.volume}</div>` : ''}
-          </th>
-          <th style="width:16%">Status</th>
-          <th style="width:16%">Responsável</th>
-          <th style="width:12%">Data</th>
-          ${!isPresent ? `<th style="width:16%" class="task-actions-cell">
-            <button class="task-action-btn task-action-del" style="color:white;margin-left:auto;display:block" onclick="deleteOnda('${frente}',${oi})">✕ onda</button>
-          </th>` : ''}
-        </tr></thead>
-        <tbody>${tarefasHtml}${tarefasBtnRow}</tbody>
-      </table>`;
-    }).join('');
-  }
-
-  if (!isPresent) {
-    el.innerHTML += `<button class="add-onda-btn" onclick="addOnda('${frente}')">+ Adicionar onda</button>`;
-  }
-}
-
-window.editTask = function(f, oi, ti) {
-  document.getElementById(`tedit-${f}-${oi}-${ti}`).classList.add('open');
-};
-window.cancelTaskEdit = function(f, oi, ti) {
-  document.getElementById(`tedit-${f}-${oi}-${ti}`).classList.remove('open');
-};
-
-window.saveTask = function(f, oi, ti) {
-  const ondas = getOndas(f);
-  ondas[oi].tarefas[ti].desc = document.getElementById(`tdesc-${f}-${oi}-${ti}`).value;
-  ondas[oi].tarefas[ti].resp = document.getElementById(`tresp-${f}-${oi}-${ti}`).value;
-  ondas[oi].tarefas[ti].data = document.getElementById(`tdata-${f}-${oi}-${ti}`).value;
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa salva'); });
-};
-
-window.changeTaskStatus = function(f, oi, ti, val) {
-  const ondas = getOndas(f);
-  ondas[oi].tarefas[ti].status = val;
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Status atualizado'); });
-};
-
-window.deleteTask = function(f, oi, ti) {
-  if (!confirm('Excluir esta tarefa?')) return;
-  const ondas = getOndas(f);
-  ondas[oi].tarefas.splice(ti, 1);
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('Tarefa excluída'); });
-};
-
-window.deleteOnda = function(f, oi) {
-  if (!confirm('Excluir esta onda e todas as suas tarefas?')) return;
-  const ondas = getOndas(f);
-  ondas.splice(oi, 1);
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('Onda excluída'); });
-};
-
-window.addTask = function(f, oi) {
-  const desc = prompt('Descrição da tarefa:');
-  if (!desc || !desc.trim()) return;
-  const resp = prompt('Responsável (pode deixar em branco):') || '';
-  const data = prompt('Data (ex: 15/06 ou TBD):') || 'TBD';
-  const ondas = getOndas(f);
-  ondas[oi].tarefas.push({ desc: desc.trim(), status: 'andamento', resp: resp.trim(), data: data.trim() });
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa adicionada'); });
-};
-
-window.addOnda = function(f) {
-  const nome = prompt('Nome da onda (ex: 1ª Onda):');
-  if (!nome || !nome.trim()) return;
-  const volume = prompt('Volume de clientes (ex: 5k ou TBD):') || 'TBD';
-  const ondas = getOndas(f);
-  ondas.push({ onda: nome.trim(), volume: volume.trim(), dataInicio:'', dataFim:'', evolucao:'', tarefas:[] });
-  store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Onda adicionada'); });
-};
-
-function renderAllOndas() {
-  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => renderOndas(f));
-}
-
-
-
-
-/* ── SIDEBAR EDITÁVEL ── */
-const SIDEBAR_DEFAULT = [
-  { label: 'Geral', items: [
-    { id: 'geral', name: 'Visão geral', color: 'var(--laranja)' },
-    { id: 'pmo',   name: 'PMO',         color: 'var(--azul)' },
-  ]},
-  { label: 'Reenquadramentos', items: [
-    { id: 'iu-ip', name: 'IU › IP', color: '#EC7000' },
-    { id: 'iu-ia', name: 'IU › IA', color: '#F8A85C' },
-  ]},
-  { label: 'Upgrades', items: [
-    { id: 'ia-iu',  name: 'IA › IU',  color: '#003399' },
-    { id: 'iu-ipa', name: 'IU › IPA', color: '#3366CC' },
-    { id: 'cp-ia',  name: 'CP › IA',  color: '#6699EE' },
-  ]},
-];
-
-function getSidebar() {
-  return store['sidebar-config']
-    ? JSON.parse(JSON.stringify(store['sidebar-config']))
-    : JSON.parse(JSON.stringify(SIDEBAR_DEFAULT));
-}
-
-function renderSidebar() {
-  const el = document.getElementById('sidebar-nav-content');
-  if (!el) return;
-  const cfg = getSidebar();
-  const isPresent = document.body.classList.contains('presentation-mode');
-  const activePage = document.querySelector('.page.active')?.id?.replace('page-','') || 'geral';
-
-  let h = '';
-  cfg.forEach((section, si) => {
-    h += `<div class="nav-section">
-      <div class="nav-section-edit-label">
-        <div class="nav-section-label">${section.label}</div>
-        ${!isPresent ? `<button class="nav-add-item-btn" onclick="editSidebarSection(${si})" title="Editar seção">✎</button>` : ''}
-      </div>`;
-    section.items.forEach((item, ii) => {
-      const active = item.id === activePage ? ' active' : '';
-      h += `<button class="nav-item${active}" onclick="goTo('${item.id}')" id="nav-${item.id}">
-        <div class="nav-dot" style="background:${item.color}"></div>
-        <span style="flex:1;text-align:left">${item.name}</span>
-        ${!isPresent ? `<span class="nav-item-edit-btn" onclick="event.stopPropagation();editSidebarItem(${si},${ii})">✎</span>` : ''}
-      </button>`;
-    });
-    h += `</div>`;
-  });
-  el.innerHTML = h;
-}
-
-window.editSidebarItem = function(si, ii) {
-  if (window._accessMode === 'viewer' || document.body.classList.contains('viewer-mode')) return;
-  const cfg = getSidebar();
-  const item = cfg[si].items[ii];
-  const newName = prompt('Novo nome do item:', item.name);
-  if (newName === null) return;
-  cfg[si].items[ii].name = newName.trim() || item.name;
-  store['sidebar-config'] = cfg;
-  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Item renomeado'); });
-};
-
-window.editSidebarSection = function(si) {
-  if (window._accessMode === 'viewer' || document.body.classList.contains('viewer-mode')) return;
-  const cfg = getSidebar();
-  const newLabel = prompt('Novo nome da seção:', cfg[si].label);
-  if (newLabel === null) return;
-  cfg[si].label = newLabel.trim() || cfg[si].label;
-  store['sidebar-config'] = cfg;
-  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Seção renomeada'); });
-};
-
-/* ── TÍTULOS EDITÁVEIS ── */
-window.editTitle = function(el) {
-  if (document.body.classList.contains('presentation-mode')) return;
-  const key = el.dataset.key;
-  const currentText = store['titles'] && store['titles'][key] ? store['titles'][key] : el.textContent;
-  const newText = prompt('Editar:', currentText);
-  if (newText === null) return;
-  if (!store['titles']) store['titles'] = {};
-  store['titles'][key] = newText.trim() || currentText;
-  el.textContent = store['titles'][key];
-  saveToGitHub(true).then(() => showToast('✓ Salvo'));
-};
-
-function applyStoredTitles() {
-  if (!store['titles']) return;
-  Object.keys(store['titles']).forEach(key => {
-    const el = document.querySelector(`[data-key="${key}"]`);
-    if (el) el.textContent = store['titles'][key];
-  });
-}
-
-/* ── PMO EDITÁVEL ── */
-window.editPMOCell = function(frenteId, field, currentVal) {
-  if (document.body.classList.contains('presentation-mode')) return;
-  const newVal = prompt(`Editar ${field}:`, currentVal || '');
-  if (newVal === null) return;
-  if (!store['pmo-overrides']) store['pmo-overrides'] = {};
-  if (!store['pmo-overrides'][frenteId]) store['pmo-overrides'][frenteId] = {};
-  store['pmo-overrides'][frenteId][field] = newVal.trim();
-  saveToGitHub(true).then(() => { renderPMO(); showToast('✓ PMO atualizado'); });
-};
-
-function getPMOValue(frenteId, field, defaultVal) {
-  return (store['pmo-overrides']?.[frenteId]?.[field]) ?? defaultVal;
-}
-
-/* ── PMO ── */
-const ALL_MONTH_DAYS = {
-  janeiro:31,fevereiro:28,março:31,abril:30,maio:31,junho:30,
-  julho:31,agosto:31,setembro:30,outubro:31,novembro:30,dezembro:31
-};
-const ALL_MONTH_LABELS = {
-  janeiro:'JAN',fevereiro:'FEV',março:'MAR',abril:'ABR',maio:'MAI',junho:'JUN',
-  julho:'JUL',agosto:'AGO',setembro:'SET',outubro:'OUT',novembro:'NOV',dezembro:'DEZ'
-};
-
-function getGanttData(frente) {
-  return store['gantt-' + frente]
-    ? JSON.parse(JSON.stringify(store['gantt-' + frente]))
-    : JSON.parse(JSON.stringify(GANTT_DATA[frente]));
-}
-
-function renderPMO() {
-  renderPMOGantt();
-  renderPMOTable();
-}
-
-function renderPMOGantt() {
-  const el = document.getElementById('gantt-pmo-container');
-  if (!el) return;
-  // Build a combined gantt with all frentes as row groups
-  const FRENTE_COLORS = {
-    'iu-ip':'#EC7000','iu-ia':'#F8A85C','ia-iu':'#003399','iu-ipa':'#3366CC','cp-ia':'#6699EE'
-  };
-  const FRENTE_NAMES = {
-    'iu-ip':'IU › IP','iu-ia':'IU › IA','ia-iu':'IA › IU','iu-ipa':'IU › IPA','cp-ia':'CP › IA'
-  };
-  // Collect all months across all frentes
-  const allMonths = new Set();
-  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => {
-    const g = getGanttData(f);
-    (g.months || []).forEach(m => allMonths.add(m));
-  });
-  // Order months
-  const monthOrder = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-  const months = monthOrder.filter(m => allMonths.has(m));
-
-  const rows = [];
-  ['iu-ip','iu-ia','ia-iu','iu-ipa','cp-ia'].forEach(f => {
-    const g = getGanttData(f);
-    (g.rows || []).forEach(r => {
-      rows.push({ label: `${FRENTE_NAMES[f]} · ${r.label.replace('\n',' ')}`, bars: r.bars, frente: f });
-    });
-  });
-
-  el.innerHTML = '';
-  const wrapper = document.createElement('div');
-  wrapper.className = 'gantt-scroll';
-  const inner = document.createElement('div');
-  inner.className = 'gantt-inner';
-
-  const cols = [];
-  months.forEach(m => { for (let d=1;d<=ALL_MONTH_DAYS[m];d++) cols.push({month:m,day:d}); });
-  const LBL_W = 160;
-  const gc = `${LBL_W}px repeat(${cols.length},1fr)`;
-
-  // Month header
-  let h = `<div class="gantt-month-row" style="display:grid;grid-template-columns:${gc}"><div class="gantt-corner">Frente · Fase</div>`;
-  months.forEach(m => { h += `<div class="month-block" style="grid-column:span ${ALL_MONTH_DAYS[m]}">${ALL_MONTH_LABELS[m]}</div>`; });
-  h += `</div>`;
-
-  // Day header
-  h += `<div class="gantt-day-row" style="display:grid;grid-template-columns:${gc}"><div class="day-hdr"></div>`;
-  cols.forEach(c => {
-    const t = c.month==='junho'&&c.day===TODAY_DAY;
-    const w = isWeekend(c.day,c.month);
-    h += `<div class="day-hdr${t?' today-hdr':''}${w?' wknd':''}">${c.day}</div>`;
-  });
-  h += `</div>`;
-
-  // Data rows
-  rows.forEach(row => {
-    h += `<div class="gantt-data-row" style="display:grid;grid-template-columns:${gc}">`;
-    h += `<div class="row-lbl" style="font-size:10px">${row.label}</div>`;
-    cols.forEach(c => {
-      const t = c.month==='junho'&&c.day===TODAY_DAY;
-      const w = isWeekend(c.day,c.month);
-      let cc = t ? `<div class="today-vline"></div>` : '';
-      (row.bars||[]).forEach(b => {
-        const bm = b.month||'junho';
-        if (c.month!==bm||c.day<b.start||c.day>b.end) return;
-        if (b.milestone&&c.day===b.start) {
-          cc += `<div class="gms" style="background:${b.msColor||'#888'};color:${b.msText||'#fff'}">${b.msLabel||c.day}</div>`;
-        } else {
-          const f=c.day===b.start, l=c.day===b.end;
-          const br=`border-radius:${f?'3px':'0'} ${l?'3px':'0'} ${l?'3px':'0'} ${f?'3px':'0'}`;
-          cc += `<div class="gbar" style="background:${b.color};left:${f?'4px':'0'};right:${l?'4px':'0'};${br}"></div>`;
-        }
-      });
-      h += `<div class="gcell${t?' today-col':''}${w?' wknd-col':''}">${cc}</div>`;
-    });
-    h += `</div>`;
-  });
-
-  inner.innerHTML = h;
-  wrapper.appendChild(inner);
-  el.appendChild(wrapper);
-}
-
-function renderPMOTable() {
-  const el = document.getElementById('pmo-table-container');
-  if (!el) return;
-  const isPresent = document.body.classList.contains('presentation-mode');
-  const sidebarCfg = getSidebar();
-  
-  function getDisplayName(fid) {
-    let n = fid.toUpperCase();
-    sidebarCfg.forEach(s => s.items.forEach(it => { if (it.id === fid) n = it.name; }));
-    return n;
-  }
-
-  let h = `<table class="pmo-table"><thead><tr>
-    <th style="width:18%">Frente / Ondas</th>
-    <th style="width:10%">Tipo</th>
-    <th style="width:10%">Início</th>
-    <th style="width:10%">Fim</th>
-    <th style="width:12%">Volume</th>
-    <th style="width:16%">Evolução</th>
-    <th style="width:10%">Status</th>
-    <th style="width:14%">Responsável</th>
-  </tr></thead><tbody>`;
-
-  FRENTES_META.forEach(fm => {
-    const ondas = store['ondas-'+fm.id] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[fm.id]||[]));
-    const agg = frenteAggregate(fm.id);
-    const tipoLabel = fm.type === 'reenq' ? 'reenquadramento' : 'upgrade';
-    const tipoClasse = fm.type === 'reenq' ? 'tag-reenq' : 'tag-upgrade';
-    
-    const inicio = getPMOValue(fm.id, 'inicio', ondas[0]?.dataInicio || '—');
-    const fim = getPMOValue(fm.id, 'fim', ondas[ondas.length-1]?.dataFim || '—');
-    const volume = getPMOValue(fm.id, 'volume', ondas.map(o=>o.volume).filter(Boolean).join(', ') || '—');
-    const evolucao = getPMOValue(fm.id, 'evolucao', ondas[0]?.evolucao || '—');
-    const resp = getPMOValue(fm.id, 'responsavel', getResponsaveis(ondas));
-    
-    const editAttr = (field, val) => isPresent ? '' : `class="pmo-edit-cell" onclick="editPMOCell('${fm.id}','${field}','${(val+'').replace(/'/g,"&apos;")}')"`;
-    
-    h += `<tr>
-      <td><div class="pmo-frente-label">${getDisplayName(fm.id)}</div></td>
-      <td><span class="pmo-tipo-badge ${tipoClasse}">${tipoLabel}</span></td>
-      <td ${editAttr('inicio', inicio)} style="color:var(--text2);font-size:11px">${inicio}</td>
-      <td ${editAttr('fim', fim)} style="color:var(--text2);font-size:11px">${fim}</td>
-      <td ${editAttr('volume', volume)} style="color:var(--text2);font-size:11px">${volume}</td>
-      <td ${editAttr('evolucao', evolucao)} style="color:var(--text2);font-size:11px">${evolucao}</td>
-      <td><span class="task-status ${agg.statusCls}">${agg.statusLabel}</span></td>
-      <td ${editAttr('responsavel', resp)} style="font-size:11px;color:var(--text2)">${resp}</td>
-    </tr>`;
-  });
-
-  h += `</tbody></table>`;
-  if (!isPresent) {
-    h += `<p style="font-size:11px;color:var(--text3);margin-top:8px;font-style:italic">💡 Clique em qualquer célula para editar. Status é calculado automaticamente pelas tarefas das ondas.</p>`;
-  }
-  el.innerHTML = h;
-}
-
-function renderStatusBadge(ondas) {
-  const tarefas = ondas.flatMap(o=>o.tarefas||[]);
-  if (!tarefas.length) return `<span class="task-status ts-pausado">⏸ Aguardando</span>`;
-  if (tarefas.every(t=>t.status==='concluido')) return `<span class="task-status ts-concluido">✅ Concluído</span>`;
-  if (tarefas.some(t=>t.status==='atencao')) return `<span class="task-status ts-atencao">⚠️ Atenção</span>`;
-  if (tarefas.some(t=>t.status==='andamento')) return `<span class="task-status ts-andamento">🟦 Em andamento</span>`;
-  return `<span class="task-status ts-pausado">⏸ Pausado</span>`;
-}
-
-function getResponsaveis(ondas) {
-  const resps = new Set();
-  ondas.forEach(o=>(o.tarefas||[]).forEach(t=>{ if(t.resp) t.resp.split('+').forEach(r=>resps.add(r.trim())); }));
-  return [...resps].slice(0,3).join(', ') || '—';
-}
-
-/* ── GANTT EDITOR ── */
-let _geditFrente = null;
-let _geditData = null;
-
-window.openGedit = function(frente) {
-  _geditFrente = frente;
-  _geditData = getGanttData(frente);
-  document.getElementById('gedit-title').textContent = 'Editar Gantt — ' + frente.replace('-','›').toUpperCase();
-  renderGeditMonths();
-  renderGeditRows();
-  document.getElementById('gedit-overlay').classList.add('open');
-};
-
-window.closeGedit = function() {
-  document.getElementById('gedit-overlay').classList.remove('open');
-};
-
-window.handleGeditOverlay = function(e) {
-  if (e.target===document.getElementById('gedit-overlay')) closeGedit();
-};
-
-function renderGeditMonths() {
-  const row = document.getElementById('gedit-months-row');
-  if (!row) return;
-  const months = _geditData.months || [];
-  row.innerHTML = months.map((m,i) =>
-    `<span class="month-chip">${ALL_MONTH_LABELS[m]||m}
-      <button class="month-chip-del" onclick="removeGeditMonth(${i})">✕</button>
-    </span>`
-  ).join('');
-}
-
-window.addGeditMonth = function() {
-  const sel = document.getElementById('gedit-month-select');
-  const m = sel.value;
-  if (!_geditData.months.includes(m)) {
-    const order = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-    _geditData.months.push(m);
-    _geditData.months.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
-  }
-  renderGeditMonths();
-};
-
-window.removeGeditMonth = function(i) {
-  _geditData.months.splice(i,1);
-  renderGeditMonths();
-};
-
-function renderGeditRows() {
-  const body = document.getElementById('gedit-rows-body');
-  if (!body) return;
-  const months = _geditData.months || ['junho'];
-  const rows = _geditData.rows || [];
-  let h = '';
-  rows.forEach((row, ri) => {
-    (row.bars||[]).forEach((bar, bi) => {
-      const monthOpts = months.map(m=>`<option value="${m}"${(bar.month||months[0])===m?' selected':''}>${ALL_MONTH_LABELS[m]||m}</option>`).join('');
-      h += `<tr>
-        <td><input class="gedit-input" value="${row.label.replace('\n',' ')}" onchange="updateGeditRow(${ri},${bi},'label',this.value)"></td>
-        <td><select class="gedit-input" style="width:60px" onchange="updateGeditRow(${ri},${bi},'month',this.value)">${monthOpts}</select></td>
-        <td><input class="gedit-input sm" type="number" min="1" max="31" value="${bar.start}" onchange="updateGeditRow(${ri},${bi},'start',+this.value)"></td>
-        <td><input class="gedit-input sm" type="number" min="1" max="31" value="${bar.end}" onchange="updateGeditRow(${ri},${bi},'end',+this.value)"></td>
-        <td><input type="color" class="gedit-color-sel" value="${bar.color||'#EC7000'}" onchange="updateGeditRow(${ri},${bi},'color',this.value)"></td>
-        <td><input type="checkbox" ${bar.milestone?'checked':''} onchange="updateGeditRow(${ri},${bi},'milestone',this.checked)" style="width:16px;height:16px;cursor:pointer"></td>
-        <td><button class="gedit-del-row" onclick="deleteGeditRow(${ri},${bi})">✕</button></td>
-      </tr>`;
-    });
-  });
-  body.innerHTML = h;
-}
-
-window.updateGeditRow = function(ri, bi, field, val) {
-  if (field === 'label') {
-    _geditData.rows[ri].label = val;
-  } else {
-    _geditData.rows[ri].bars[bi][field] = val;
-    if (field === 'month') _geditData.rows[ri].bars[bi].month = val;
-  }
-};
-
-window.deleteGeditRow = function(ri, bi) {
-  _geditData.rows[ri].bars.splice(bi,1);
-  if (!_geditData.rows[ri].bars.length) _geditData.rows.splice(ri,1);
-  renderGeditRows();
-};
-
-window.addGeditRow = function() {
-  const month = (_geditData.months||['junho'])[0];
-  _geditData.rows.push({ label:'Nova fase', bars:[{month,start:1,end:10,color:'#EC7000'}] });
-  renderGeditRows();
-};
-
-window.saveGedit = function() {
-  const btn = document.getElementById('gedit-save-btn');
-  btn.disabled = true; btn.textContent = 'Salvando...';
-  store['gantt-'+_geditFrente] = JSON.parse(JSON.stringify(_geditData));
-  saveToGitHub(true).then(() => {
-    btn.disabled = false; btn.textContent = 'Salvar Gantt';
-    buildGantt('gantt-'+_geditFrente, _geditData.rows, _geditData.months);
-    renderPMO();
-    closeGedit();
-    showToast('✓ Gantt salvo');
-  });
-};
-
-/* ── INIT ── */
-function init() {
-  try {
-    // Detecta modo pela URL (?modo=visualizacao ou ?modo=editor)
-    const urlParams = new URLSearchParams(window.location.search);
-    const modo = urlParams.get('modo');
-    if (modo === 'visualizacao') {
-      document.body.classList.add('presentation-mode');
-      const btn = document.getElementById('btn-presentation');
-      if (btn) btn.textContent = '✕ Sair apresentação';
-    }
-
-    // Aplica os ganttts armazenados ou os defaults
-    Object.keys(GANTT_DATA).forEach(id => {
-      const stored = store && store['gantt-' + id];
-      const g = stored || GANTT_DATA[id];
-      buildGantt('gantt-' + id, g.rows, g.months);
-    });
-
-    // Banner só aparece se não estiver configurado
-    const banner = document.getElementById('config-banner');
-    if (banner) banner.style.display = isConfigured() ? 'none' : 'flex';
-
-    // Render inicial enquanto carrega do GitHub
-    try { renderSidebar(); } catch(e) { console.error('renderSidebar erro:', e); }
-
-    loadFromGitHub();
-  } catch(e) {
-    console.error('init erro:', e);
-    alert('Erro ao iniciar o painel: ' + e.message);
-  }
-}
-
-// Inicialização: checar acesso da URL/sessão antes de chamar init
-checkUrlAccess();
-if (!checkSessionAccess()) {
-  // Tela de bloqueio fica visível, foca o input
-  setTimeout(() => {
-    const inp = document.getElementById('lock-input');
-    if (inp) inp.focus();
-  }, 100);
-} else {
-  startApp();
-}
-</script>
-</body>
-</html>
