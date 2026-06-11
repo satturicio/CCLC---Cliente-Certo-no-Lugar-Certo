@@ -59,7 +59,12 @@ body {
 }
 
 /* ── LAYOUT ── */
-.layout { display: flex; min-height: 100vh; }
+.layout { 
+  display: flex; 
+  min-height: 100vh; 
+  width: 100%; 
+  overflow-x: hidden;
+}
 
 /* ── SIDEBAR ── */
 .sidebar {
@@ -195,6 +200,8 @@ body {
   flex: 1;
   padding: 32px 40px;
   min-width: 0;
+  max-width: calc(100vw - 210px);
+  overflow-x: hidden;
 }
 
 .page { display: none; }
@@ -865,7 +872,126 @@ body.viewer-mode .config-banner { display: none !important; }
 body.viewer-mode .editable-title,
 body.viewer-mode .pmo-edit-cell,
 body.viewer-mode .metric-card { cursor: default !important; }
-body.viewer-mode .editable-title { border-bottom: none !important; }
+body.viewer-mode 
+.draft-content { opacity: 0.6; font-style: italic; }
+body.viewer-mode .draft-content { display: none; }
+body.presentation-mode:not(.editor-active) .draft-content { display: none; }
+
+.editable-title { border-bottom: none !important; }
+
+
+/* ── FEEDBACKS VISUAIS ── */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: rgba(255,255,255,0.85);
+  z-index: 8000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+.loading-overlay.show { display: flex; }
+.loading-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--laranja-light);
+  border-top-color: var(--laranja);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text {
+  font-size: 13px;
+  color: var(--text2);
+  font-family: var(--font-body);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: var(--radius-xs);
+  height: 14px;
+  margin-bottom: 8px;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+.toast-container {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.2s;
+  pointer-events: all;
+}
+.toast-item.show { opacity: 1; transform: translateY(0); }
+.toast-success { background: var(--green); color: white; }
+.toast-error { background: var(--red); color: white; }
+.toast-info { background: var(--text); color: white; }
+.toast-warning { background: var(--amber); color: white; }
+
+.sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+.sync-badge.synced { background: var(--green-light); color: var(--green); }
+.sync-badge.syncing { background: var(--amber-light); color: var(--amber); }
+.sync-badge.error { background: var(--red-light); color: var(--red); }
+
+.lock-btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.lock-btn-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+
+.lock-mode-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border2);
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.12s;
+}
+.lock-mode-btn.active {
+  background: var(--laranja);
+  color: white;
+  border-color: var(--laranja);
+}
+.lock-mode-btn:hover:not(.active) { background: var(--surface2); }
 
 /* ── TELA DE BLOQUEIO ── */
 .lock-screen {
@@ -970,6 +1096,99 @@ body.viewer-mode .editable-title { border-bottom: none !important; }
 body.presentation-mode .password-settings-btn { display: none; }
 body.viewer-mode .password-settings-btn { display: none; }
 
+
+/* ── SIDEBAR TOGGLE ── */
+.sidebar-toggle-btn {
+  position: absolute;
+  right: -14px;
+  top: 20px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+.sidebar-toggle-btn:hover { background: var(--laranja); color: white; border-color: var(--laranja); }
+
+.sidebar.collapsed { width: 0; overflow: hidden; border-right: none; }
+.sidebar.collapsed .sidebar-toggle-btn { right: -32px; }
+.main.sidebar-collapsed { max-width: 100vw; }
+
+body.presentation-mode .sidebar-toggle-btn { display: flex; }
+
+/* ── FRENTE COLOR PICKER ── */
+.frente-color-picker {
+  display: none;
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 12px;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  min-width: 200px;
+}
+.frente-color-picker.open { display: block; }
+.picker-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.picker-hex-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.picker-hex-input {
+  flex: 1; font-size: 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 5px 8px;
+  font-family: monospace;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+.picker-hex-input:focus { border-color: var(--laranja); }
+.picker-color-preview {
+  width: 28px; height: 28px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border2);
+  flex-shrink: 0;
+}
+.picker-emoji-input {
+  width: 100%; font-size: 18px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 5px 8px;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.picker-save-btn {
+  width: 100%; padding: 7px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--laranja); color: white;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: var(--font-body);
+}
+body.presentation-mode .nav-item-color-btn { display: none; }
+body.viewer-mode .nav-item-color-btn { display: none; }
+.nav-item-color-btn {
+  font-size: 9px; color: var(--text3);
+  cursor: pointer; padding: 1px 4px;
+  border: none; background: none;
+  border-radius: 3px; opacity: 0;
+  margin-left: 2px;
+}
+.nav-item:hover .nav-item-color-btn { opacity: 0.7; }
+.nav-item-color-btn:hover { opacity: 1; color: var(--laranja); background: var(--laranja-light); }
+
+/* ── RACF MANAGER PAGE ── */
+#page-config { }
+
 /* ── SIDEBAR EDITÁVEL ── */
 .sidebar-action-btn {
   display: block;
@@ -996,6 +1215,26 @@ body.presentation-mode .sidebar-action-btn.share-btn-side { display: none; }
 
 .sync-info { font-size: 10px; color: var(--text3); margin-bottom: 6px; }
 
+
+.nav-item-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+}
+.nav-item:hover .nav-item-actions { display: inline-flex; }
+.nav-reorder-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 3px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: all 0.1s;
+}
+.nav-reorder-btn:hover { color: var(--laranja); background: var(--laranja-light); }
+body.presentation-mode .nav-item-actions { display: none !important; }
+body.viewer-mode .nav-item-actions { display: none !important; }
+
 .nav-item-edit-btn {
   font-size: 9px;
   color: var(--text3);
@@ -1007,9 +1246,49 @@ body.presentation-mode .sidebar-action-btn.share-btn-side { display: none; }
   opacity: 0;
   margin-left: auto;
 }
-.nav-item:hover .nav-item-edit-btn { opacity: 0.7; }
+.nav-item:hover 
+.nav-item-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+}
+.nav-item:hover .nav-item-actions { display: inline-flex; }
+.nav-reorder-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 3px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: all 0.1s;
+}
+.nav-reorder-btn:hover { color: var(--laranja); background: var(--laranja-light); }
+body.presentation-mode .nav-item-actions { display: none !important; }
+body.viewer-mode .nav-item-actions { display: none !important; }
+
+.nav-item-edit-btn { opacity: 0.7; }
 .nav-item-edit-btn:hover { opacity: 1; color: var(--laranja); background: var(--laranja-light); }
-body.presentation-mode .nav-item-edit-btn { display: none; }
+body.presentation-mode 
+.nav-item-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+}
+.nav-item:hover .nav-item-actions { display: inline-flex; }
+.nav-reorder-btn {
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 1px 3px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: all 0.1s;
+}
+.nav-reorder-btn:hover { color: var(--laranja); background: var(--laranja-light); }
+body.presentation-mode .nav-item-actions { display: none !important; }
+body.viewer-mode .nav-item-actions { display: none !important; }
+
+.nav-item-edit-btn { display: none; }
 
 .nav-section-edit-label {
   display: flex;
@@ -1121,6 +1400,11 @@ body.presentation-mode .unlock-editor-btn { display: block !important; }
 .unlock-error-mini { font-size: 11px; color: var(--red); min-height: 14px; margin-bottom: 4px; }
 
 /* ── TÍTULO EDITÁVEL ── */
+
+.draft-content { opacity: 0.6; font-style: italic; }
+body.viewer-mode .draft-content { display: none; }
+body.presentation-mode:not(.editor-active) .draft-content { display: none; }
+
 .editable-title {
   cursor: text;
   border-bottom: 1px dashed transparent;
@@ -1128,13 +1412,230 @@ body.presentation-mode .unlock-editor-btn { display: block !important; }
   padding-bottom: 1px;
 }
 .editable-title:hover { border-bottom-color: var(--laranja-mid); }
-body.presentation-mode .editable-title { cursor: default; border-bottom: none; }
+body.presentation-mode 
+.draft-content { opacity: 0.6; font-style: italic; }
+body.viewer-mode .draft-content { display: none; }
+body.presentation-mode:not(.editor-active) .draft-content { display: none; }
+
+.editable-title { cursor: default; border-bottom: none; }
 
 /* ── PMO EDITÁVEL ── */
 .pmo-edit-cell { cursor: text; }
 .pmo-edit-cell:hover { background: var(--laranja-light) !important; }
 body.presentation-mode .pmo-edit-cell { cursor: default; }
 body.presentation-mode .pmo-edit-cell:hover { background: inherit !important; }
+
+
+/* ── GESTÃO DE RACFs ── */
+.racf-manager {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.racf-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; min-height: 32px; }
+.racf-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--laranja-light);
+  color: var(--laranja-dark);
+  border: 1px solid var(--laranja-mid);
+}
+.racf-chip-del {
+  background: none; border: none;
+  color: var(--laranja-dark); cursor: pointer;
+  font-size: 12px; line-height: 1;
+  opacity: 0.6;
+}
+.racf-chip-del:hover { opacity: 1; color: var(--red); }
+.racf-add-row { display: flex; gap: 6px; }
+.racf-add-input {
+  flex: 1; font-size: 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 6px 10px;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  text-transform: lowercase;
+}
+.racf-add-input:focus { border-color: var(--laranja); }
+.racf-add-btn {
+  font-size: 11px; font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--laranja);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.racf-add-btn:hover { background: var(--laranja-dark); }
+
+
+/* ── PMO REFORMULADO ── */
+.pmo-frente-header {
+  background: var(--laranja);
+  color: white;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.pmo-frente-header:first-child { margin-top: 0; }
+.pmo-frente-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; }
+.pmo-frente-meta { font-size: 11px; opacity: 0.85; display: flex; gap: 12px; }
+.pmo-frente-actions { display: flex; gap: 6px; }
+.pmo-frente-btn {
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.15);
+  color: white; cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.1s;
+}
+.pmo-frente-btn:hover { background: rgba(255,255,255,0.3); }
+body.presentation-mode .pmo-frente-btn { display: none; }
+body.viewer-mode .pmo-frente-btn { display: none; }
+
+.pmo-onda-header {
+  background: var(--surface2);
+  padding: 8px 14px 8px 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid var(--laranja);
+}
+.pmo-onda-label { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
+.pmo-onda-meta { font-size: 11px; color: var(--text3); display: flex; gap: 10px; }
+.pmo-onda-actions { display: flex; gap: 4px; }
+body.presentation-mode .pmo-onda-actions { display: none; }
+body.viewer-mode .pmo-onda-actions { display: none; }
+
+.pmo-task-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 100px;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+.pmo-task-row:last-child { border-bottom: none; }
+.pmo-task-cell {
+  padding: 8px 14px 8px 42px;
+  font-size: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+}
+.pmo-task-cell.editable { cursor: text; }
+.pmo-task-cell.editable:hover { background: var(--laranja-light); }
+body.presentation-mode .pmo-task-cell.editable { cursor: default; }
+body.presentation-mode .pmo-task-cell.editable:hover { background: transparent; }
+body.viewer-mode .pmo-task-cell.editable { cursor: default; }
+body.viewer-mode .pmo-task-cell.editable:hover { background: transparent; }
+
+.pmo-task-cell-side {
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border);
+}
+.pmo-task-cell-side.editable { cursor: text; }
+.pmo-task-cell-side.editable:hover { background: var(--laranja-light); }
+
+.pmo-col-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 100px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.pmo-col-h {
+  padding: 6px 14px 6px 42px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+}
+.pmo-col-h:not(:first-child) {
+  padding-left: 14px;
+  border-left: 1px solid var(--border);
+}
+
+.pmo-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--laranja);
+  background: var(--laranja-light);
+  border: 1.5px dashed var(--laranja-mid);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  width: 100%;
+  transition: all 0.12s;
+}
+.pmo-add-btn:hover { background: var(--laranja-mid); border-style: solid; }
+body.presentation-mode .pmo-add-btn { display: none; }
+body.viewer-mode .pmo-add-btn { display: none; }
+
+.pmo-add-month-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--azul);
+  background: var(--azul-light);
+  border: 1.5px dashed #b3c6f0;
+  border-radius: var(--radius-xs);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-bottom: 16px;
+  transition: all 0.12s;
+}
+.pmo-add-month-btn:hover { background: var(--azul); color: white; border-style: solid; }
+body.presentation-mode .pmo-add-month-btn { display: none; }
+body.viewer-mode .pmo-add-month-btn { display: none; }
+
+.pmo-inline-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  font-family: var(--font-body);
+  color: var(--text);
+  width: 100%;
+  padding: 0;
+}
+.pmo-inline-input:focus { background: white; padding: 2px 4px; border-radius: 3px; }
+
+.pmo-status-sel {
+  font-size: 11px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 2px 6px;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+}
 
 /* ── PMO TABLE ── */
 .pmo-table-wrap { overflow-x: auto; margin-bottom: 8px; }
@@ -1230,6 +1731,22 @@ body.presentation-mode .pmo-edit-cell:hover { background: inherit !important; }
 .gantt-edit-btn { font-size: 11px; font-weight: 600; color: var(--azul); background: var(--azul-light); border: 1px solid #b3c6f0; border-radius: var(--radius-xs); padding: 5px 12px; cursor: pointer; font-family: var(--font-body); margin-bottom: 16px; }
 .gantt-edit-btn:hover { background: var(--azul); color: white; }
 body.presentation-mode .gantt-edit-btn { display: none; }
+
+
+.block-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.block-option:hover { background: var(--laranja-light); border-color: var(--laranja-mid); }
+.block-option input { cursor: pointer; width: 14px; height: 14px; }
 
 .btn-add-card {
   display: inline-flex;
@@ -1404,7 +1921,7 @@ body.presentation-mode .sidebar-header { padding: 12px 14px; }
 body.presentation-mode .itau-sub { display: none; }
 body.presentation-mode .nav-section-label { font-size: 9px; }
 body.presentation-mode .nav-item { font-size: 12px; padding: 6px 8px; }
-body.presentation-mode .main { padding: 24px 36px; }
+body.presentation-mode .main { padding: 24px 36px; max-width: calc(100vw - 160px); }
 body.presentation-mode .page-title { font-size: 20px; }
 
 body.presentation-mode .status-card { border-left: 3px solid transparent; }
@@ -1666,11 +2183,22 @@ body.presentation-mode .progress-pct { display: none; }
   <div class="lock-box">
     <div class="lock-logo">🔒</div>
     <div class="lock-title">Painel de Frentes</div>
-    <div class="lock-sub">Digite a senha de acesso</div>
+    <div class="lock-sub" id="lock-sub">Digite a senha para acessar</div>
+    
+    <div id="racf-field" style="display:none;margin-bottom:0">
+      <input type="text" class="lock-input" id="racf-input" placeholder="RACF (ex: a12345)" autocomplete="off" style="margin-bottom:8px;letter-spacing:0.05em;text-transform:lowercase" onkeydown="if(event.key==='Enter')document.getElementById('lock-input').focus()">
+    </div>
     <input type="password" class="lock-input" id="lock-input" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')tryUnlock()">
-    <button class="lock-btn" onclick="tryUnlock()">Acessar</button>
+    <button class="lock-btn" onclick="tryUnlock()" id="lock-btn">Acessar</button>
     <div class="lock-error" id="lock-error"></div>
-    <div class="lock-hint">Senha de visualização: ver o painel<br>Senha de editor: ver e editar</div>
+    <div class="lock-hint">
+      <span id="hint-viewer">👁️ Visualização: só senha</span><br>
+      <span id="hint-editor">✏️ Editor: RACF + senha</span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+      <button class="lock-mode-btn active" id="btn-mode-viewer" onclick="setLockMode('viewer')">👁️ Visualização</button>
+      <button class="lock-mode-btn" id="btn-mode-editor" onclick="setLockMode('editor')">✏️ Editor</button>
+    </div>
   </div>
 </div>
 
@@ -1687,6 +2215,15 @@ const GITHUB_FILE  = "dados_painel.json";
 <!-- ══════════════════════════════════════════════════════════════ -->
 
 <div class="toast" id="toast"></div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loading-text">Carregando dados...</div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
 
 
 <!-- PAINEL DE COMPARTILHAMENTO -->
@@ -1745,6 +2282,42 @@ const GITHUB_FILE  = "dados_painel.json";
     <div class="unlock-actions-mini">
       <button class="unlock-btn-cancel-mini" onclick="closeUnlockEditor()">Cancelar</button>
       <button class="unlock-btn-confirm" onclick="confirmUnlockEditor()">Liberar edição</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL NOVA PÁGINA -->
+<div class="modal-overlay" id="new-page-overlay" onclick="if(event.target===this)closeNewPageModal()" style="z-index:4500">
+  <div class="modal">
+    <div class="modal-title">➕ Nova página</div>
+    <div class="modal-field">
+      <label class="modal-label">Nome da página</label>
+      <input class="modal-input" id="new-page-name" type="text" placeholder="Ex: Dados de campanha">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Seção na sidebar</label>
+      <select class="modal-input" id="new-page-section">
+        <option value="0">Geral</option>
+        <option value="1">Reenquadramentos</option>
+        <option value="2">Upgrades</option>
+        <option value="new">+ Nova seção</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" style="margin-bottom:8px">Blocos de conteúdo</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="block-selector">
+        <label class="block-option"><input type="checkbox" value="gantt"> 📊 Gantt</label>
+        <label class="block-option"><input type="checkbox" value="cards"> 📋 Cards de status</label>
+        <label class="block-option"><input type="checkbox" value="text"> 📝 Texto livre</label>
+        <label class="block-option"><input type="checkbox" value="table"> 🗂️ Tabela</label>
+        <label class="block-option"><input type="checkbox" value="ondas"> 🌊 Ondas</label>
+        <label class="block-option"><input type="checkbox" value="pmo"> 🎯 PMO mini</label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn-cancel" onclick="closeNewPageModal()">Cancelar</button>
+      <button class="modal-btn-confirm" onclick="createNewPage()">Criar página</button>
     </div>
   </div>
 </div>
@@ -1852,6 +2425,7 @@ const GITHUB_FILE  = "dados_painel.json";
       <button class="sidebar-action-btn share-btn-side" onclick="openSharePanel()">🔗 Compartilhar</button>
       <button class="password-settings-btn" onclick="openPasswordSettings()">🔑 Alterar senhas</button>
       <button class="unlock-editor-btn" onclick="openUnlockEditor()">🔓 Modo editor</button>
+      <button class="sidebar-action-btn" onclick="goTo('config')" id="nav-config" style="color:var(--text2)">⚙️ Configurações</button>
       <button class="logout-btn" onclick="logoutPanel()">🚪 Sair</button>
     </div>
   </aside>
@@ -1895,19 +2469,22 @@ const GITHUB_FILE  = "dados_painel.json";
           <div class="page-title editable-title" data-key="title-pmo" onclick="editTitle(this)">PMO — Acompanhamento Ondas CCLC</div>
           <div class="page-sub editable-title" data-key="sub-pmo" onclick="editTitle(this)">Visão consolidada de todas as frentes · Junho 2026</div>
         </div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1A7A4A;display:inline-block"></span>Concluído</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#003399;display:inline-block"></span>Em andamento</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#888580;display:inline-block"></span>Pausado</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#B56A00;display:inline-block"></span>Atenção</span>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <span class="task-status ts-concluido">✅ Concluído</span>
+          <span class="task-status ts-andamento">🟦 Em andamento</span>
+          <span class="task-status ts-atencao">⚠️ Atenção</span>
+          <span class="task-status ts-pausado" style="background:#FDECEA;color:#C0392B">🔴 Atrasado</span>
         </div>
       </div>
 
+      <div class="section-header" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Acompanhamento de frentes</span>
+        <span id="pmo-edit-hint" style="font-size:11px;color:var(--text3)">💡 Clique em qualquer célula para editar</span>
+      </div>
+      <div id="pmo-table-container" style="margin-bottom:28px"></div>
+
       <div class="section-header">Gantt consolidado</div>
       <div id="gantt-pmo-container" style="margin-bottom:28px"></div>
-
-      <div class="section-header">Tabela de frentes</div>
-      <div id="pmo-table-container" style="margin-bottom:28px"></div>
     </div>
 
     <!-- ── IU › IP ── -->
@@ -2036,6 +2613,39 @@ const GITHUB_FILE  = "dados_painel.json";
       <button class="btn-add-card" onclick="openAddCard('cpia')">+ Adicionar card</button>
     </div>
 
+    <!-- ── CONFIGURAÇÕES ── -->
+    <div class="page" id="page-config">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="page-title editable-title" data-key="title-config" onclick="editTitle(this)">Configurações</div>
+          <div class="page-sub">Gerencie acessos, senhas e páginas do painel</div>
+        </div>
+      </div>
+      <div class="section-header">RACFs autorizados</div>
+      <div id="racf-manager-container"></div>
+      <div class="section-header" style="margin-top:16px">Senhas de acesso</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:28px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div class="section-header" style="margin-bottom:6px">Senha de visualização</div>
+            <div style="display:flex;gap:6px">
+              <input type="password" class="gedit-input" id="new-pwd-viewer" placeholder="Nova senha">
+              <button class="btn-save" onclick="changePassword('viewer')">Salvar</button>
+            </div>
+          </div>
+          <div>
+            <div class="section-header" style="margin-bottom:6px">Senha de editor</div>
+            <div style="display:flex;gap:6px">
+              <input type="password" class="gedit-input" id="new-pwd-editor" placeholder="Nova senha">
+              <button class="btn-save" onclick="changePassword('editor')">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-header">Páginas personalizadas</div>
+      <div id="custom-pages-manager"></div>
+    </div>
+
   </main>
 </div>
 
@@ -2063,35 +2673,156 @@ function getPasswords() {
 let _accessMode = null; // null | 'viewer' | 'editor'
 window._accessMode = null;
 
+
+/* ── SISTEMA RACF ── */
+let _lockMode = 'viewer'; // 'viewer' | 'editor'
+
+window.setLockMode = function(mode) {
+  _lockMode = mode;
+  const racfField = document.getElementById('racf-field');
+  const sub = document.getElementById('lock-sub');
+  const btnViewer = document.getElementById('btn-mode-viewer');
+  const btnEditor = document.getElementById('btn-mode-editor');
+  
+  if (mode === 'editor') {
+    if (racfField) racfField.style.display = 'block';
+    if (sub) sub.textContent = 'Digite seu RACF e a senha de editor';
+    if (btnViewer) btnViewer.classList.remove('active');
+    if (btnEditor) btnEditor.classList.add('active');
+    const racfInp = document.getElementById('racf-input');
+    if (racfInp) racfInp.focus();
+  } else {
+    if (racfField) racfField.style.display = 'none';
+    if (sub) sub.textContent = 'Digite a senha para acessar';
+    if (btnViewer) btnViewer.classList.add('active');
+    if (btnEditor) btnEditor.classList.remove('active');
+    const lockInp = document.getElementById('lock-input');
+    if (lockInp) lockInp.focus();
+  }
+};
+
+function getAuthorizedRACFs() {
+  return store['authorized-racfs'] || ['satturicio'];
+}
+
+function isRACFAuthorized(racf) {
+  const list = getAuthorizedRACFs();
+  return list.map(r => r.toLowerCase()).includes(racf.toLowerCase());
+}
+
+function getCurrentRACF() {
+  return sessionStorage.getItem('cclc_racf') || '';
+}
+
+/* ── RACF MANAGER (para admin) ── */
+function renderRACFManager() {
+  const container = document.getElementById('racf-manager-container');
+  if (!container) return;
+  const list = getAuthorizedRACFs();
+  container.innerHTML = `
+    <div class="section-header" style="margin-bottom:12px">RACFs autorizados (modo editor)</div>
+    <div class="racf-manager">
+      <div class="racf-list">${list.map((r,i) => 
+        `<span class="racf-chip">${r}<button class="racf-chip-del" onclick="removeRACF(${i})">✕</button></span>`
+      ).join('')}</div>
+      <div class="racf-add-row">
+        <input class="racf-add-input" id="racf-add-input" type="text" placeholder="Novo RACF (ex: a12345)" onkeydown="if(event.key==='Enter')addRACF()">
+        <button class="racf-add-btn" onclick="addRACF()">+ Adicionar</button>
+      </div>
+    </div>`;
+}
+
+window.addRACF = function() {
+  const input = document.getElementById('racf-add-input');
+  if (!input || !input.value.trim()) return;
+  const racf = input.value.trim().toLowerCase();
+  const list = getAuthorizedRACFs();
+  if (list.includes(racf)) { showToast('RACF já cadastrado', 'warning'); return; }
+  list.push(racf);
+  store['authorized-racfs'] = list;
+  saveToGitHub(true).then(() => { renderRACFManager(); showToast('OK: RACF adicionado', 'success'); });
+  input.value = '';
+};
+
+window.removeRACF = function(i) {
+  const list = getAuthorizedRACFs();
+  const racf = list[i];
+  if (!confirm(`Remover RACF "${racf}"? Ele não poderá mais editar o painel.`)) return;
+  list.splice(i, 1);
+  store['authorized-racfs'] = list;
+  saveToGitHub(true).then(() => { renderRACFManager(); showToast('RACF removido', 'info'); });
+};
+
 window.tryUnlock = async function() {
   const input = document.getElementById('lock-input');
   const errEl = document.getElementById('lock-error');
+  const btn = document.getElementById('lock-btn');
   const pwd = input.value.trim();
+  
+  if (!pwd) {
+    errEl.textContent = 'Digite a senha para continuar.';
+    input.focus();
+    return;
+  }
+  
+  if (btn) { btn.disabled = true; btn.textContent = 'Verificando...'; }
+  errEl.textContent = '';
 
-  // Antes do store carregar, usa defaults
-  // Após carregar, usa as senhas do store
   let pwds = DEFAULT_PASSWORDS;
   if (window.store && window.store['passwords']) pwds = window.store['passwords'];
 
-  if (pwd === pwds.editor) {
+  if (_lockMode === 'editor') {
+    // Editor mode: needs RACF + password
+    const racfInput = document.getElementById('racf-input');
+    const racf = racfInput ? racfInput.value.trim().toLowerCase() : '';
+    
+    if (!racf) {
+      errEl.textContent = '❌ Digite seu RACF para continuar.';
+      if (btn) { btn.disabled = false; btn.textContent = 'Acessar'; }
+      if (racfInput) racfInput.focus();
+      return;
+    }
+    
+    if (pwd !== pwds.editor) {
+      errEl.textContent = '❌ Senha de editor incorreta. Tente novamente.';
+      input.classList.add('error');
+      setTimeout(() => input.classList.remove('error'), 500);
+      if (btn) { btn.disabled = false; btn.textContent = 'Acessar'; }
+      input.select();
+      return;
+    }
+    
+    if (!isRACFAuthorized(racf)) {
+      errEl.textContent = `❌ RACF "${racf}" não autorizado. Contate o administrador.`;
+      if (btn) { btn.disabled = false; btn.textContent = 'Acessar'; }
+      return;
+    }
+    
+    // All good — editor access granted
     _accessMode = 'editor';
     window._accessMode = 'editor';
-    document.getElementById('lock-screen').style.display = 'none';
     sessionStorage.setItem('cclc_access', 'editor');
-    startApp();
-  } else if (pwd === pwds.viewer) {
-    _accessMode = 'viewer';
-    window._accessMode = 'viewer';
-    document.body.classList.add('viewer-mode');
-    document.body.classList.add('presentation-mode'); // viewer = modo apresentação forçado
+    sessionStorage.setItem('cclc_racf', racf);
     document.getElementById('lock-screen').style.display = 'none';
-    sessionStorage.setItem('cclc_access', 'viewer');
     startApp();
+    
   } else {
-    errEl.textContent = 'Senha incorreta';
-    input.classList.add('error');
-    setTimeout(() => input.classList.remove('error'), 500);
-    input.select();
+    // Viewer mode: just password
+    if (pwd === pwds.viewer) {
+      _accessMode = 'viewer';
+      window._accessMode = 'viewer';
+      document.body.classList.add('viewer-mode');
+      document.body.classList.add('presentation-mode');
+      document.getElementById('lock-screen').style.display = 'none';
+      sessionStorage.setItem('cclc_access', 'viewer');
+      startApp();
+    } else {
+      errEl.textContent = '❌ Senha incorreta. Tente novamente.';
+      input.classList.add('error');
+      setTimeout(() => input.classList.remove('error'), 500);
+      if (btn) { btn.disabled = false; btn.textContent = 'Acessar'; }
+      input.select();
+    }
   }
 };
 
@@ -2117,6 +2848,7 @@ function checkSessionAccess() {
   if (saved === 'editor' && !window._forceViewer) {
     _accessMode = 'editor';
     window._accessMode = 'editor';
+    // RACF already in sessionStorage
     document.getElementById('lock-screen').style.display = 'none';
     return true;
   } else if (saved === 'viewer' || (saved === 'editor' && window._forceViewer)) {
@@ -2146,7 +2878,7 @@ window.openPasswordSettings = function() {
     editor: newEditor.trim() || pwds.editor,
   };
   saveToGitHub(true).then(() => {
-    showToast('✓ Senhas atualizadas. Compartilhe as novas com o time.');
+    showToast('OK: Senhas atualizadas. Compartilhe as novas com o time.');
   });
 };
 
@@ -2174,9 +2906,10 @@ window.confirmUnlockEditor = function() {
     const url = window.location.pathname;
     window.location.href = url;
   } else {
-    errEl.textContent = 'Senha incorreta';
+    errEl.textContent = '❌ Senha incorreta. Tente novamente.';
     input.classList.add('error');
     setTimeout(() => input.classList.remove('error'), 500);
+    if (btn) { btn.disabled = false; btn.textContent = 'Acessar'; }
     input.select();
   }
 };
@@ -2240,17 +2973,48 @@ function isConfigured() {
 }
 
 function setSyncStatus(state, label) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  dot.className = 'sync-dot ' + state;
-  lbl.textContent = label;
+  updateSyncBadge(state, label);
 }
 
-function showToast(msg, isError) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast' + (isError ? ' error-toast' : '') + ' show';
-  setTimeout(() => t.className = 'toast', 2500);
+function showToast(msg, type) {
+  // type: 'success' | 'error' | 'info' | 'warning'
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  const t = type || (msg.startsWith('✓') ? 'success' : msg.startsWith('✗') || msg.toLowerCase().includes('erro') ? 'error' : 'info');
+  const el = document.createElement('div');
+  el.className = `toast-item toast-${t}`;
+  el.textContent = msg;
+  container.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+function showLoading(text) {
+  const el = document.getElementById('loading-overlay');
+  const txt = document.getElementById('loading-text');
+  if (el) { el.classList.add('show'); if (txt) txt.textContent = text || 'Carregando...'; }
+}
+
+function hideLoading() {
+  const el = document.getElementById('loading-overlay');
+  if (el) el.classList.remove('show');
+}
+
+function updateSyncBadge(state, label) {
+  const el = document.getElementById('sync-label');
+  const dot = document.getElementById('sync-dot');
+  if (el) el.textContent = label;
+  if (dot) dot.className = 'sync-dot ' + state;
+  // Also update sidebar footer sync info
+  const syncInfo = document.querySelector('.sync-info');
+  if (syncInfo) {
+    const cls = state === 'synced' ? 'synced' : state === 'syncing' ? 'syncing' : 'error';
+    const icon = state === 'synced' ? '✓' : state === 'syncing' ? '⟳' : '✗';
+    syncInfo.innerHTML = '<span class="sync-badge ' + cls + '">' + icon + ' ' + label + '</span>';
+  }
 }
 
 async function ghFetch(method, body) {
@@ -2268,11 +3032,13 @@ async function ghFetch(method, body) {
 }
 
 async function loadFromGitHub() {
+  showLoading('Carregando dados do GitHub...');
   if (!isConfigured()) {
     document.getElementById('config-banner').classList.remove('hidden');
     setSyncStatus('error', 'Não configurado');
     store = buildDefaultStore();
     window.store = store;
+    hideLoading();
     renderAll();
     return;
   }
@@ -2282,6 +3048,7 @@ async function loadFromGitHub() {
     if (res.status === 404) {
       store = buildDefaultStore();
       window.store = store;
+      hideLoading();
       renderAll();
       await saveToGitHub(true);
     } else if (res.ok) {
@@ -2290,15 +3057,25 @@ async function loadFromGitHub() {
       const decoded = JSON.parse(atob(data.content.replace(/\n/g,'')));
       store = mergeWithDefaults(decoded);
       window.store = store;
-      setSyncStatus('synced', 'Sincronizado');
+      setSyncStatus('synced', new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}));
+      hideLoading();
       renderAll();
       document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
     } else {
       throw new Error('HTTP ' + res.status);
     }
   } catch(e) {
+    hideLoading();
     setSyncStatus('error', 'Erro de conexão');
-    showToast('Erro ao carregar dados do GitHub', true);
+    // Check if token issue
+    const errMsg = e.message || '';
+    if (errMsg.includes('401') || errMsg.includes('403')) {
+      showToast('Token inválido. Atualize o GITHUB_TOKEN no arquivo HTML.', 'error');
+    } else if (errMsg.includes('404')) {
+      showToast('Repositório não encontrado. Verifique GITHUB_OWNER e GITHUB_REPO.', 'error');
+    } else {
+      showToast('Erro de conexão com GitHub. Verifique sua internet.', 'error');
+    }
     store = buildDefaultStore();
     window.store = store;
     renderAll();
@@ -2321,7 +3098,7 @@ async function saveToGitHub(silent) {
       ghFileSha = data.content.sha;
       setSyncStatus('synced', 'Sincronizado');
       document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-      if (!silent) showToast('✓ Salvo e sincronizado');
+      if (!silent) showToast('OK: Salvo e sincronizado');
     } else {
       throw new Error('HTTP ' + res.status);
     }
@@ -2380,6 +3157,7 @@ function renderAll() {
   renderPMO();
   renderSidebar();
   applyStoredTitles();
+  renderConfigPage();
 }
 
 function renderCard(id) {
@@ -2408,8 +3186,10 @@ function renderCard(id) {
         ${isCustom ? `<button class="delete-card-btn" onclick="deleteCard('${id}')" title="Excluir card">✕</button>` : ''}
       </div>
     </div>
-    <div id="display-${id}" class="status-text-display">${textHtml}</div>
+    ${s.isDraft ? `<div style="font-size:10px;font-weight:600;color:var(--amber);background:var(--amber-light);padding:2px 7px;border-radius:99px;display:inline-block;margin-bottom:6px">📝 Rascunho — não publicado</div>` : ''}
+    <div id="display-${id}" class="status-text-display ${s.isDraft ? 'draft-content' : ''}">${textHtml}</div>
     ${lastEdited}
+    ${isExpired(s) ? `<div style="font-size:10px;font-weight:600;color:var(--red);background:var(--red-light);padding:2px 7px;border-radius:99px;display:inline-block;margin-top:4px">⚠️ Validade expirada em ${s.expiryDate}</div>` : ''}
     <div id="edit-${id}" class="edit-area">
       <div class="dot-selector">
         <span class="dot-selector-label">Status:</span>
@@ -2418,7 +3198,13 @@ function renderCard(id) {
       <textarea class="status-textarea" id="inp-${id}">${s.text}</textarea>
       <div class="status-actions">
         <button class="btn-save" id="savebtn-${id}" onclick="saveCard('${id}')">Salvar</button>
+        <button class="btn-save" id="draftbtn-${id}" onclick="saveCardDraft('${id}')" style="background:var(--text2)">Rascunho</button>
         <button class="btn-cancel" onclick="cancelEdit('${id}')">Cancelar</button>
+      </div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="expiry-check-${id}" onchange="toggleExpiry('${id}')" ${s.expiryDate?'checked':''} style="cursor:pointer">
+        <label for="expiry-check-${id}" style="font-size:11px;color:var(--text2);cursor:pointer">Data de validade</label>
+        ${s.expiryDate ? `<input type="date" id="expiry-date-${id}" value="${s.expiryDate}" class="gedit-input" style="width:130px;font-size:11px" onchange="updateExpiry('${id}',this.value)">` : ''}
       </div>
     </div>
   </div>`;
@@ -2469,57 +3255,52 @@ function isWeekend(day, month) {
 }
 
 function buildGantt(containerId, rows, months) {
-  const el = document.getElementById(containerId);
+  var el = document.getElementById(containerId);
   if (!el) return;
-  const LBL_W = 108;
-  const cols = [];
-  months.forEach(m => {
-    for (let d = 1; d <= MONTH_DAYS[m]; d++) cols.push({ month: m, day: d });
+  var LBL_W = 108;
+  var cols = [];
+  months.forEach(function(m) {
+    for (var d = 1; d <= MONTH_DAYS[m]; d++) cols.push({ month: m, day: d });
   });
-  const gc = `${LBL_W}px repeat(${cols.length}, 1fr)`;
-
-  let h = `<div class="gantt-section"><div class="gantt-scroll"><div class="gantt-inner">`;
-
-  h += `<div class="gantt-month-row" style="display:grid;grid-template-columns:${gc}">`;
-  h += `<div class="gantt-corner">Fase</div>`;
-  months.forEach(m => {
-    h += `<div class="month-block" style="grid-column:span ${MONTH_DAYS[m]}">${MONTH_LABEL[m]}</div>`;
+  var gc = LBL_W + 'px repeat(' + cols.length + ', 1fr)';
+  var h = '<div class="gantt-section"><div class="gantt-scroll"><div class="gantt-inner">';
+  h += '<div class="gantt-month-row" style="display:grid;grid-template-columns:' + gc + '">';
+  h += '<div class="gantt-corner">Fase</div>';
+  months.forEach(function(m) {
+    h += '<div class="month-block" style="grid-column:span ' + MONTH_DAYS[m] + '">' + MONTH_LABEL[m] + '</div>';
   });
-  h += `</div>`;
-
-  h += `<div class="gantt-day-row" style="display:grid;grid-template-columns:${gc}">`;
-  h += `<div class="day-hdr"></div>`;
-  cols.forEach(c => {
-    const t = c.month==='junho' && c.day===TODAY_DAY;
-    const w = isWeekend(c.day, c.month);
-    h += `<div class="day-hdr${t?' today-hdr':''}${w?' wknd':''}">${c.day}</div>`;
+  h += '</div>';
+  h += '<div class="gantt-day-row" style="display:grid;grid-template-columns:' + gc + '">';
+  h += '<div class="day-hdr"></div>';
+  cols.forEach(function(col) {
+    var t = col.month==='junho' && col.day===TODAY_DAY;
+    var w = isWeekend(col.day, col.month);
+    h += '<div class="day-hdr' + (t?' today-hdr':'') + (w?' wknd':'') + '">' + col.day + '</div>';
   });
-  h += `</div>`;
-
-  rows.forEach(row => {
-    h += `<div class="gantt-data-row" style="display:grid;grid-template-columns:${gc}">`;
-    h += `<div class="row-lbl">${row.label}</div>`;
-    cols.forEach(c => {
-      const t = c.month==='junho' && c.day===TODAY_DAY;
-      const w = isWeekend(c.day, c.month);
-      let cc = t ? `<div class="today-vline"></div>` : '';
-      row.bars.forEach(b => {
-        const bm = b.month || 'junho';
-        if (c.month !== bm || c.day < b.start || c.day > b.end) return;
-        if (b.milestone && c.day === b.start) {
-          cc += `<div class="gms" style="background:${b.msColor};color:${b.msText}">${b.msLabel||c.day}</div>`;
+  h += '</div>';
+  rows.forEach(function(row) {
+    h += '<div class="gantt-data-row" style="display:grid;grid-template-columns:' + gc + '">';
+    h += '<div class="row-lbl">' + row.label + '</div>';
+    cols.forEach(function(col) {
+      var t = col.month==='junho' && col.day===TODAY_DAY;
+      var w = isWeekend(col.day, col.month);
+      var cc = t ? '<div class="today-vline"></div>' : '';
+      (row.bars || []).forEach(function(b) {
+        var bm = b.month || 'junho';
+        if (col.month !== bm || col.day < b.start || col.day > b.end) return;
+        if (b.milestone && col.day === b.start) {
+          cc += '<div class="gms" style="background:' + b.msColor + ';color:' + b.msText + '">' + (b.msLabel||col.day) + '</div>';
         } else {
-          const f = c.day===b.start, l = c.day===b.end;
-          const br = `border-radius:${f?'3px':'0'} ${l?'3px':'0'} ${l?'3px':'0'} ${f?'3px':'0'}`;
-          cc += `<div class="gbar" style="background:${b.color};left:${f?'4px':'0'};right:${l?'4px':'0'};${br}"></div>`;
+          var f = col.day===b.start, l = col.day===b.end;
+          var br = 'border-radius:' + (f?'3px':'0') + ' ' + (l?'3px':'0') + ' ' + (l?'3px':'0') + ' ' + (f?'3px':'0');
+          cc += '<div class="gbar" style="background:' + b.color + ';left:' + (f?'4px':'0') + ';right:' + (l?'4px':'0') + ';' + br + '"></div>';
         }
       });
-      h += `<div class="gcell${t?' today-col':''}${w?' wknd-col':''}">${cc}</div>`;
+      h += '<div class="gcell' + (t?' today-col':'') + (w?' wknd-col':'') + '">' + cc + '</div>';
     });
-    h += `</div>`;
+    h += '</div>';
   });
-
-  h += `</div></div></div>`;
+  h += '</div></div></div>';
   el.innerHTML = h;
 }
 
@@ -2624,7 +3405,7 @@ window.saveMetric = function(id) {
   saveToGitHub(true).then(() => {
     btn.disabled = false; btn.textContent = 'Salvar';
     renderMetrics();
-    showToast('✓ Métrica salva');
+    showToast('OK: Métrica salva');
   });
 };
 
@@ -2695,7 +3476,7 @@ window.updateProg = function(id, val) {
 
 window.saveProg = function(id, val) {
   store['prog-' + id] = parseInt(val);
-  saveToGitHub(true).then(() => showToast('✓ Progresso salvo'));
+  saveToGitHub(true).then(() => showToast('OK: Progresso salvo'));
 };
 
 /* ── DELETAR CARD ── */
@@ -2710,12 +3491,53 @@ window.deleteCard = function(id) {
 };
 
 /* ── SALVAR COM TIMESTAMP ── */
+
+window.saveCardDraft = function(id) {
+  const btn = document.getElementById('draftbtn-' + id);
+  if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+  store[id].text = document.getElementById('inp-' + id).value;
+  store[id].isDraft = true;
+  const now = new Date();
+  const racf = getCurrentRACF();
+  store[id].editedAt = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  store[id].editedBy = racf || 'editor';
+  saveToGitHub(false).then(() => {
+    if (btn) { btn.disabled = false; btn.textContent = 'Rascunho'; }
+    document.getElementById('display-' + id).style.display = 'block';
+    document.getElementById('edit-' + id).style.display = 'none';
+    renderAll();
+    showToast('[Rascunho] Salvo como rascunho', 'info');
+  });
+};
+
+window.toggleExpiry = function(id) {
+  var checked = document.getElementById('expiry-check-' + id).checked;
+  if (!checked) {
+    store[id].expiryDate = null;
+  } else {
+    store[id].expiryDate = new Date().toISOString().split('T')[0];
+  }
+  saveToGitHub(true).then(function() { renderAll(); });
+};
+
+window.updateExpiry = function(id, val) {
+  store[id].expiryDate = val;
+  saveToGitHub(true).then(() => showToast('OK: Data de validade salva', 'success'));
+};
+
+function isExpired(s) {
+  if (!s.expiryDate) return false;
+  return new Date(s.expiryDate) < new Date();
+}
+
 window.saveCard = function(id) {
   const btn = document.getElementById('savebtn-' + id);
   btn.disabled = true; btn.textContent = 'Salvando...';
   store[id].text = document.getElementById('inp-' + id).value;
   const now = new Date();
+  const racf = getCurrentRACF();
   store[id].editedAt = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  store[id].editedBy = racf || 'editor';
   saveToGitHub(false).then(() => {
     btn.disabled = false; btn.textContent = 'Salvar';
     const textHtml = store[id].text
@@ -2819,7 +3641,7 @@ window.confirmAddCard = function() {
     btn.textContent = 'Adicionar card';
     closeModal();
     renderAll();
-    showToast('✓ Card adicionado e salvo');
+    showToast('OK: Card adicionado e salvo');
   });
 };
 
@@ -2880,7 +3702,7 @@ window.addAlerta = function(type) {
   const data = getAlertas();
   data[type].push(txt.trim());
   store['alertas'] = data;
-  saveToGitHub(true).then(() => { renderAlertas(); showToast('✓ Alerta adicionado'); });
+  saveToGitHub(true).then(() => { renderAlertas(); showToast('OK: Alerta adicionado'); });
 };
 
 /* ── ONDAS & TAREFAS ── */
@@ -3022,14 +3844,14 @@ window.saveTask = function(f, oi, ti) {
   ondas[oi].tarefas[ti].resp = document.getElementById(`tresp-${f}-${oi}-${ti}`).value;
   ondas[oi].tarefas[ti].data = document.getElementById(`tdata-${f}-${oi}-${ti}`).value;
   store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa salva'); });
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('OK: Tarefa salva'); });
 };
 
 window.changeTaskStatus = function(f, oi, ti, val) {
   const ondas = getOndas(f);
   ondas[oi].tarefas[ti].status = val;
   store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Status atualizado'); });
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('OK: Status atualizado'); });
 };
 
 window.deleteTask = function(f, oi, ti) {
@@ -3056,17 +3878,17 @@ window.addTask = function(f, oi) {
   const ondas = getOndas(f);
   ondas[oi].tarefas.push({ desc: desc.trim(), status: 'andamento', resp: resp.trim(), data: data.trim() });
   store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Tarefa adicionada'); });
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('OK: Tarefa adicionada'); });
 };
 
 window.addOnda = function(f) {
-  const nome = prompt('Nome da onda (ex: 1ª Onda):');
+  const nome = prompt('Nome da onda (ex: 1a Onda):');
   if (!nome || !nome.trim()) return;
   const volume = prompt('Volume de clientes (ex: 5k ou TBD):') || 'TBD';
   const ondas = getOndas(f);
   ondas.push({ onda: nome.trim(), volume: volume.trim(), dataInicio:'', dataFim:'', evolucao:'', tarefas:[] });
   store['ondas-' + f] = ondas;
-  saveToGitHub(true).then(() => { renderOndas(f); showToast('✓ Onda adicionada'); });
+  saveToGitHub(true).then(() => { renderOndas(f); showToast('OK: Onda adicionada'); });
 };
 
 function renderAllOndas() {
@@ -3076,7 +3898,27 @@ function renderAllOndas() {
 
 
 
+
+/* ── SIDEBAR TOGGLE ── */
+/* ── FRENTE COLOR PICKER ── */
 /* ── SIDEBAR EDITÁVEL ── */
+
+function getFrenteConfig(frenteId) {
+  const defaults = {
+    'iu-ip':  { color: '#EC7000', emoji: '' },
+    'iu-ia':  { color: '#F8A85C', emoji: '' },
+    'ia-iu':  { color: '#003399', emoji: '' },
+    'iu-ipa': { color: '#3366CC', emoji: '' },
+    'cp-ia':  { color: '#6699EE', emoji: '' },
+  };
+  const saved = store['frente-configs'] && store['frente-configs'][frenteId];
+  return saved || defaults[frenteId] || { color: '#EC7000', emoji: '' };
+}
+
+function closePicker() {
+  document.querySelectorAll('.frente-color-picker').forEach(p => p.classList.remove('open'));
+}
+
 const SIDEBAR_DEFAULT = [
   { label: 'Geral', items: [
     { id: 'geral', name: 'Visão geral', color: 'var(--laranja)' },
@@ -3115,14 +3957,33 @@ function renderSidebar() {
       </div>`;
     section.items.forEach((item, ii) => {
       const active = item.id === activePage ? ' active' : '';
+      // Get frente config for color/emoji
+      const fCfg = (item.id !== 'geral' && item.id !== 'pmo' && item.id !== 'config') ? getFrenteConfig(item.id) : null;
+      const dotColor = fCfg ? fCfg.color : item.color;
+      const emoji = fCfg ? fCfg.emoji : '';
       h += `<button class="nav-item${active}" onclick="goTo('${item.id}')" id="nav-${item.id}">
-        <div class="nav-dot" style="background:${item.color}"></div>
-        <span style="flex:1;text-align:left">${item.name}</span>
-        ${!isPresent ? `<span class="nav-item-edit-btn" onclick="event.stopPropagation();editSidebarItem(${si},${ii})">✎</span>` : ''}
+        <div class="nav-dot" style="background:${dotColor}"></div>
+        <span style="flex:1;text-align:left">${emoji ? emoji + ' ' : ''}${item.name}</span>
+        ${!isPresent ? `
+          <span class="nav-item-actions">
+            ${ii > 0 ? `<span class="nav-reorder-btn" onclick="event.stopPropagation();moveNavItem(${si},${ii},-1)" title="Mover para cima">↑</span>` : ''}
+            ${ii < section.items.length-1 ? `<span class="nav-reorder-btn" onclick="event.stopPropagation();moveNavItem(${si},${ii},1)" title="Mover para baixo">↓</span>` : ''}
+            <span class="nav-item-edit-btn" onclick="event.stopPropagation();editSidebarItem(${si},${ii})">✎</span>
+            ${fCfg ? `<span class="nav-item-color-btn" onclick="openFrenteColorPicker('${item.id}',event)" title="Personalizar cor e emoji">🎨</span>` : ''}
+          </span>` : ''}
       </button>`;
     });
     h += `</div>`;
   });
+  // Add "New Page" button at the bottom of nav
+  if (!isPresent) {
+    h += `<div class="nav-section">
+      <button class="nav-item" onclick="openNewPageModal()" style="color:var(--laranja);border:1.5px dashed var(--laranja-mid);background:var(--laranja-light)">
+        <span style="font-size:14px">+</span>
+        <span style="flex:1;text-align:left">Nova página</span>
+      </button>
+    </div>`;
+  }
   el.innerHTML = h;
 }
 
@@ -3134,7 +3995,7 @@ window.editSidebarItem = function(si, ii) {
   if (newName === null) return;
   cfg[si].items[ii].name = newName.trim() || item.name;
   store['sidebar-config'] = cfg;
-  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Item renomeado'); });
+  saveToGitHub(true).then(() => { renderSidebar(); showToast('OK: Item renomeado'); });
 };
 
 window.editSidebarSection = function(si) {
@@ -3144,7 +4005,7 @@ window.editSidebarSection = function(si) {
   if (newLabel === null) return;
   cfg[si].label = newLabel.trim() || cfg[si].label;
   store['sidebar-config'] = cfg;
-  saveToGitHub(true).then(() => { renderSidebar(); showToast('✓ Seção renomeada'); });
+  saveToGitHub(true).then(() => { renderSidebar(); showToast('OK: Seção renomeada'); });
 };
 
 /* ── TÍTULOS EDITÁVEIS ── */
@@ -3157,7 +4018,7 @@ window.editTitle = function(el) {
   if (!store['titles']) store['titles'] = {};
   store['titles'][key] = newText.trim() || currentText;
   el.textContent = store['titles'][key];
-  saveToGitHub(true).then(() => showToast('✓ Salvo'));
+  saveToGitHub(true).then(() => showToast('OK: Salvo'));
 };
 
 function applyStoredTitles() {
@@ -3176,7 +4037,7 @@ window.editPMOCell = function(frenteId, field, currentVal) {
   if (!store['pmo-overrides']) store['pmo-overrides'] = {};
   if (!store['pmo-overrides'][frenteId]) store['pmo-overrides'][frenteId] = {};
   store['pmo-overrides'][frenteId][field] = newVal.trim();
-  saveToGitHub(true).then(() => { renderPMO(); showToast('✓ PMO atualizado'); });
+  saveToGitHub(true).then(() => { renderPMO(); showToast('OK: PMO atualizado'); });
 };
 
 function getPMOValue(frenteId, field, defaultVal) {
@@ -3286,61 +4147,212 @@ function renderPMOGantt() {
   el.appendChild(wrapper);
 }
 
+
+/* ── PMO REFORMULADO ── */
+const PMO_STATUS_OPTS = [
+  { val:'concluido', label:'✅ Concluído',    cls:'ts-concluido' },
+  { val:'andamento', label:'🟦 Em andamento', cls:'ts-andamento' },
+  { val:'atencao',   label:'⚠️ Atenção',      cls:'ts-atencao'   },
+  { val:'atrasado',  label:'🔴 Atrasado',     cls:'ts-pausado', style:'background:#FDECEA;color:#C0392B' },
+  { val:'pausado',   label:'⏸ Pausado',       cls:'ts-pausado'  },
+];
+
+function pmoStatusInfo(val) {
+  return PMO_STATUS_OPTS.find(s => s.val === val) || PMO_STATUS_OPTS[1];
+}
+
+function getPMOMonths() {
+  return store['pmo-months'] || ['junho'];
+}
+
 function renderPMOTable() {
   const el = document.getElementById('pmo-table-container');
   if (!el) return;
-  const isPresent = document.body.classList.contains('presentation-mode');
-  const sidebarCfg = getSidebar();
-  
-  function getDisplayName(fid) {
-    let n = fid.toUpperCase();
-    sidebarCfg.forEach(s => s.items.forEach(it => { if (it.id === fid) n = it.name; }));
-    return n;
+  const isPresent = document.body.classList.contains('presentation-mode') || document.body.classList.contains('viewer-mode');
+  const months = getPMOMonths();
+  const hint = document.getElementById('pmo-edit-hint');
+  if (hint) hint.style.display = isPresent ? 'none' : 'flex';
+
+  let html = '';
+
+  // Add month button
+  if (!isPresent) {
+    html += `<div style="margin-bottom:12px">`;
+    months.forEach((m, mi) => {
+      html += `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--azul-light);color:var(--azul);font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-right:6px;margin-bottom:6px">
+        ${m.charAt(0).toUpperCase()+m.slice(1)}
+        <button onclick="removePMOMonth(${mi})" style="background:none;border:none;color:var(--azul);cursor:pointer;font-size:12px;opacity:0.6" title="Remover mês">✕</button>
+      </span>`;
+    });
+    html += `<button class="pmo-add-month-btn" onclick="addPMOMonth()">+ Mês</button></div>`;
   }
 
-  let h = `<div class="pmo-table-wrap"><table class="pmo-table"><thead><tr>
-    <th style="width:18%">Frente / Ondas</th>
-    <th style="width:10%">Tipo</th>
-    <th style="width:10%">Início</th>
-    <th style="width:10%">Fim</th>
-    <th style="width:12%">Volume</th>
-    <th style="width:16%">Evolução</th>
-    <th style="width:10%">Status</th>
-    <th style="width:14%">Responsável</th>
-  </tr></thead><tbody>`;
-
+  // Build table per frente
   FRENTES_META.forEach(fm => {
-    const ondas = store['ondas-'+fm.id] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[fm.id]||[]));
+    const ondas = store['ondas-' + fm.id] || JSON.parse(JSON.stringify(ONDAS_DEFAULT[fm.id] || []));
+    const cfg = getFrenteConfig(fm.id);
     const agg = frenteAggregate(fm.id);
-    const tipoLabel = fm.type === 'reenq' ? 'reenquadramento' : 'upgrade';
-    const tipoClasse = fm.type === 'reenq' ? 'tag-reenq' : 'tag-upgrade';
     
-    const inicio = getPMOValue(fm.id, 'inicio', ondas[0]?.dataInicio || '—');
-    const fim = getPMOValue(fm.id, 'fim', ondas[ondas.length-1]?.dataFim || '—');
-    const volume = getPMOValue(fm.id, 'volume', ondas.map(o=>o.volume).filter(Boolean).join(', ') || '—');
-    const evolucao = getPMOValue(fm.id, 'evolucao', ondas[0]?.evolucao || '—');
-    const resp = getPMOValue(fm.id, 'responsavel', getResponsaveis(ondas));
+    html += `<div style="margin-bottom:16px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">`;
     
-    const editAttr = (field, val) => isPresent ? '' : `class="pmo-edit-cell" onclick="editPMOCell('${fm.id}','${field}','${(val+'').replace(/'/g,"&apos;")}')"`;
+    // Frente header
+    html += `<div class="pmo-frente-header" style="background:${cfg.color}">
+      <div>
+        <div class="pmo-frente-title">${cfg.emoji ? cfg.emoji + ' ' : ''}${fm.name}</div>
+        <div class="pmo-frente-meta">
+          <span>${agg.total} tarefas</span>
+          <span>${agg.concluidas} concluídas</span>
+          ${agg.atencao > 0 ? `<span>⚠️ ${agg.atencao} atenção</span>` : ''}
+        </div>
+      </div>
+      <div class="pmo-frente-actions">
+        <button class="pmo-frente-btn" onclick="addPMOOnda('${fm.id}')">+ Onda</button>
+      </div>
+    </div>`;
+
+    if (!ondas.length) {
+      html += `<div style="padding:12px 14px;font-size:12px;color:var(--text3);font-style:italic">Nenhuma onda cadastrada.${!isPresent ? ' Clique em "+ Onda" para adicionar.' : ''}</div>`;
+    } else {
+      ondas.forEach((onda, oi) => {
+        const tarefas = onda.tarefas || [];
+        
+        // Onda header
+        html += `<div class="pmo-onda-header">
+          <div class="pmo-onda-label">${onda.onda || 'Onda ' + (oi+1)}${onda.volume ? ' — ' + onda.volume : ''}</div>
+          <div class="pmo-onda-meta">
+            ${onda.dataInicio ? `<span>Início: ${onda.dataInicio}</span>` : ''}
+            ${onda.dataFim ? `<span>Fim: ${onda.dataFim}</span>` : ''}
+            ${onda.evolucao ? `<span>${onda.evolucao}</span>` : ''}
+          </div>
+          <div class="pmo-onda-actions">
+            <button class="task-action-btn" onclick="addPMOTask('${fm.id}', ${oi})">+ Tarefa</button>
+            <button class="task-action-btn task-action-del" onclick="deletePMOOnda('${fm.id}', ${oi})">✕</button>
+          </div>
+        </div>`;
+
+        if (tarefas.length) {
+          // Column headers
+          html += `<div class="pmo-col-header">
+            <div class="pmo-col-h" style="padding-left:42px">Tarefa</div>
+            <div class="pmo-col-h" style="padding-left:14px">Status</div>
+            <div class="pmo-col-h" style="padding-left:14px">Responsável</div>
+            <div class="pmo-col-h" style="padding-left:14px">Data</div>
+          </div>`;
+
+          tarefas.forEach((t, ti) => {
+            const si = pmoStatusInfo(t.status);
+            const statusOpts = PMO_STATUS_OPTS.map(s => 
+              `<option value="${s.val}"${s.val===t.status?' selected':''}>${s.label}</option>`
+            ).join('');
+
+            html += `<div class="pmo-task-row" style="background:var(--surface)">
+              <div class="pmo-task-cell${!isPresent?' editable':''}" onclick="${!isPresent ? `editPMOCell('${fm.id}',${oi},${ti},'desc',this)` : ''}">
+                ${!isPresent ? `<input class="pmo-inline-input" value="${t.desc || ''}" 
+                  onblur="savePMOCell('${fm.id}',${oi},${ti},'desc',this.value)"
+                  onkeydown="if(event.key==='Enter')this.blur()">` 
+                  : (t.desc || '—')}
+              </div>
+              <div class="pmo-task-cell-side${!isPresent?' editable':''}">
+                ${!isPresent 
+                  ? `<select class="pmo-status-sel" onchange="savePMOCell('${fm.id}',${oi},${ti},'status',this.value)">${statusOpts}</select>`
+                  : `<span class="task-status ${si.cls}" ${si.style?`style="${si.style}"`:''}>${si.label}</span>`}
+              </div>
+              <div class="pmo-task-cell-side${!isPresent?' editable':''}">
+                ${!isPresent ? `<input class="pmo-inline-input" value="${t.resp || ''}" placeholder="Responsável"
+                  onblur="savePMOCell('${fm.id}',${oi},${ti},'resp',this.value)"
+                  onkeydown="if(event.key==='Enter')this.blur()">` : (t.resp || '—')}
+              </div>
+              <div class="pmo-task-cell-side${!isPresent?' editable':''}">
+                ${!isPresent ? `<input class="pmo-inline-input" value="${t.data || ''}" placeholder="Data"
+                  onblur="savePMOCell('${fm.id}',${oi},${ti},'data',this.value)"
+                  onkeydown="if(event.key==='Enter')this.blur()">` : (t.data || '—')}
+              </div>
+            </div>`;
+          });
+        } else {
+          html += `<div style="padding:10px 14px 10px 42px;font-size:12px;color:var(--text3);font-style:italic">Nenhuma tarefa.${!isPresent ? ' Clique em "+ Tarefa" para adicionar.' : ''}</div>`;
+        }
+      });
+    }
+
+    // Add onda button at bottom
+    if (!isPresent) {
+      html += `<button class="pmo-add-btn" onclick="addPMOOnda('${fm.id}')">+ Adicionar onda</button>`;
+    }
     
-    h += `<tr>
-      <td><div class="pmo-frente-label">${getDisplayName(fm.id)}</div></td>
-      <td><span class="pmo-tipo-badge ${tipoClasse}">${tipoLabel}</span></td>
-      <td ${editAttr('inicio', inicio)} style="color:var(--text2);font-size:11px">${inicio}</td>
-      <td ${editAttr('fim', fim)} style="color:var(--text2);font-size:11px">${fim}</td>
-      <td ${editAttr('volume', volume)} style="color:var(--text2);font-size:11px">${volume}</td>
-      <td ${editAttr('evolucao', evolucao)} style="color:var(--text2);font-size:11px">${evolucao}</td>
-      <td><span class="task-status ${agg.statusCls}">${agg.statusLabel}</span></td>
-      <td ${editAttr('responsavel', resp)} style="font-size:11px;color:var(--text2)">${resp}</td>
-    </tr>`;
+    html += `</div>`;
   });
 
-  h += `</tbody></table></div>`;
-  if (!isPresent) {
-    h += `<p style="font-size:11px;color:var(--text3);margin-top:8px;font-style:italic">💡 Clique em qualquer célula para editar. Status é calculado automaticamente pelas tarefas das ondas.</p>`;
-  }
-  el.innerHTML = h;
+  el.innerHTML = html;
 }
+
+/* ── PMO EDIT FUNCTIONS ── */
+let _pmoSaveTimer = null;
+
+window.savePMOCell = function(frenteId, oi, ti, field, val) {
+  const ondas = getOndas(frenteId);
+  if (!ondas[oi] || !ondas[oi].tarefas[ti]) return;
+  ondas[oi].tarefas[ti][field] = val;
+  store['ondas-' + frenteId] = ondas;
+  // Debounce saves to avoid too many API calls while typing
+  clearTimeout(_pmoSaveTimer);
+  _pmoSaveTimer = setTimeout(() => {
+    saveToGitHub(true).then(() => {
+      renderPMOTable();
+      showToast('OK: PMO atualizado', 'success');
+    });
+  }, 800);
+};
+
+window.addPMOOnda = function(frenteId) {
+  const nome = prompt('Nome da onda (ex: 1a Onda):');
+  if (!nome || !nome.trim()) return;
+  const volume = prompt('Volume de clientes (ex: 5k):') || '';
+  const ondas = getOndas(frenteId);
+  ondas.push({ onda: nome.trim(), volume: volume.trim(), dataInicio:'', dataFim:'', evolucao:'', tarefas:[] });
+  store['ondas-' + frenteId] = ondas;
+  saveToGitHub(true).then(() => { renderPMOTable(); renderOndas(frenteId); showToast('OK: Onda adicionada', 'success'); });
+};
+
+window.deletePMOOnda = function(frenteId, oi) {
+  if (!confirm('Excluir esta onda e suas tarefas?')) return;
+  const ondas = getOndas(frenteId);
+  ondas.splice(oi, 1);
+  store['ondas-' + frenteId] = ondas;
+  saveToGitHub(true).then(() => { renderPMOTable(); renderOndas(frenteId); showToast('Onda excluída', 'info'); });
+};
+
+window.addPMOTask = function(frenteId, oi) {
+  const ondas = getOndas(frenteId);
+  ondas[oi].tarefas.push({ desc: 'Nova tarefa', status: 'andamento', resp: '', data: '' });
+  store['ondas-' + frenteId] = ondas;
+  saveToGitHub(true).then(() => { renderPMOTable(); renderOndas(frenteId); showToast('OK: Tarefa adicionada', 'success'); });
+};
+
+window.addPMOMonth = function() {
+  const monthOrder = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const current = getPMOMonths();
+  const available = monthOrder.filter(m => !current.includes(m));
+  if (!available.length) { showToast('Todos os meses já estão adicionados', 'warning'); return; }
+    const sel = prompt('Qual mes adicionar? ' + available.join(', '));
+  if (!sel) return;
+  const idx = parseInt(sel) - 1;
+  const month = available[idx] || available.find(m => m.toLowerCase().startsWith(sel.toLowerCase()));
+  if (!month) { showToast('Mês não encontrado', 'error'); return; }
+  current.push(month);
+  current.sort((a,b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+  store['pmo-months'] = current;
+  saveToGitHub(true).then(() => { renderPMOTable(); renderPMO(); showToast('OK: Mês adicionado', 'success'); });
+};
+
+window.removePMOMonth = function(idx) {
+  const months = getPMOMonths();
+  months.splice(idx, 1);
+  store['pmo-months'] = months;
+  saveToGitHub(true).then(() => { renderPMOTable(); renderPMO(); showToast('Mês removido', 'info'); });
+};
+
+
 
 function renderStatusBadge(ondas) {
   const tarefas = ondas.flatMap(o=>o.tarefas||[]);
@@ -3458,9 +4470,263 @@ window.saveGedit = function() {
     buildGantt('gantt-'+_geditFrente, _geditData.rows, _geditData.months);
     renderPMO();
     closeGedit();
-    showToast('✓ Gantt salvo');
+    showToast('OK: Gantt salvo');
   });
 };
+
+
+
+/* ── SIDEBAR TOGGLE ── */
+window.toggleSidebar = function() {
+  const sidebar = document.querySelector('.sidebar');
+  const main = document.querySelector('.main');
+  const btn = document.getElementById('sidebar-toggle');
+  const collapsed = sidebar.classList.toggle('collapsed');
+  if (main) main.classList.toggle('sidebar-collapsed', collapsed);
+  if (btn) btn.textContent = collapsed ? '▶' : '◀';
+  if (btn) btn.title = collapsed ? 'Mostrar sidebar' : 'Ocultar sidebar';
+};
+
+window.saveFrenteConfig = function(frenteId) {
+  const hexInp = document.getElementById('hex-inp-' + frenteId);
+  const emojiInp = document.getElementById('emoji-inp-' + frenteId);
+  let hex = hexInp ? hexInp.value.trim() : '';
+  if (hex && !hex.startsWith('#')) hex = '#' + hex;
+  const emoji = emojiInp ? emojiInp.value.trim() : '';
+  if (!store['frente-configs']) store['frente-configs'] = {};
+  store['frente-configs'][frenteId] = { color: hex || '#EC7000', emoji };
+  saveToGitHub(true).then(() => {
+    closePicker();
+    renderSidebar();
+    renderFrentes();
+    showToast('OK: Visual atualizado', 'success');
+  });
+};
+
+window.updateColorPreview = function(frenteId) {
+  const inp = document.getElementById('hex-inp-' + frenteId);
+  const prev = document.getElementById('color-prev-' + frenteId);
+  if (inp && prev) {
+    const hex = inp.value.startsWith('#') ? inp.value : '#' + inp.value;
+    if (/^#[0-9A-Fa-f]{6}$/.test(hex)) prev.style.background = hex;
+  }
+};
+
+/* ── NOVA PÁGINA ── */
+window.openNewPageModal = function() {
+  document.getElementById('new-page-name').value = '';
+  document.querySelectorAll('#block-selector input').forEach(cb => cb.checked = false);
+  document.getElementById('new-page-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('new-page-name').focus(), 100);
+};
+
+window.closeNewPageModal = function() {
+  document.getElementById('new-page-overlay').classList.remove('open');
+};
+
+window.createNewPage = function() {
+  const name = document.getElementById('new-page-name').value.trim();
+  if (!name) { document.getElementById('new-page-name').focus(); return; }
+  
+  const sectionIdx = parseInt(document.getElementById('new-page-section').value) || 0;
+  const blocks = [...document.querySelectorAll('#block-selector input:checked')].map(cb => cb.value);
+  
+  const id = 'custom-page-' + Date.now();
+  
+  // Add to sidebar config
+  const cfg = getSidebar();
+  if (cfg[sectionIdx]) {
+    cfg[sectionIdx].items.push({ id, name, color: '#888580' });
+  }
+  store['sidebar-config'] = cfg;
+  
+  // Store page config
+  if (!store['custom-pages']) store['custom-pages'] = {};
+  store['custom-pages'][id] = { name, blocks, cards: {}, text: '', tableData: [] };
+  
+  // Create page HTML
+  createCustomPageHTML(id, name, blocks);
+  
+  saveToGitHub(true).then(() => {
+    closeNewPageModal();
+    renderSidebar();
+    goTo(id);
+    showToast('OK: Página criada', 'success');
+  });
+};
+
+function createCustomPageHTML(id, name, blocks) {
+  // Check if page already exists
+  if (document.getElementById('page-' + id)) return;
+  
+  const main = document.querySelector('.main');
+  const div = document.createElement('div');
+  div.className = 'page';
+  div.id = 'page-' + id;
+  
+  let content = `
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="page-title editable-title" data-key="title-${id}" onclick="editTitle(this)">${name}</div>
+        <div class="page-sub editable-title" data-key="sub-${id}" onclick="editTitle(this)">Clique para editar subtítulo</div>
+      </div>
+    </div>`;
+  
+  blocks.forEach(block => {
+    switch(block) {
+      case 'cards':
+        content += `<div class="section-header">Cards de status</div>
+          <div class="status-grid" id="cards-${id}"></div>
+          <button class="btn-add-card" onclick="openAddCard('${id}')">+ Adicionar card</button>`;
+        // Register in GROUP_CONTAINERS
+        GROUP_CONTAINERS[id] = 'cards-' + id;
+        break;
+      case 'text':
+        content += `<div class="section-header">Texto</div>
+          <div class="text-block-editor" id="text-${id}">
+            <div id="text-display-${id}" class="status-text-display" onclick="editTextBlock('${id}')" style="min-height:80px;cursor:text;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+              ${(store['custom-pages']?.[id]?.text) || '<span style="color:var(--text3);font-style:italic">Clique para editar...</span>'}
+            </div>
+            <div id="text-edit-${id}" style="display:none">
+              <textarea class="status-textarea" id="text-inp-${id}" style="min-height:120px">${(store['custom-pages']?.[id]?.text) || ''}</textarea>
+              <div class="status-actions">
+                <button class="btn-save" onclick="saveTextBlock('${id}')">Salvar</button>
+                <button class="btn-cancel" onclick="cancelTextBlock('${id}')">Cancelar</button>
+              </div>
+            </div>
+          </div>`;
+        break;
+      case 'table':
+        content += `<div class="section-header">Tabela</div>
+          <div id="table-${id}"></div>`;
+        break;
+      case 'gantt':
+        content += `<div class="section-header">Gantt</div>
+          <div id="gantt-${id}"></div>
+          <button class="gantt-edit-btn" onclick="openGedit('${id}')">✏️ Editar Gantt</button>`;
+        // Init empty gantt data
+        if (!store['gantt-' + id]) {
+          store['gantt-' + id] = { months: ['junho'], rows: [] };
+        }
+        buildGantt('gantt-' + id, store['gantt-' + id].rows, store['gantt-' + id].months);
+        break;
+      case 'ondas':
+        content += `<div class="section-header">Ondas</div>
+          <div id="ondas-${id}"></div>`;
+        if (!ONDAS_DEFAULT[id]) ONDAS_DEFAULT[id] = [];
+        break;
+      case 'pmo':
+        content += `<div class="section-header">PMO</div>
+          <div id="pmo-mini-${id}"></div>`;
+        break;
+    }
+  });
+  
+  div.innerHTML = content;
+  main.appendChild(div);
+}
+
+window.editTextBlock = function(id) {
+  if (document.body.classList.contains('viewer-mode')) return;
+  document.getElementById('text-display-' + id).style.display = 'none';
+  document.getElementById('text-edit-' + id).style.display = 'block';
+  document.getElementById('text-inp-' + id).focus();
+};
+
+window.cancelTextBlock = function(id) {
+  document.getElementById('text-display-' + id).style.display = 'block';
+  document.getElementById('text-edit-' + id).style.display = 'none';
+};
+
+window.saveTextBlock = function(id) {
+  const val = document.getElementById('text-inp-' + id).value;
+  if (!store['custom-pages']) store['custom-pages'] = {};
+  if (!store['custom-pages'][id]) store['custom-pages'][id] = {};
+  store['custom-pages'][id].text = val;
+  document.getElementById('text-display-' + id).innerHTML = val || '<span style="color:var(--text3);font-style:italic">Clique para editar...</span>';
+  document.getElementById('text-display-' + id).style.display = 'block';
+  document.getElementById('text-edit-' + id).style.display = 'none';
+  saveToGitHub(true).then(() => showToast('OK: Texto salvo', 'success'));
+};
+
+/* ── SIDEBAR REORDER ── */
+window.moveNavItem = function(si, ii, dir) {
+  const cfg = getSidebar();
+  const items = cfg[si].items;
+  const newIdx = ii + dir;
+  if (newIdx < 0 || newIdx >= items.length) return;
+  const tmp = items[ii];
+  items[ii] = items[newIdx];
+  items[newIdx] = tmp;
+  store['sidebar-config'] = cfg;
+  saveToGitHub(true).then(() => renderSidebar());
+};
+
+/* ── CONFIG PAGE FUNCTIONS ── */
+window.changePassword = function(type) {
+  const input = document.getElementById('new-pwd-' + type);
+  const val = input ? input.value.trim() : '';
+  if (!val) { showToast('Digite a nova senha', 'warning'); return; }
+  if (!store['passwords']) store['passwords'] = { ...DEFAULT_PASSWORDS };
+  store['passwords'][type] = val;
+  saveToGitHub(true).then(() => {
+    if (input) input.value = '';
+    showToast('OK: Senha atualizada', 'success');
+  });
+};
+
+function renderConfigPage() {
+  renderRACFManager();
+  renderCustomPagesManager();
+}
+
+function renderCustomPagesManager() {
+  const el = document.getElementById('custom-pages-manager');
+  if (!el) return;
+  const cfg = getSidebar();
+  const customItems = [];
+  cfg.forEach(s => s.items.forEach(item => {
+    if (item.id.startsWith('custom-page-')) customItems.push(item);
+  }));
+  
+  if (!customItems.length) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--text3);font-style:italic">Nenhuma página personalizada criada ainda.</p>';
+    return;
+  }
+  
+  el.innerHTML = customItems.map(item => `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xs);margin-bottom:6px">
+      <span style="flex:1;font-size:13px">${item.name}</span>
+      <button class="task-action-btn" onclick="goTo('${item.id}')">Abrir</button>
+      <button class="task-action-btn task-action-del" onclick="deleteCustomPage('${item.id}')">Excluir</button>
+    </div>`).join('');
+}
+
+window.deleteCustomPage = function(id) {
+  if (!confirm('Excluir esta página? Todo o conteúdo será perdido.')) return;
+  const cfg = getSidebar();
+  cfg.forEach(s => { s.items = s.items.filter(i => i.id !== id); });
+  store['sidebar-config'] = cfg;
+  delete store['custom-pages'];
+  const pageEl = document.getElementById('page-' + id);
+  if (pageEl) pageEl.remove();
+  saveToGitHub(true).then(() => {
+    renderSidebar();
+    goTo('geral');
+    showToast('Página excluída', 'info');
+  });
+};
+
+/* ── RESTORE CUSTOM PAGES on load ── */
+function restoreCustomPages() {
+  const cfg = store['sidebar-config'] || getSidebar();
+  cfg.forEach(s => s.items.forEach(item => {
+    if (item.id.startsWith('custom-page-') && store['custom-pages'] && store['custom-pages'][item.id]) {
+      const pageData = store['custom-pages'][item.id];
+      createCustomPageHTML(item.id, item.name, pageData.blocks || []);
+    }
+  }));
+}
 
 /* ── INIT ── */
 function init() {
