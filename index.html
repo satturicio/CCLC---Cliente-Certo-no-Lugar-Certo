@@ -77,7 +77,9 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
+  min-height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-header {
@@ -2452,10 +2454,11 @@ const GITHUB_FILE  = "dados_painel.json";
       </div>
 
       <div class="alertas-grid" id="alertas-grid"></div>
-      <div class="metrics-grid" id="metrics-grid"></div>
 
-      <div class="section-header">Frentes</div>
+      <div class="section-header">Frentes — clique para ver detalhes</div>
       <div class="frentes-grid" id="frentes-grid"></div>
+
+      <div class="metrics-grid" id="metrics-grid"></div>
 
       <div class="section-header">Vitrine & outros</div>
       <div class="status-grid" id="sg-geral"></div>
@@ -3096,15 +3099,38 @@ async function saveToGitHub(silent) {
     if (res.ok) {
       const data = await res.json();
       ghFileSha = data.content.sha;
-      setSyncStatus('synced', 'Sincronizado');
-      document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-      if (!silent) showToast('OK: Salvo e sincronizado');
+      window.store = store;
+      setSyncStatus('synced', new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}));
+      const lastSync = document.getElementById('last-sync');
+      if (lastSync) lastSync.textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+      if (!silent) showToast('OK: Salvo e sincronizado', 'success');
+    } else if (res.status === 409 || res.status === 422) {
+      // SHA conflict — refresh SHA and retry once
+      setSyncStatus('syncing', 'Atualizando...');
+      const getRes = await ghFetch('GET');
+      if (getRes.ok) {
+        const getData = await getRes.json();
+        ghFileSha = getData.sha;
+        body.sha = ghFileSha;
+        const retryRes = await ghFetch('PUT', body);
+        if (retryRes.ok) {
+          const retryData = await retryRes.json();
+          ghFileSha = retryData.content.sha;
+          setSyncStatus('synced', new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}));
+          if (!silent) showToast('OK: Salvo e sincronizado', 'success');
+        } else {
+          throw new Error('HTTP ' + retryRes.status + ' (retry)');
+        }
+      }
+    } else if (res.status === 401 || res.status === 403) {
+      setSyncStatus('error', 'Token inválido');
+      showToast('Token inválido. Gere um novo token no GitHub.', 'error');
     } else {
       throw new Error('HTTP ' + res.status);
     }
   } catch(e) {
     setSyncStatus('error', 'Erro ao salvar');
-    if (!silent) showToast('Erro ao salvar no GitHub', true);
+    if (!silent) showToast('Erro ao salvar: ' + (e.message || 'verifique sua conexão'), 'error');
   }
 }
 
